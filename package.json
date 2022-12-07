@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-battery-optimizer",
-  "version": "0.0.1",
+  "version": "0.0.0-development",
   "description": "A module for Node-RED that adds a battery charging strategy to node-red-contrib-power-saver",
   "main": "dist/main.js",
   "type": "commonjs",
@@ -18,7 +18,8 @@
     "test": "jest test/*.ts",
     "tsc": "tsc",
     "lint": "eslint --fix",
-    "build": "webpack --progress --profile --color"
+    "build": "webpack --progress --profile --color",
+    "release": "semantic-release"
   },
   "author": "Johan Enell<johan.enell@gmail.com>",
   "license": "MIT",
@@ -68,5 +69,9 @@
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1"
   },
-  "packageManager": "yarn@3.3.0"
+  "packageManager": "yarn@3.3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/enell/node-red-contrib-strategy-batery.git"
+  }
 }
