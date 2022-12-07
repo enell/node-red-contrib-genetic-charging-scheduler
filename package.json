@@ -1,5 +1,5 @@
 {
-  "name": "node-red-contrib-battery-optimizer",
+  "name": "@enell/node-red-contrib-battery-optimizer",
   "version": "0.0.0-development",
   "description": "A module for Node-RED that adds a battery charging strategy to node-red-contrib-power-saver",
   "main": "dist/main.js",
