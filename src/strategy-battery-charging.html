@@ -1,0 +1,22 @@
+<script type="text/javascript">
+    RED.nodes.registerType('enell-strategy-battery-charging',{
+        category: 'Power Saver',
+        color: '#a6bbcf',
+        defaults: {
+        },
+        inputs:1,
+        outputs:1,
+        icon: "font-awsome/fa-battery-bolt",
+        label: function() {
+            return this.name||"Battery charging schedule";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="enell-strategy-battery-charging">
+
+</script>
+
+<script type="text/html" data-help-name="enell-strategy-battery-charging">
+    <p>A strategy addon for powersaver to calculate the optimal batter charging schedule</p>
+</script>

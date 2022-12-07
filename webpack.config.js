@@ -1,4 +1,5 @@
 const path = require('path')
+const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   // bundling mode
@@ -7,14 +8,20 @@ module.exports = {
   devtool: 'inline-source-map',
 
   // entry files
-  entry: './src/index.ts',
+  entry: './src/strategy-battery-charging.ts',
 
   // output bundles (location)
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'main.js',
+    filename: 'strategy-battery-charging.js',
     clean: true,
   },
+
+  plugins: [
+    new CopyPlugin({
+      patterns: [{ from: './src/strategy-battery-charging.html', to: './' }],
+    }),
+  ],
 
   // file resolutions
   resolve: {
