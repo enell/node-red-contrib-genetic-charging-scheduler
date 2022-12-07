@@ -1,4 +1,4 @@
-import node from '../src/node'
+import node from '../src/'
 import helper from 'node-red-node-test-helper'
 
 describe('Battery charging strategy Node', () => {

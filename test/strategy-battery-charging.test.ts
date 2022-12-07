@@ -11,7 +11,11 @@ describe('Battery charging strategy', () => {
   });
 
   test('calculate', () => {
-    const priceData: PriceData = []
+    const priceData: PriceData = [
+      { value: 1, start: '2022-12-01T00:00:00.000Z' },
+      { value: 2, start: '2022-12-01T01:00:00.000Z' },
+      { value: 5, start: '2022-12-01T02:00:00.000Z' },
+    ]
     const populationSize = 20
     const numberOfPricePeriods = 8
     const generations = 400

@@ -8,8 +8,7 @@ export interface Gene {
 
 export interface Price {
   value: number;
-  start: Date;
-  timeFromStart?: number;
+  start: string;
 }
 
 export enum Activity {
@@ -244,29 +243,31 @@ const toSchedule = (p: Phenotype, start: Date): Schedule => {
 }
 
 export const calculateBatteryChargingStrategy = (config: { priceData: PriceData; populationSize: number; numberOfPricePeriods: number; generations: number; mutationRate: number }) => {
+  const { priceData, populationSize, numberOfPricePeriods, generations, mutationRate } = config
   // const populationSize = 20
   // const numberOfPricePeriods = 8
   // const generations = 400
   // const mutationRate = 0.03
 
-  const { priceData, populationSize, numberOfPricePeriods, generations, mutationRate } = config
-  let endTime = 0
+  if (priceData.length == 0) return []
+
+  let totalDuration = 0
+  const start = new Date(priceData[0].start).valueOf()
   priceData.forEach((price: Price) => {
-    price.start = new Date(price.start)
-    price.timeFromStart = (price.start.valueOf() - priceData[0].start.valueOf()) / 1000 / 60
-    if (price.timeFromStart > endTime) endTime = price.timeFromStart
+    const s = (new Date(price.start).valueOf() - start) / 1000 / 60
+    if (s > totalDuration) totalDuration = s
   })
-  endTime += 60
+  totalDuration += 60
 
   let geneticAlgorithm = geneticAlgorithmConstructor({
-    mutationFunction: mutationFunction(endTime, mutationRate),
-    crossoverFunction: crossoverFunction(endTime),
-    fitnessFunction: fitnessFunction(priceData, endTime),
-    population: generatePopulation(endTime, populationSize, numberOfPricePeriods),
+    mutationFunction: mutationFunction(totalDuration, mutationRate),
+    crossoverFunction: crossoverFunction(totalDuration),
+    fitnessFunction: fitnessFunction(priceData, totalDuration),
+    population: generatePopulation(totalDuration, populationSize, numberOfPricePeriods),
   })
 
   for (let i = 0; i < generations; i++) {
     geneticAlgorithm.evolve()
   }
-  return toSchedule(geneticAlgorithm.best(), priceData[0].start)
+  return toSchedule(geneticAlgorithm.best(), new Date(priceData[0].start))
 }
