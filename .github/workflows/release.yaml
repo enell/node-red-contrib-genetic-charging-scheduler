@@ -17,7 +17,7 @@ jobs:
       - uses: mskelton/setup-yarn@v1
         with:
           node-version: "lts/*"
-          flags: "--frozen-lockfile"
+          flags: "--immutable-cache"
       - name: Test
         run: yarn run test
       - name: Build
