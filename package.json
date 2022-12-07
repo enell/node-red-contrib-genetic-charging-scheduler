@@ -1,5 +1,5 @@
 {
-  "name": "@enell/node-red-contrib-battery-optimizer",
+  "name": "node-red-contrib-battery-charging-scheduler",
   "version": "0.0.0-development",
   "description": "A module for Node-RED that adds a battery charging strategy to node-red-contrib-power-saver",
   "main": "dist/main.js",
@@ -72,6 +72,6 @@
   "packageManager": "yarn@3.3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/enell/node-red-contrib-strategy-batery.git"
+    "url": "https://github.com/enell/node-red-contrib-battery-charging-scheduler.git"
   }
 }
