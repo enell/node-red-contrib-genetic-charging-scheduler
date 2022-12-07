@@ -244,6 +244,7 @@ const toSchedule = (p: Phenotype, start: Date): Schedule => {
 
 export const calculateBatteryChargingStrategy = (config: { priceData: PriceData; populationSize: number; numberOfPricePeriods: number; generations: number; mutationRate: number }) => {
   const { priceData, populationSize, numberOfPricePeriods, generations, mutationRate } = config
+  //
   // const populationSize = 20
   // const numberOfPricePeriods = 8
   // const generations = 400
