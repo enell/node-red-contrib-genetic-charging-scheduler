@@ -196,18 +196,35 @@ const generatePopulation = (endTime, populationSize, numberOfPricePeriods) => {
 }
 
 const toSchedule = (p, start) => {
+  const addMinutes = (date, minutes) => {
+    return new Date(date.getTime() + minutes * 60000);
+  }
+
   let schedule = []
   p.forEach((g) => {
     if (g.duration > 0) {
       if (schedule.length > 0 && g.activity == schedule[schedule.length - 1].activity) {
         schedule[schedule.length - 1].duration += g.duration
       } else {
+        let emptyPeriodStart = new Date(start)
+        if (schedule.length > 0) {
+          emptyPeriodStart = addMinutes(schedule[schedule.length - 1].start, schedule[schedule.length - 1].duration)
+        }
+        schedule.push({ start: emptyPeriodStart, activity: 0 })
+
         let periodStart = new Date(start)
-        periodStart.setMinutes(periodStart.getMinutes() + g.start)
+        periodStart = addMinutes(periodStart, g.start)
         schedule.push({ start: periodStart, activity: g.activity, duration: g.duration })
       }
     }
   })
+
+  let emptyPeriodStart = new Date(start)
+  if (schedule.length > 0) {
+    emptyPeriodStart = addMinutes(schedule[schedule.length - 1].start, schedule[schedule.length - 1].duration)
+  }
+  schedule.push({ start: emptyPeriodStart, activity: 0 })
+
   return schedule
 }
 
@@ -239,7 +256,7 @@ const calculateBatteryChargingStrategy = (config) => {
   for (let i = 0; i < generations; i++) {
     geneticAlgorithm.evolve()
   }
-  return toSchedule(geneticAlgorithm.best(), new Date(priceData[0].start))
+  return toSchedule(geneticAlgorithm.best(), priceData[0].start)
 }
 
 module.exports = { clamp, calculateBatteryChargingStrategy }
