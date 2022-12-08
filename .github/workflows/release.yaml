@@ -4,10 +4,6 @@ name: Release
 on:
   workflow_dispatch:
   push:
-    branches:
-      - master
-      - alpha
-      - beta
 jobs:
   release:
     name: Release
@@ -19,10 +15,10 @@ jobs:
         with:
           node-version: "lts/*"
           flags: "--immutable-cache"
+      - name: Lint
+        run: yarn run lint
       - name: Test
         run: yarn run test
-      - name: Build
-        run: yarn run build
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
