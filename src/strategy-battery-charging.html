@@ -3,6 +3,7 @@
         category: 'Power Saver',
         color: '#a6bbcf',
         defaults: {
+            name: {value:""}
         },
         inputs:1,
         outputs:1,
@@ -14,7 +15,11 @@
 </script>
 
 <script type="text/html" data-template-name="enell-strategy-battery-charging">
-
+    <div class="form-row">
+        <label for="node-input-name">
+            <i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name"></input>
+    </div>
 </script>
 
 <script type="text/html" data-help-name="enell-strategy-battery-charging">
