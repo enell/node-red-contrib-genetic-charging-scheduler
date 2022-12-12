@@ -1,24 +1,93 @@
 <script type="text/javascript">
-    RED.nodes.registerType('enell-strategy-battery-charging',{
+    RED.nodes.registerType('enell-strategy-battery-charging', {
         category: 'Power Saver',
         color: '#a6bbcf',
         defaults: {
-            name: {value:""}
+            name: { value: "" },
+            populationSize: {
+                value: 20,
+                required: true,
+                validate: RED.validators.number(),
+            },
+            generations: {
+                value: 400,
+                required: true,
+                validate: RED.validators.number(),
+            },
+            mutationRate: {
+                value: 3,
+                required: true,
+                validate: RED.validators.number(),
+            },
+            numberOfPricePeriods: {
+                value: 8,
+                required: true,
+                validate: RED.validators.number(),
+            },
+            batteryMaxEnergy: {
+                value: 5,
+                required: true,
+                validate: RED.validators.number(),
+            },
+            batteryMaxInputPower: {
+                value: 2.5,
+                required: true,
+                validate: RED.validators.number(),
+            },
+            averageConsumption: {
+                value: 1.5,
+                required: true,
+                validate: RED.validators.number(),
+            },
         },
-        inputs:1,
-        outputs:1,
-        icon: "font-awsome/fa-battery-bolt",
-        label: function() {
-            return this.name||"Battery charging schedule";
+        inputs: 1,
+        outputs: 1,
+        icon: "font-awsome/fa-battery-3",
+        label: function () {
+            return this.name || "Battery charging schedule";
         }
     });
 </script>
 
 <script type="text/html" data-template-name="enell-strategy-battery-charging">
     <div class="form-row">
-        <label for="node-input-name">
-            <i class="fa fa-tag"></i> Name</label>
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name"></input>
+    </div>
+    <h3>Energy settings</h3>
+    <div class="form-row">
+        <label for="node-input-batteryMaxEnergy"><i class="fa fa-tag"></i> Battery capacity (kWh)</label>
+        <input type="text" id="node-input-batteryMaxEnergy"></input>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-batteryMaxInputPower"><i class="fa fa-tag"></i> Max battery input power (kW)</label>
+        <input type="text" id="node-input-batteryMaxInputPower"></input>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-averageConsumption"><i class="fa fa-tag"></i> Household average consumption per hour (kW)</label>
+        <input type="text" id="node-input-averageConsumption"></input>
+    </div>
+    <h3>Genetic algorithm</h3>
+    <div class="form-row">
+        <label for="node-input-populationSize"><i class="fa fa-tag"></i> Population size</label>
+        <input type="text" id="node-input-populationSize"></input>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-generations"><i class="fa fa-tag"></i> Number of generations</label>
+        <input type="text" id="node-input-generations"></input>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-mutationRate"><i class="fa fa-tag"></i> Mutation chance (%)</label>
+        <input type="text" id="node-input-mutationRate"></input>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-numberOfPricePeriods"><i class="fa fa-tag"></i> Max number of charging/dicharging periods to simulate</label>
+        <input type="text" id="node-input-numberOfPricePeriods"></input>
     </div>
 </script>
 

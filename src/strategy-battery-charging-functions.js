@@ -87,78 +87,71 @@ const crossoverFunction = (endTime) => (phenotypeA, phenotypeB) => {
   return [repair(childGenes, endTime)]
 }
 
-const fitnessFunction = (priceData, endTime) => (phenotype) => {
-  let score = 0
+const fitnessFunction =
+  (priceData, endTime, batteryMaxEnergy, batteryMaxInputPower, averageConsumption) => (phenotype) => {
+    let score = 0
+    let batteryCurrentEnergy = 0 //kWh
 
-  const batteryMaxEnergy = 5 //kWh
-  // const batteryMaxOutputPower = 2.5 //kW
-  const batteryMaxInputPower = 2.5 //kW
-  const averageConsumption = 1.5 // kW
-  let batteryCurrentEnergy = 0 //kWh
-
-  const calculateChargeScore = (price, interval) => {
-    // console.log('calculateChargeScore ' + price.value + ' ' + interval + ' ' + score + ' ' + batteryCurrentEnergy)
-    if (batteryCurrentEnergy < batteryMaxEnergy) {
-      let batteryCharge = batteryMaxInputPower * (interval / 60) // kWh
-      batteryCharge = Math.min(batteryCharge, batteryMaxEnergy - batteryCurrentEnergy)
-      batteryCurrentEnergy += batteryCharge
-      score += price * batteryCharge
+    const calculateChargeScore = (price, interval) => {
+      if (batteryCurrentEnergy < batteryMaxEnergy) {
+        let batteryCharge = batteryMaxInputPower * (interval / 60) // kWh
+        batteryCharge = Math.min(batteryCharge, batteryMaxEnergy - batteryCurrentEnergy)
+        batteryCurrentEnergy += batteryCharge
+        score += price * batteryCharge
+      }
+      score += price * (interval / 60) * averageConsumption
     }
-    score += price * (interval / 60) * averageConsumption
-  }
 
-  const calculateDischargeScore = (price, interval) => {
-    // console.log('calculateDischargeScore ' + price.value + ' ' + interval + ' ' + score + ' ' + batteryCurrentEnergy)
-    let consumption = (interval / 60) * averageConsumption
+    const calculateDischargeScore = (price, interval) => {
+      let consumption = (interval / 60) * averageConsumption
 
-    if (batteryCurrentEnergy > 0) {
-      let batteryDischarge = Math.min(batteryCurrentEnergy, consumption)
-      batteryCurrentEnergy -= batteryDischarge
-      consumption -= batteryDischarge
+      if (batteryCurrentEnergy > 0) {
+        let batteryDischarge = Math.min(batteryCurrentEnergy, consumption)
+        batteryCurrentEnergy -= batteryDischarge
+        consumption -= batteryDischarge
+      }
+      score += price * consumption
     }
-    score += price * consumption
-  }
 
-  const calculateNormalScore = (price, interval) => {
-    // console.log('calculateNormalScore ' + price.value + ' ' + interval + ' ' + score + ' ' + batteryCurrentEnergy)
-    score += price * (interval / 60) * averageConsumption
-  }
-
-  const calculatePeriodScore = (p, calculateScore) => {
-    let hour = Math.floor(p.start / 60)
-    let remainingDuration = p.duration
-    let interval = 60 - (p.start % 60)
-    for (let i = 0; remainingDuration > 0; i++) {
-      calculateScore(priceData[hour].value, interval)
-
-      remainingDuration -= interval
-      interval = Math.min(remainingDuration, 60)
-      hour++
+    const calculateNormalScore = (price, interval) => {
+      score += price * (interval / 60) * averageConsumption
     }
-  }
 
-  let nextNormalConsumptionPeriod = { start: 0, duration: 0, activity: 0 }
-  phenotype.forEach((g) => {
-    nextNormalConsumptionPeriod.duration = g.start - nextNormalConsumptionPeriod.start
+    const calculatePeriodScore = (p, calculateScore) => {
+      let hour = Math.floor(p.start / 60)
+      let remainingDuration = p.duration
+      let interval = 60 - (p.start % 60)
+      for (let i = 0; remainingDuration > 0; i++) {
+        calculateScore(priceData[hour].value, interval)
 
+        remainingDuration -= interval
+        interval = Math.min(remainingDuration, 60)
+        hour++
+      }
+    }
+
+    let nextNormalConsumptionPeriod = { start: 0, duration: 0, activity: 0 }
+    phenotype.forEach((g) => {
+      nextNormalConsumptionPeriod.duration = g.start - nextNormalConsumptionPeriod.start
+
+      calculatePeriodScore(nextNormalConsumptionPeriod, calculateNormalScore)
+      switch (g.activity) {
+        case -1:
+          calculatePeriodScore(g, calculateDischargeScore)
+          break
+        case 1:
+          calculatePeriodScore(g, calculateChargeScore)
+          break
+      }
+      nextNormalConsumptionPeriod.start = g.start + g.duration
+    })
+
+    // Last normal consumption interval
+    nextNormalConsumptionPeriod.duration = endTime - nextNormalConsumptionPeriod.start
     calculatePeriodScore(nextNormalConsumptionPeriod, calculateNormalScore)
-    switch (g.activity) {
-      case -1:
-        calculatePeriodScore(g, calculateDischargeScore)
-        break
-      case 1:
-        calculatePeriodScore(g, calculateChargeScore)
-        break
-    }
-    nextNormalConsumptionPeriod.start = g.start + g.duration
-  })
 
-  // Last normal consumption interval
-  nextNormalConsumptionPeriod.duration = endTime - nextNormalConsumptionPeriod.start
-  calculatePeriodScore(nextNormalConsumptionPeriod, calculateNormalScore)
-
-  return score * -1
-}
+    return score * -1
+  }
 
 const generatePopulation = (endTime, populationSize, numberOfPricePeriods) => {
   const _sortedIndex = (array, value) => {
@@ -197,7 +190,7 @@ const generatePopulation = (endTime, populationSize, numberOfPricePeriods) => {
 
 const toSchedule = (p, start) => {
   const addMinutes = (date, minutes) => {
-    return new Date(date.getTime() + minutes * 60000);
+    return new Date(date.getTime() + minutes * 60000)
   }
 
   let schedule = []
@@ -210,11 +203,17 @@ const toSchedule = (p, start) => {
         if (schedule.length > 0) {
           emptyPeriodStart = addMinutes(schedule[schedule.length - 1].start, schedule[schedule.length - 1].duration)
         }
-        schedule.push({ start: emptyPeriodStart, activity: 0 })
+        schedule.push({ start: emptyPeriodStart, activity: 0, name: 'none' })
 
         let periodStart = new Date(start)
         periodStart = addMinutes(periodStart, g.start)
-        schedule.push({ start: periodStart, activity: g.activity, duration: g.duration })
+        let name = g.activity == 1 ? 'charging' : 'discharging'
+        schedule.push({
+          start: periodStart,
+          activity: g.activity,
+          duration: g.duration,
+          name,
+        })
       }
     }
   })
@@ -223,18 +222,22 @@ const toSchedule = (p, start) => {
   if (schedule.length > 0) {
     emptyPeriodStart = addMinutes(schedule[schedule.length - 1].start, schedule[schedule.length - 1].duration)
   }
-  schedule.push({ start: emptyPeriodStart, activity: 0 })
+  schedule.push({ start: emptyPeriodStart, activity: 0, name: 'none' })
 
   return schedule
 }
 
 const calculateBatteryChargingStrategy = (config) => {
-  const { priceData, populationSize, numberOfPricePeriods, generations, mutationRate } = config
-  //
-  // const populationSize = 20
-  // const numberOfPricePeriods = 8
-  // const generations = 400
-  // const mutationRate = 0.03
+  const {
+    priceData,
+    populationSize,
+    numberOfPricePeriods,
+    generations,
+    mutationRate,
+    batteryMaxEnergy,
+    batteryMaxInputPower,
+    averageConsumption,
+  } = config
 
   if (priceData == undefined || priceData.length == 0) return []
 
@@ -249,14 +252,27 @@ const calculateBatteryChargingStrategy = (config) => {
   let geneticAlgorithm = geneticAlgorithmConstructor({
     mutationFunction: mutationFunction(totalDuration, mutationRate),
     crossoverFunction: crossoverFunction(totalDuration),
-    fitnessFunction: fitnessFunction(priceData, totalDuration),
+    fitnessFunction: fitnessFunction(
+      priceData,
+      totalDuration,
+      batteryMaxEnergy,
+      batteryMaxInputPower,
+      averageConsumption
+    ),
     population: generatePopulation(totalDuration, populationSize, numberOfPricePeriods),
   })
 
   for (let i = 0; i < generations; i++) {
     geneticAlgorithm.evolve()
   }
+
   return toSchedule(geneticAlgorithm.best(), priceData[0].start)
 }
 
-module.exports = { clamp, calculateBatteryChargingStrategy }
+module.exports = {
+  clamp,
+  fitnessFunction,
+  crossoverFunction,
+  mutationFunction,
+  calculateBatteryChargingStrategy,
+}
