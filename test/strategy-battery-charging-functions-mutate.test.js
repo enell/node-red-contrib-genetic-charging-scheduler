@@ -13,8 +13,8 @@ describe('Mutation', () => {
     ])
 
     expect(p).toMatchObject([
-      { start: 0, activity: -1, duration: 4 },
-      { start: 84, activity: 1, duration: 10 },
+      { start: 0, activity: -1, duration: 0 },
+      { start: 70, activity: 1, duration: 10 },
     ])
   })
 })

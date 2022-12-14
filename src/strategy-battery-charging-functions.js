@@ -46,7 +46,7 @@ const repair = (phenotype, endTime) => {
 
 const mutationFunction = (endTime, mutationRate) => (phenotype) => {
   const timeAdjustment = (endTime) => {
-    const percent = Math.random() * 0.1 + 0.01
+    const percent = Math.random() * 0.4 + 0.01
     const adjustment = Math.max(Math.floor(endTime * percent), 5) * (Math.random() < 0.5 ? -1 : 1)
     return adjustment
   }

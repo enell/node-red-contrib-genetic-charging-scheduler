@@ -132,7 +132,7 @@ describe('Calculate', () => {
     ]
     const populationSize = 20
     const numberOfPricePeriods = 8
-    const generations = 400
+    const generations = 20
     const mutationRate = 0.03
 
     const batteryMaxEnergy = 5 //kWh
