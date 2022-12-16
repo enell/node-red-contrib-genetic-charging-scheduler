@@ -1,5 +1,5 @@
-const node = require('../src/strategy-battery-charging')
-const helper = require('node-red-node-test-helper')
+import helper from 'node-red-node-test-helper'
+import node from '../src/strategy-battery-charging'
 
 describe('Battery charging strategy Node', () => {
   afterEach(() => {
@@ -7,19 +7,23 @@ describe('Battery charging strategy Node', () => {
   })
 
   it('should be loaded', (done) => {
-    var flow = [
-      { id: 'n1', type: 'enell-strategy-genetic-charging', name: 'test name' },
+    const flow = [
+      {
+        id: 'n1',
+        type: 'enell-strategy-genetic-charging',
+        name: 'test name',
+      },
     ]
 
-    helper.load(node, flow, function () {
-      var n1 = helper.getNode('n1')
+    helper.load(node, flow, function callback() {
+      const n1 = helper.getNode('n1')
       expect(n1.name).toBe('test name')
       done()
     })
   })
 
   it('should send schedule in payload', (done) => {
-    var flow = [
+    const flow = [
       {
         id: 'n1',
         type: 'enell-strategy-genetic-charging',
@@ -35,10 +39,10 @@ describe('Battery charging strategy Node', () => {
       },
       { id: 'n2', type: 'helper' },
     ]
-    helper.load(node, flow, function () {
-      var n2 = helper.getNode('n2')
-      var n1 = helper.getNode('n1')
-      n2.on('input', function (msg) {
+    helper.load(node, flow, function callback() {
+      const n2 = helper.getNode('n2')
+      const n1 = helper.getNode('n1')
+      n2.on('input', function inputCallback(msg) {
         expect(msg).toHaveProperty('payload')
         expect(msg.payload).toHaveProperty('schedule')
         done()
@@ -47,9 +51,18 @@ describe('Battery charging strategy Node', () => {
       const inputPayload = {
         payload: {
           priceData: [
-            { value: 1, start: '2022-12-01T00:00:00.000Z' },
-            { value: 2, start: '2022-12-01T01:00:00.000Z' },
-            { value: 5, start: '2022-12-01T02:00:00.000Z' },
+            {
+              value: 1,
+              start: '2022-12-01T00:00:00.000Z',
+            },
+            {
+              value: 2,
+              start: '2022-12-01T01:00:00.000Z',
+            },
+            {
+              value: 5,
+              start: '2022-12-01T02:00:00.000Z',
+            },
           ],
         },
       }
@@ -59,7 +72,7 @@ describe('Battery charging strategy Node', () => {
   })
 
   it('should send handle empty priceData', (done) => {
-    var flow = [
+    const flow = [
       {
         id: 'n1',
         type: 'enell-strategy-genetic-charging',
@@ -68,10 +81,10 @@ describe('Battery charging strategy Node', () => {
       },
       { id: 'n2', type: 'helper' },
     ]
-    helper.load(node, flow, function () {
-      var n2 = helper.getNode('n2')
-      var n1 = helper.getNode('n1')
-      n2.on('input', function (msg) {
+    helper.load(node, flow, function callback() {
+      const n2 = helper.getNode('n2')
+      const n1 = helper.getNode('n1')
+      n2.on('input', function inputCallback(msg) {
         expect(msg).toHaveProperty('payload')
         expect(msg.payload).toHaveProperty('schedule')
         done()

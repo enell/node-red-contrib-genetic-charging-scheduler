@@ -3,7 +3,7 @@
   "version": "0.0.0-development",
   "description": "A module for Node-RED that adds a battery charging strategy to node-red-contrib-power-saver. It uses genetic algorithms to find the best schedule",
   "main": "dist/main.js",
-  "type": "commonjs",
+  "type": "module",
   "keywords": [
     "node-red",
     "tibber",
@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "test": "jest test/*.test.js",
-    "lint": "eslint --fix *.js src/*.js test/*.js",
+    "lint": "eslint *.js src/*.js test/*.js",
     "benchmark": "cd benchmark && node bench.cjs | tee output.txt",
     "release": "semantic-release"
   },
@@ -33,16 +33,22 @@
     "version": ">=2.2.0"
   },
   "dependencies": {
-    "geneticalgorithm": "^1.0.2"
+    "geneticalgorithm": "^1.0.2",
+    "ramda": "^0.28.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.20.2",
     "@jest/globals": "^29.3.1",
     "babel-jest": "^29.3.1",
     "benchmark": "^2.1.4",
     "eslint": "^8.29.0",
+    "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "^27.1.6",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.11",
     "jest": "^29.3.1",
     "jest-mock-random": "^1.1.1",
     "node-red": "^3.0.2",
