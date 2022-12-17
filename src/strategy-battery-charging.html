@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    RED.nodes.registerType('enell-strategy-battery-charging', {
+    RED.nodes.registerType('enell-strategy-genetic-charging', {
         category: 'Power Saver',
         color: '#a6bbcf',
         defaults: {
@@ -44,12 +44,12 @@
         outputs: 1,
         icon: "font-awsome/fa-battery-3",
         label: function () {
-            return this.name || "Battery charging schedule";
+            return this.name || "Genetic charging schedule";
         }
     });
 </script>
 
-<script type="text/html" data-template-name="enell-strategy-battery-charging">
+<script type="text/html" data-template-name="enell-strategy-genetic-charging">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name"></input>
@@ -91,6 +91,6 @@
     </div>
 </script>
 
-<script type="text/html" data-help-name="enell-strategy-battery-charging">
-    <p>A strategy addon for powersaver to calculate the optimal batter charging schedule</p>
+<script type="text/html" data-help-name="enell-strategy-genetic-charging">
+    <p>A strategy addon for powersaver to calculate the optimal batter charging schedule using genetic algorithms</p>
 </script>

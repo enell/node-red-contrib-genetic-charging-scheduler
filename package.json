@@ -1,7 +1,7 @@
 {
-  "name": "node-red-contrib-battery-charging-strategy",
+  "name": "node-red-contrib-genetic-charging-strategy",
   "version": "0.0.0-development",
-  "description": "A module for Node-RED that adds a battery charging strategy to node-red-contrib-power-saver",
+  "description": "A module for Node-RED that adds a battery charging strategy to node-red-contrib-power-saver. It uses genetic algorithms to find the best schedule",
   "main": "dist/main.js",
   "type": "commonjs",
   "keywords": [
@@ -51,6 +51,6 @@
   "packageManager": "yarn@3.3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/enell/node-red-contrib-battery-charging-scheduler.git"
+    "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler.git"
   }
 }

@@ -6394,9 +6394,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-red-contrib-battery-charging-strategy@workspace:.":
+"node-red-contrib-genetic-charging-strategy@workspace:.":
   version: 0.0.0-use.local
-  resolution: "node-red-contrib-battery-charging-strategy@workspace:."
+  resolution: "node-red-contrib-genetic-charging-strategy@workspace:."
   dependencies:
     "@jest/globals": ^29.3.1
     babel-jest: ^29.3.1
