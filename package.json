@@ -27,7 +27,7 @@
   ],
   "node-red": {
     "nodes": {
-      "enell-strategy-battery-charging": "src/strategy-battery-charging.js"
+      "enell-strategy-genetic-charging": "src/strategy-battery-charging.js"
     },
     "version": ">=2.2.0"
   },

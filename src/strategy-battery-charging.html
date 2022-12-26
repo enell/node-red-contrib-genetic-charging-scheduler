@@ -42,52 +42,52 @@
         },
         inputs: 1,
         outputs: 1,
-        icon: "font-awsome/fa-battery-3",
+        icon: "font-awesome/fa-battery",
         label: function () {
-            return this.name || "Genetic charging schedule";
+            return this.name || "Battery charging schedule";
         }
     });
 </script>
 
 <script type="text/html" data-template-name="enell-strategy-genetic-charging">
     <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name"></input>
+        <label for="node-input-name" style="width: 240px"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name"/>
     </div>
     <h3>Energy settings</h3>
     <div class="form-row">
-        <label for="node-input-batteryMaxEnergy"><i class="fa fa-tag"></i> Battery capacity (kWh)</label>
-        <input type="text" id="node-input-batteryMaxEnergy"></input>
+        <label for="node-input-batteryMaxEnergy" style="width: 240px">Battery capacity (kWh)</label>
+        <input type="text" id="node-input-batteryMaxEnergy"/>
     </div>
 
     <div class="form-row">
-        <label for="node-input-batteryMaxInputPower"><i class="fa fa-tag"></i> Max battery input power (kW)</label>
-        <input type="text" id="node-input-batteryMaxInputPower"></input>
+        <label for="node-input-batteryMaxInputPower" style="width: 240px">Max battery input power (kW)</label>
+        <input type="text" id="node-input-batteryMaxInputPower"/>
     </div>
 
     <div class="form-row">
-        <label for="node-input-averageConsumption"><i class="fa fa-tag"></i> Household average consumption per hour (kW)</label>
-        <input type="text" id="node-input-averageConsumption"></input>
+        <label for="node-input-averageConsumption" style="width: 240px">Average consumption per hour (kW)</label>
+        <input type="text" id="node-input-averageConsumption"/>
     </div>
     <h3>Genetic algorithm</h3>
     <div class="form-row">
-        <label for="node-input-populationSize"><i class="fa fa-tag"></i> Population size</label>
-        <input type="text" id="node-input-populationSize"></input>
+        <label for="node-input-populationSize" style="width: 240px">Population size</label>
+        <input type="text" id="node-input-populationSize"/>
     </div>
 
     <div class="form-row">
-        <label for="node-input-generations"><i class="fa fa-tag"></i> Number of generations</label>
-        <input type="text" id="node-input-generations"></input>
+        <label for="node-input-generations" style="width: 240px">Number of generations</label>
+        <input type="text" id="node-input-generations"/>
     </div>
 
     <div class="form-row">
-        <label for="node-input-mutationRate"><i class="fa fa-tag"></i> Mutation chance (%)</label>
-        <input type="text" id="node-input-mutationRate"></input>
+        <label for="node-input-mutationRate" style="width: 240px">Mutation chance (%)</label>
+        <input type="text" id="node-input-mutationRate"/>
     </div>
 
     <div class="form-row">
-        <label for="node-input-numberOfPricePeriods"><i class="fa fa-tag"></i> Max number of charging/dicharging periods to simulate</label>
-        <input type="text" id="node-input-numberOfPricePeriods"></input>
+        <label for="node-input-numberOfPricePeriods" style="width: 240px">Number of charging/discharging periods</label>
+        <input type="text" id="node-input-numberOfPricePeriods"/>
     </div>
 </script>
 

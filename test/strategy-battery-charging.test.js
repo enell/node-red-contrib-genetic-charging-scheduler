@@ -7,7 +7,9 @@ describe('Battery charging strategy Node', () => {
   })
 
   it('should be loaded', (done) => {
-    var flow = [{ id: 'n1', type: 'enell-strategy-battery-charging', name: 'test name' }]
+    var flow = [
+      { id: 'n1', type: 'enell-strategy-genetic-charging', name: 'test name' },
+    ]
 
     helper.load(node, flow, function () {
       var n1 = helper.getNode('n1')
@@ -20,7 +22,7 @@ describe('Battery charging strategy Node', () => {
     var flow = [
       {
         id: 'n1',
-        type: 'enell-strategy-battery-charging',
+        type: 'enell-strategy-genetic-charging',
         name: 'test name',
         populationSize: 10,
         numberOfPricePeriods: 3,
@@ -58,7 +60,12 @@ describe('Battery charging strategy Node', () => {
 
   it('should send handle empty priceData', (done) => {
     var flow = [
-      { id: 'n1', type: 'enell-strategy-battery-charging', name: 'test name', wires: [['n2']] },
+      {
+        id: 'n1',
+        type: 'enell-strategy-genetic-charging',
+        name: 'test name',
+        wires: [['n2']],
+      },
       { id: 'n2', type: 'helper' },
     ]
     helper.load(node, flow, function () {
