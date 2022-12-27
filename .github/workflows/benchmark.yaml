@@ -27,10 +27,10 @@ jobs:
           if test -f ./cache/benchmark-data.json; then
             cp ./cache/benchmark-data.json ./cache/benchmark-master-data.json
           fi
-      - name: Store benchmark result
+      - name: Compare with master
         uses: benchmark-action/github-action-benchmark@v1
         with:
-          name: Store master benchmark
+          name: Compare with master
           tool: "benchmarkjs"
           output-file-path: benchmark/output.txt
           external-data-json-path: ./cache/benchmark-master-data.json
