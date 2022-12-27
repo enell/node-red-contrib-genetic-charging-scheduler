@@ -17,6 +17,7 @@
   "scripts": {
     "test": "jest test/*.test.js",
     "lint": "eslint --fix *.js src/*.js test/*.js",
+    "benchmark": "cd benchmark && node bench.cjs | tee output.txt",
     "release": "semantic-release"
   },
   "author": "Johan Enell<johan.enell@gmail.com>",
@@ -37,6 +38,7 @@
   "devDependencies": {
     "@jest/globals": "^29.3.1",
     "babel-jest": "^29.3.1",
+    "benchmark": "^2.1.4",
     "eslint": "^8.29.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-jest": "^27.1.6",

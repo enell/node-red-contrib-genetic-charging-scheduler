@@ -1,0 +1,42 @@
+---
+name: Benchmark
+on:
+  push:
+    branches-ignore:
+      - master
+
+jobs:
+  benchmark:
+    name: Run JavaScript benchmark
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mskelton/setup-yarn@v1
+        with:
+          node-version: lts/*
+          flags: --immutable-cache
+          cache: yarn
+      - name: Run benchmark
+        run: yarn benchmark
+      - name: Download previous benchmark data
+        uses: actions/cache@v3
+        with:
+          path: ./cache
+          key: ${{ runner.os }}-benchmark
+      - name: Copy master benchmark data
+        run: |
+          if test -f ./cache/benchmark-data.json; then
+            cp ./cache/benchmark-data.json ./cache/benchmark-master-data.json
+          fi
+      - name: Store benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          name: Store master benchmark
+          tool: "benchmarkjs"
+          output-file-path: benchmark/output.txt
+          external-data-json-path: ./cache/benchmark-master-data.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: false
+          # Show alert with commit comment on detecting possible performance regression
+          alert-threshold: "130%"
+          comment-on-alert: true
+          fail-on-alert: true

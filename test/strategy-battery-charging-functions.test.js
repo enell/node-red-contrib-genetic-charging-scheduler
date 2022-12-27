@@ -27,7 +27,13 @@ describe('Fitness', () => {
     let batteryMaxInputPower = 1
     let averageConsumption = 1
 
-    let score = fitnessFunction(priceData, endTime, batteryMaxEnergy, batteryMaxInputPower, averageConsumption)([])
+    let score = fitnessFunction(
+      priceData,
+      endTime,
+      batteryMaxEnergy,
+      batteryMaxInputPower,
+      averageConsumption
+    )([])
     expect(score).toBe(-2)
   })
 
@@ -81,7 +87,13 @@ describe('Fitness', () => {
     let batteryMaxInputPower = 1
     let averageConsumption = 1
 
-    let fitness = fitnessFunction(priceData, endTime, batteryMaxEnergy, batteryMaxInputPower, averageConsumption)
+    let fitness = fitnessFunction(
+      priceData,
+      endTime,
+      batteryMaxEnergy,
+      batteryMaxInputPower,
+      averageConsumption
+    )
 
     expect(
       fitness([
@@ -130,9 +142,9 @@ describe('Calculate', () => {
       { value: 2, start: '2022-12-01T01:00:00.000Z' },
       { value: 5, start: '2022-12-01T02:00:00.000Z' },
     ]
-    const populationSize = 20
+    const populationSize = 100
     const numberOfPricePeriods = 8
-    const generations = 20
+    const generations = 500
     const mutationRate = 0.03
 
     const batteryMaxEnergy = 5 //kWh
