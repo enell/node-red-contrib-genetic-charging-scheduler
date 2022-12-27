@@ -23,9 +23,10 @@ jobs:
           path: ./cache
           key: ${{ runner.os }}-benchmark
 
-      - name: Compare with master
+      - name: Compare with previous commit
         uses: benchmark-action/github-action-benchmark@v1
         with:
+          name: "Calculate"
           tool: "benchmarkjs"
           output-file-path: benchmark/output.txt
           external-data-json-path: ./cache/benchmark-data.json
@@ -37,6 +38,7 @@ jobs:
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1
         with:
+          name: "Calculate"
           tool: "benchmarkjs"
           output-file-path: benchmark/output.txt
           # Access token to deploy GitHub Pages branch
