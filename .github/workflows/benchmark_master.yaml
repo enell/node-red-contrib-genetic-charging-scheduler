@@ -22,13 +22,23 @@ jobs:
         with:
           path: ./cache
           key: ${{ runner.os }}-benchmark
-      - name: Store benchmark result
+
+      - name: Compare with master
         uses: benchmark-action/github-action-benchmark@v1
         with:
-          name: Store master benchmark
           tool: "benchmarkjs"
           output-file-path: benchmark/output.txt
           external-data-json-path: ./cache/benchmark-data.json
+          # Access token to deploy GitHub Pages branch
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # Push and deploy GitHub pages branch automatically
+          auto-push: false
+
+      - name: Store benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: "benchmarkjs"
+          output-file-path: benchmark/output.txt
           # Access token to deploy GitHub Pages branch
           github-token: ${{ secrets.GITHUB_TOKEN }}
           # Push and deploy GitHub pages branch automatically
