@@ -1,11 +1,11 @@
-import {
+const {
   fitnessFunction,
   splitIntoHourIntervals,
   fillInNormalPeriods,
   calculateDischargeScore,
   calculateChargeScore,
   calculateNormalScore,
-} from '../src/fitness'
+} = require('../src/fitness')
 
 describe('Fitness - splitIntoHourIntervals', () => {
   test('should split into one intervals', () => {

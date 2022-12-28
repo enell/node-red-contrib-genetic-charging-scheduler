@@ -1,9 +1,9 @@
-import { mockRandomForEach } from 'jest-mock-random'
-import {
+const { mockRandomForEach } = require('jest-mock-random')
+const {
   clamp,
   calculateBatteryChargingStrategy,
   crossoverFunction,
-} from '../src/strategy-battery-charging-functions'
+} = require('../src/strategy-battery-charging-functions')
 
 describe('Util functions', () => {
   test('clamp', () => {

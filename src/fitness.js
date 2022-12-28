@@ -1,42 +1,34 @@
-import {
+const {
   append,
   unfold,
   min,
   pipe,
   last,
-  add,
-  negate,
-  identity,
-  evolve,
   flatten,
   reduce,
-} from 'ramda'
+  memoizeWith,
+} = require('ramda')
 
 const end = (g) => g.start + g.duration
 
-export const splitIntoHourIntervals = (seed) =>
+const splitIntoHourIntervals = (seed) =>
   unfold((n) => {
     if (n.duration <= 0) return false
     const i = min(60 - (n.start % 60), n.duration)
-    const transformations = {
-      start: add(i),
-      duration: add(negate(i)),
-      activity: identity,
-    }
     return [
       { start: n.start, duration: i, activity: n.activity },
-      evolve(transformations, n),
+      { start: n.start + i, duration: n.duration - i, activity: n.activity },
     ]
   }, seed)
 
-export const calculateNormalPeriod = (acc, g) =>
+const calculateNormalPeriod = (acc, g) =>
   splitIntoHourIntervals({
     start: end(acc),
     duration: g.start - end(acc),
     activity: 0,
   })
 
-export const fillInNormalPeriods = (totalDuration, p) => {
+const fillInNormalPeriods = (totalDuration, p) => {
   return pipe(
     reduce(
       (acc, n) => [
@@ -58,7 +50,7 @@ export const fillInNormalPeriods = (totalDuration, p) => {
   )(p)
 }
 
-export const calculateDischargeScore = (props) => {
+const calculateDischargeScore = (props) => {
   const { duration, price, averageConsumption, currentCharge } = props
   let cost = 0
   let discharge = averageConsumption * duration
@@ -75,12 +67,12 @@ export const calculateDischargeScore = (props) => {
   return [cost, -discharge]
 }
 
-export const calculateNormalScore = (props) => {
+const calculateNormalScore = (props) => {
   const { duration, price, averageConsumption } = props
   return [price * (averageConsumption * duration), 0]
 }
 
-export const calculateChargeScore = (props) => {
+const calculateChargeScore = (props) => {
   const {
     duration,
     price,
@@ -128,7 +120,7 @@ const iterator = (props) => (acc, period) => {
   return acc
 }
 
-export const fitnessFunction = (props) => (phenotype) => {
+const fitnessFunction = (props) => (phenotype) => {
   const { totalDuration } = props
 
   return reduce(
@@ -136,4 +128,13 @@ export const fitnessFunction = (props) => (phenotype) => {
     [0, 0],
     fillInNormalPeriods(totalDuration, phenotype)
   )
+}
+
+module.exports = {
+  fitnessFunction,
+  splitIntoHourIntervals,
+  fillInNormalPeriods,
+  calculateDischargeScore,
+  calculateChargeScore,
+  calculateNormalScore,
 }

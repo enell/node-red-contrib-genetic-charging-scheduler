@@ -5,6 +5,7 @@ module.exports = {
     node: true,
     'jest/globals': true,
   },
+  files: ['*.js', 'src/*.js', 'test/*.js'],
   extends: ['airbnb', 'plugin:prettier/recommended'],
   plugins: ['jest', 'prettier'],
   parserOptions: {

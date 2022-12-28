@@ -1,5 +1,7 @@
-import { mockRandomForEach } from 'jest-mock-random'
-import { mutationFunction } from '../src/strategy-battery-charging-functions'
+const { mockRandomForEach } = require('jest-mock-random')
+const {
+  mutationFunction,
+} = require('../src/strategy-battery-charging-functions')
 
 describe('Mutation', () => {
   mockRandomForEach(0.4)

@@ -1,5 +1,5 @@
-import helper from 'node-red-node-test-helper'
-import node from '../src/strategy-battery-charging'
+const node = require('../src/strategy-battery-charging')
+const helper = require('node-red-node-test-helper')
 
 describe('Battery charging strategy Node', () => {
   afterEach(() => {

@@ -3,7 +3,7 @@
   "version": "0.0.0-development",
   "description": "A module for Node-RED that adds a battery charging strategy to node-red-contrib-power-saver. It uses genetic algorithms to find the best schedule",
   "main": "dist/main.js",
-  "type": "module",
+  "type": "commonjs",
   "keywords": [
     "node-red",
     "tibber",
@@ -16,8 +16,8 @@
   ],
   "scripts": {
     "test": "jest test/*.test.js",
-    "lint": "eslint *.js src/*.js test/*.js",
-    "benchmark": "cd benchmark && node bench.cjs | tee output.txt",
+    "lint": "eslint",
+    "benchmark": "cd benchmark && node bench.js | tee output.txt",
     "release": "semantic-release"
   },
   "author": "Johan Enell<johan.enell@gmail.com>",
@@ -37,7 +37,6 @@
     "ramda": "^0.28.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.20.2",
     "@jest/globals": "^29.3.1",
     "babel-jest": "^29.3.1",
     "benchmark": "^2.1.4",

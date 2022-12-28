@@ -1,11 +1,11 @@
-import geneticAlgorithmConstructor from 'geneticalgorithm'
-import { fitnessFunction } from './fitness'
+const geneticAlgorithmConstructor = require('geneticalgorithm')
+const { fitnessFunction } = require('./fitness')
 
 const random = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min
 }
 
-export const clamp = (num, min, max) => {
+const clamp = (num, min, max) => {
   return Math.min(Math.max(num, min), max)
 }
 
@@ -40,7 +40,7 @@ const repair = (phenotype, endTime) => {
   return p
 }
 
-export const mutationFunction = (endTime, mutationRate) => (phenotype) => {
+const mutationFunction = (endTime, mutationRate) => (phenotype) => {
   const timeAdjustment = () => {
     const percent = Math.random() * 0.4 + 0.01
     const adjustment =
@@ -70,7 +70,7 @@ export const mutationFunction = (endTime, mutationRate) => (phenotype) => {
   return repair(phenotype, endTime)
 }
 
-export const crossoverFunction = (endTime) => (phenotypeA, phenotypeB) => {
+const crossoverFunction = (endTime) => (phenotypeA, phenotypeB) => {
   const midpoint = random(0, phenotypeA.length)
   const childGenes = []
   for (let i = 0; i < phenotypeA.length; i += 1) {
@@ -178,7 +178,7 @@ const toSchedule = (p, start) => {
   return schedule
 }
 
-export const calculateBatteryChargingStrategy = (config) => {
+const calculateBatteryChargingStrategy = (config) => {
   const {
     priceData,
     populationSize,
@@ -222,4 +222,12 @@ export const calculateBatteryChargingStrategy = (config) => {
   }
 
   return toSchedule(geneticAlgorithm.best(), priceData[0].start)
+}
+
+module.exports = {
+  clamp,
+  crossoverFunction,
+  mutationFunction,
+  fitnessFunction,
+  calculateBatteryChargingStrategy,
 }

@@ -9,3 +9,7 @@ node_modules
 dist
 coverage
 benchmark/output.txt
+lib/bench.js
+lib/fitness.js
+lib/strategy-battery-charging-functions.js
+lib/strategy-battery-charging.js

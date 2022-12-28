@@ -1,4 +1,6 @@
-import { calculateBatteryChargingStrategy } from './strategy-battery-charging-functions'
+const {
+  calculateBatteryChargingStrategy,
+} = require('./strategy-battery-charging-functions')
 
 const node = (RED) => {
   RED.nodes.registerType(
@@ -45,4 +47,4 @@ const node = (RED) => {
   )
 }
 
-export default node
+module.exports = node
