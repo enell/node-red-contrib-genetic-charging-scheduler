@@ -1,4 +1,4 @@
-const { append, pipe, last, flatten, reduce } = require('ramda')
+const { reduce } = require('ramda')
 
 const end = (g) => g.start + g.duration
 
@@ -22,33 +22,38 @@ const splitIntoHourIntervals = (seed) => [
   ...splitIntoHourIntervalsGenerator(seed),
 ]
 
-const calculateNormalPeriod = (acc, g) =>
-  splitIntoHourIntervals({
-    start: end(acc),
-    duration: g.start - end(acc),
+const calculateNormalPeriod = (g1, g2) => {
+  return {
+    start: end(g1),
+    duration: g2.start - end(g1),
     activity: 0,
-  })
+  }
+}
+
+function* fillInNormalPeriodsGenerator(totalDuration, p) {
+  for (let i = 0; i < p.length; i += 1) {
+    const normalPeriod = calculateNormalPeriod(
+      p[i - 1] ?? { start: 0, duration: 0 },
+      p[i]
+    )
+    for (const interval of splitIntoHourIntervalsGenerator(normalPeriod)) {
+      yield interval
+    }
+    for (const interval of splitIntoHourIntervalsGenerator(p[i])) {
+      yield interval
+    }
+  }
+  const normalPeriod = calculateNormalPeriod(
+    p.at(-1) ?? { start: 0, duration: 0 },
+    { start: totalDuration }
+  )
+  for (const interval of splitIntoHourIntervalsGenerator(normalPeriod)) {
+    yield interval
+  }
+}
 
 const fillInNormalPeriods = (totalDuration, p) => {
-  return pipe(
-    reduce(
-      (acc, n) => [
-        ...acc,
-        ...calculateNormalPeriod(
-          acc.at(-1) ?? { start: 0, duration: 0, activity: 0 },
-          n
-        ),
-        ...splitIntoHourIntervals(n),
-      ],
-      []
-    ),
-    append(
-      calculateNormalPeriod(last(p) ?? { start: 0, duration: 0 }, {
-        start: totalDuration,
-      })
-    ),
-    flatten
-  )(p)
+  return [...fillInNormalPeriodsGenerator(totalDuration, p)]
 }
 
 const calculateDischargeScore = (props) => {
@@ -124,11 +129,27 @@ const iterator = (props) => (acc, period) => {
 const fitnessFunction = (props) => (phenotype) => {
   const { totalDuration } = props
 
-  return reduce(
-    iterator(props),
-    [0, 0],
-    fillInNormalPeriods(totalDuration, phenotype)
-  )
+  let acc = [0, 0]
+
+  for (const interval of fillInNormalPeriodsGenerator(
+    totalDuration,
+    phenotype
+  )) {
+    const v = calculatePeriodScore({
+      activity: interval.activity,
+      price: props.priceData[Math.floor(interval.start / 60)].value,
+      duration: interval.duration / 60,
+      currentCharge: acc[1],
+      totalDuration: props.totalDuration,
+      batteryCapacity: props.batteryCapacity,
+      batteryMaxInputPower: props.batteryMaxInputPower,
+      averageConsumption: props.averageConsumption,
+    })
+    acc[0] -= v[0]
+    acc[1] += v[1]
+  }
+
+  return acc[0]
 }
 
 module.exports = {
