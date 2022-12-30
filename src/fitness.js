@@ -1,25 +1,26 @@
-const {
-  append,
-  unfold,
-  min,
-  pipe,
-  last,
-  flatten,
-  reduce,
-  memoizeWith,
-} = require('ramda')
+const { append, pipe, last, flatten, reduce } = require('ramda')
 
 const end = (g) => g.start + g.duration
 
-const splitIntoHourIntervals = (seed) =>
-  unfold((n) => {
-    if (n.duration <= 0) return false
-    const i = min(60 - (n.start % 60), n.duration)
-    return [
-      { start: n.start, duration: i, activity: n.activity },
-      { start: n.start + i, duration: n.duration - i, activity: n.activity },
-    ]
-  }, seed)
+function* splitIntoHourIntervalsGenerator(seed) {
+  let remainingDuration = seed.duration
+  let start = seed.start
+  while (remainingDuration > 0) {
+    const i = Math.min(60 - (start % 60), remainingDuration)
+    yield {
+      start: start,
+      duration: i,
+      activity: seed.activity,
+    }
+    start += i
+    remainingDuration -= i
+  }
+  return
+}
+
+const splitIntoHourIntervals = (seed) => [
+  ...splitIntoHourIntervalsGenerator(seed),
+]
 
 const calculateNormalPeriod = (acc, g) =>
   splitIntoHourIntervals({
