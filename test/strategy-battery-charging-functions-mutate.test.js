@@ -1,5 +1,7 @@
 const { mockRandomForEach } = require('jest-mock-random')
-const { mutationFunction } = require('../src/strategy-battery-charging-functions')
+const {
+  mutationFunction,
+} = require('../src/strategy-battery-charging-functions')
 
 describe('Mutation', () => {
   mockRandomForEach(0.4)
