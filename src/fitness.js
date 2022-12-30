@@ -1,5 +1,3 @@
-const { reduce } = require('ramda')
-
 const end = (g) => g.start + g.duration
 
 function* splitIntoHourIntervalsGenerator(seed) {
@@ -108,22 +106,6 @@ const calculatePeriodScore = (props) => {
     default:
       return calculateNormalScore(props)
   }
-}
-
-const iterator = (props) => (acc, period) => {
-  const v = calculatePeriodScore({
-    activity: period.activity,
-    price: props.priceData[Math.floor(period.start / 60)].value,
-    duration: period.duration / 60,
-    currentCharge: acc[1],
-    totalDuration: props.totalDuration,
-    batteryCapacity: props.batteryCapacity,
-    batteryMaxInputPower: props.batteryMaxInputPower,
-    averageConsumption: props.averageConsumption,
-  })
-  acc[0] -= v[0]
-  acc[1] += v[1]
-  return acc
 }
 
 const fitnessFunction = (props) => (phenotype) => {
