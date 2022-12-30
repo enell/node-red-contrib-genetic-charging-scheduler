@@ -1,5 +1,3 @@
-const end = (g) => g.start + g.duration
-
 function* splitIntoHourIntervalsGenerator(seed) {
   let remainingDuration = seed.duration
   let start = seed.start
@@ -19,6 +17,8 @@ function* splitIntoHourIntervalsGenerator(seed) {
 const splitIntoHourIntervals = (seed) => [
   ...splitIntoHourIntervalsGenerator(seed),
 ]
+
+const end = (g) => g.start + g.duration
 
 const calculateNormalPeriod = (g1, g2) => {
   return {
@@ -109,9 +109,16 @@ const calculatePeriodScore = (props) => {
 }
 
 const fitnessFunction = (props) => (phenotype) => {
-  const { totalDuration } = props
+  const {
+    totalDuration,
+    priceData,
+    batteryCapacity,
+    batteryMaxInputPower,
+    averageConsumption,
+  } = props
 
-  let acc = [0, 0]
+  let score = 0
+  let currentCharge = 0
 
   for (const interval of fillInNormalPeriodsGenerator(
     totalDuration,
@@ -119,19 +126,19 @@ const fitnessFunction = (props) => (phenotype) => {
   )) {
     const v = calculatePeriodScore({
       activity: interval.activity,
-      price: props.priceData[Math.floor(interval.start / 60)].value,
+      price: priceData[Math.floor(interval.start / 60)].value,
       duration: interval.duration / 60,
-      currentCharge: acc[1],
-      totalDuration: props.totalDuration,
-      batteryCapacity: props.batteryCapacity,
-      batteryMaxInputPower: props.batteryMaxInputPower,
-      averageConsumption: props.averageConsumption,
+      currentCharge: currentCharge,
+      totalDuration: totalDuration,
+      batteryCapacity: batteryCapacity,
+      batteryMaxInputPower: batteryMaxInputPower,
+      averageConsumption: averageConsumption,
     })
-    acc[0] -= v[0]
-    acc[1] += v[1]
+    score -= v[0]
+    currentCharge += v[1]
   }
 
-  return acc[0]
+  return score
 }
 
 module.exports = {
