@@ -40,20 +40,24 @@ describe('Crossover', () => {
 
 describe('Calculate', () => {
   test('calculate', () => {
+    let now = Date.now()
+    now = now - (now % (60 * 60 * 1000))
     const priceData = [
-      { value: 1, start: '2022-12-01T00:00:00.000Z' },
-      { value: 2, start: '2022-12-01T01:00:00.000Z' },
-      { value: 5, start: '2022-12-01T02:00:00.000Z' },
+      { value: 1, start: new Date(now).toString() },
+      { value: 500, start: new Date(now + 60 * 60 * 1000).toString() },
+      { value: 500, start: new Date(now + 60 * 60 * 1000 * 2).toString() },
     ]
     const populationSize = 100
-    const numberOfPricePeriods = 8
+    const numberOfPricePeriods = 2
     const generations = 500
     const mutationRate = 0.03
 
-    const batteryMaxEnergy = 5 // kWh
-    const batteryMaxOutputPower = 2.5 // kW
-    const batteryMaxInputPower = 2.5 // kW
+    const batteryMaxEnergy = 3 // kWh
+    const batteryMaxOutputPower = 3 // kW
+    const batteryMaxInputPower = 3 // kW
     const averageConsumption = 1.5 // kW
+
+    const soc = 0
 
     const config = {
       priceData,
@@ -65,7 +69,19 @@ describe('Calculate', () => {
       batteryMaxOutputPower,
       batteryMaxInputPower,
       averageConsumption,
+      soc,
     }
-    console.log(calculateBatteryChargingStrategy(config))
+    const schedule = calculateBatteryChargingStrategy(config)
+    console.log(schedule)
+
+    expect(schedule.length).toBeGreaterThan(0)
+    expect(schedule[1]).toMatchObject({
+      activity: 1,
+      name: 'charging',
+    })
+    expect(schedule[3]).toMatchObject({
+      activity: -1,
+      name: 'discharging',
+    })
   })
 })

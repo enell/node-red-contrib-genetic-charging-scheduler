@@ -180,7 +180,6 @@ const toSchedule = (p, start) => {
 
 const calculateBatteryChargingStrategy = (config) => {
   const {
-    priceData,
     populationSize,
     numberOfPricePeriods,
     generations,
@@ -188,7 +187,16 @@ const calculateBatteryChargingStrategy = (config) => {
     batteryMaxEnergy,
     batteryMaxInputPower,
     averageConsumption,
+    soc,
   } = config
+
+  let priceData = config.priceData
+  if (Number.isInteger(soc)) {
+    let now = Date.now()
+    now = new Date(now - (now % (60 * 60 * 1000)))
+
+    priceData = priceData.filter((v) => new Date(v.start) >= now)
+  }
 
   if (priceData === undefined || priceData.length === 0) return []
 
@@ -209,6 +217,7 @@ const calculateBatteryChargingStrategy = (config) => {
       batteryMaxEnergy,
       batteryMaxInputPower,
       averageConsumption,
+      soc,
     }),
     population: generatePopulation(
       totalDuration,

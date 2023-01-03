@@ -83,12 +83,12 @@ const calculateChargeScore = (props) => {
     batteryMaxInputPower,
     averageConsumption,
     currentCharge,
-    batteryCapacity,
+    batteryMaxEnergy,
   } = props
   let cost = price * (averageConsumption * duration)
 
   let charge = batteryMaxInputPower * duration
-  const overCharge = currentCharge + charge - batteryCapacity
+  const overCharge = currentCharge + charge - batteryMaxEnergy
   if (overCharge > 0) {
     charge -= overCharge
     // apply penalty for overcharge
@@ -112,13 +112,14 @@ const fitnessFunction = (props) => (phenotype) => {
   const {
     totalDuration,
     priceData,
-    batteryCapacity,
+    batteryMaxEnergy,
     batteryMaxInputPower,
     averageConsumption,
   } = props
 
   let score = 0
-  let currentCharge = 0
+  const soc = props.soc ?? 0
+  let currentCharge = (soc / 100) * batteryMaxEnergy
 
   for (const interval of fillInNormalPeriodsGenerator(
     totalDuration,
@@ -130,7 +131,7 @@ const fitnessFunction = (props) => (phenotype) => {
       duration: interval.duration / 60,
       currentCharge: currentCharge,
       totalDuration: totalDuration,
-      batteryCapacity: batteryCapacity,
+      batteryMaxEnergy: batteryMaxEnergy,
       batteryMaxInputPower: batteryMaxInputPower,
       averageConsumption: averageConsumption,
     })
