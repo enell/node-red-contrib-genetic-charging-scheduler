@@ -1,3 +1,4 @@
+const { expect } = require('@jest/globals')
 const {
   fitnessFunction,
   splitIntoHourIntervals,
@@ -38,85 +39,6 @@ describe('Fitness - splitIntoHourIntervals', () => {
       { start: 120, activity: 1, duration: 30 },
     ])
   })
-
-  // test('should calculate fitness score with no periods', () => {
-  //   const priceData = [
-  //     { value: 1, start: '2022-12-01T00:00:00.000Z' },
-  //     { value: 1, start: '2022-12-01T01:00:00.000Z' },
-  //   ]
-  //   let endTime = 2 * 60
-  //   let batteryMaxEnergy = 1
-  //   let batteryMaxInputPower = 1
-  //   let averageConsumption = 1
-
-  //   let score = fitnessFunction({
-  //     priceData,
-  //     endTime,
-  //     batteryMaxEnergy,
-  //     batteryMaxInputPower,
-  //     averageConsumption,
-  //   })([])
-  //   expect(score).toBe(-2)
-  // })
-
-  // test('should calculate fitness score with one charge period', () => {
-  //   const priceData = [
-  //     { value: 1, start: '2022-12-01T00:00:00.000Z' },
-  //     { value: 1, start: '2022-12-01T01:00:00.000Z' },
-  //   ]
-  //   let endTime = 2 * 60
-  //   let batteryMaxEnergy = 1
-  //   let batteryMaxInputPower = 1
-  //   let averageConsumption = 1
-
-  //   let score = fitnessFunction({ priceData, endTime, batteryMaxEnergy, batteryMaxInputPower, averageConsumption })([
-  //     { start: 0, activity: 1, duration: 60 },
-  //   ])
-  //   expect(score).toBe(-3)
-  // })
-
-  // test('should calculate fitness score with one discharge period', () => {
-  //   const priceData = [
-  //     { value: 1, start: '2022-12-01T00:00:00.000Z' },
-  //     { value: 1, start: '2022-12-01T01:00:00.000Z' },
-  //   ]
-  //   let endTime = 2 * 60
-  //   let batteryMaxEnergy = 1
-  //   let batteryMaxInputPower = 1
-  //   let averageConsumption = 1
-
-  //   let score = fitnessFunction({ priceData, endTime, batteryMaxEnergy, batteryMaxInputPower, averageConsumption })([
-  //     { start: 0, activity: -1, duration: 60 },
-  //   ])
-  //   expect(score).toBe(-2)
-  // })
-
-  // test('should calculate fitness score with charged battery', () => {
-  //   const priceData = [
-  //     { value: 1, start: '2022-12-01T00:00:00.000Z' },
-  //     { value: 2, start: '2022-12-01T01:00:00.000Z' },
-  //   ]
-  //   let endTime = 2 * 60
-  //   let batteryMaxEnergy = 1
-  //   let batteryMaxInputPower = 1
-  //   let averageConsumption = 1
-
-  //   let fitness = fitnessFunction({ priceData, endTime, batteryMaxEnergy, batteryMaxInputPower, averageConsumption })
-
-  //   expect(
-  //     fitness([
-  //       { start: 0, activity: 1, duration: 60 },
-  //       { start: 60, activity: -1, duration: 60 },
-  //     ])
-  //   ).toBe(-2)
-
-  //   expect(
-  //     fitness([
-  //       { start: 0, activity: 1, duration: 90 },
-  //       { start: 90, activity: -1, duration: 30 },
-  //     ])
-  //   ).toBe(-3)
-  // })
 })
 
 describe('Fitness - fillInNormalPeriods', () => {
@@ -242,7 +164,7 @@ describe('Fitness - calculateChargeScore', () => {
         price: 2,
         averageConsumption: 1,
         currentCharge: 5,
-        batteryCapacity: 5,
+        batteryMaxEnergy: 5,
         batteryMaxInputPower: 1,
       })
     ).toEqual([2, 0])
@@ -255,7 +177,7 @@ describe('Fitness - calculateChargeScore', () => {
         price: 2,
         averageConsumption: 1,
         currentCharge: 5,
-        batteryCapacity: 5,
+        batteryMaxEnergy: 5,
         batteryMaxInputPower: 1,
       })
     ).toEqual([1, 0])
@@ -268,7 +190,7 @@ describe('Fitness - calculateChargeScore', () => {
         price: 2,
         averageConsumption: 1,
         currentCharge: 0,
-        batteryCapacity: 5,
+        batteryMaxEnergy: 5,
         batteryMaxInputPower: 1,
       })
     ).toEqual([4, 1])
@@ -281,7 +203,7 @@ describe('Fitness - calculateChargeScore', () => {
         price: 2,
         averageConsumption: 1,
         currentCharge: 4.5,
-        batteryCapacity: 5,
+        batteryMaxEnergy: 5,
         batteryMaxInputPower: 1,
       })
     ).toEqual([3, 0.5])
@@ -311,7 +233,7 @@ describe('Fitness - calculateNormalScore', () => {
 })
 
 describe('Fitness', () => {
-  test('should new fitness', () => {
+  test('should calculate fitness', () => {
     const priceData = [
       { value: 1, start: '2022-12-01T00:00:00.000Z' },
       { value: 1, start: '2022-12-01T01:00:00.000Z' },
@@ -325,11 +247,37 @@ describe('Fitness', () => {
       totalDuration,
       batteryMaxEnergy,
       batteryMaxInputPower,
+      batteryMaxEnergy,
       averageConsumption,
     })([
       { start: 30, duration: 60, activity: 1 },
       { start: 90, duration: 30, activity: -1 },
     ])
-    console.log(score)
+    expect(score).toEqual(-2.5)
+  })
+
+  test('should calculate fitness with soc', () => {
+    const priceData = [
+      { value: 1, start: '2022-12-01T00:00:00.000Z' },
+      { value: 1, start: '2022-12-01T01:00:00.000Z' },
+    ]
+    const totalDuration = 2 * 60
+    const batteryMaxEnergy = 1
+    const batteryMaxInputPower = 1
+    const averageConsumption = 1
+    const soc = 100
+    const score = fitnessFunction({
+      priceData,
+      totalDuration,
+      batteryMaxEnergy,
+      batteryMaxInputPower,
+      batteryMaxEnergy,
+      averageConsumption,
+      soc,
+    })([
+      { start: 30, duration: 60, activity: 1 },
+      { start: 90, duration: 30, activity: -1 },
+    ])
+    expect(score).toEqual(-1.5)
   })
 })
