@@ -47,6 +47,12 @@ describe('Calculate', () => {
       { value: 500, start: new Date(now + 60 * 60 * 1000).toString() },
       { value: 500, start: new Date(now + 60 * 60 * 1000 * 2).toString() },
     ]
+    const productionForecast = priceData.map((v) => {
+      return { start: v.start, value: 0 }
+    })
+    const consumptionForecast = priceData.map((v) => {
+      return { start: v.start, value: 1.5 }
+    })
     const populationSize = 100
     const numberOfPricePeriods = 2
     const generations = 500
@@ -70,6 +76,8 @@ describe('Calculate', () => {
       batteryMaxInputPower,
       averageConsumption,
       averageProduction,
+      productionForecast,
+      consumptionForecast,
       soc,
     }
     const schedule = calculateBatteryChargingStrategy(config)

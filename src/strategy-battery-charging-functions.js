@@ -178,6 +178,36 @@ const toSchedule = (p, start) => {
   return schedule
 }
 
+const mergeInput = (config) => {
+  const {
+    averageConsumption,
+    averageProduction,
+    priceData,
+    consumptionForecast,
+    productionForecast,
+  } = config
+
+  let now = Date.now()
+  now = new Date(now - (now % (60 * 60 * 1000)))
+  return priceData
+    .filter((v) => new Date(v.start) >= now)
+    .map((v) => {
+      return {
+        start: new Date(v.start),
+        importPrice: v.importPrice ?? v.value,
+        exportPrice: v.exportPrice ?? v.value,
+        consumption:
+          consumptionForecast.find(
+            (c) => new Date(c.start) === new Date(v.start)
+          )?.value ?? averageConsumption,
+        production:
+          productionForecast.find(
+            (p) => new Date(p.start) === new Date(v.start)
+          )?.value ?? averageProduction,
+      }
+    })
+}
+
 const calculateBatteryChargingStrategy = (config) => {
   const {
     populationSize,
@@ -186,39 +216,23 @@ const calculateBatteryChargingStrategy = (config) => {
     mutationRate,
     batteryMaxEnergy,
     batteryMaxInputPower,
-    averageConsumption,
-    averageProduction,
     soc,
+    priceData,
   } = config
 
-  let { priceData } = config
-  if (Number.isInteger(soc)) {
-    let now = Date.now()
-    now = new Date(now - (now % (60 * 60 * 1000)))
+  const input = mergeInput(config)
+  if (input === undefined || input.length === 0) return []
 
-    priceData = priceData.filter((v) => new Date(v.start) >= now)
-  }
-
-  if (priceData === undefined || priceData.length === 0) return []
-
-  let totalDuration = 0
-  const start = new Date(priceData[0].start).valueOf()
-  priceData.forEach((price) => {
-    const s = (new Date(price.start).valueOf() - start) / 1000 / 60
-    if (s > totalDuration) totalDuration = s
-  })
-  totalDuration += 60
+  let totalDuration = input.length * 60
 
   const geneticAlgorithm = geneticAlgorithmConstructor({
     mutationFunction: mutationFunction(totalDuration, mutationRate),
     crossoverFunction: crossoverFunction(totalDuration),
     fitnessFunction: fitnessFunction({
-      priceData,
+      input,
       totalDuration,
       batteryMaxEnergy,
       batteryMaxInputPower,
-      averageConsumption,
-      averageProduction,
       soc,
     }),
     population: generatePopulation(

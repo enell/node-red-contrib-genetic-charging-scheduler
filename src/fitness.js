@@ -123,18 +123,11 @@ const calculatePeriodScore = (props) => {
 }
 
 const fitnessFunction = (props) => (phenotype) => {
-  const {
-    totalDuration,
-    priceData,
-    batteryMaxEnergy,
-    batteryMaxInputPower,
-    averageConsumption,
-    averageProduction,
-    soc,
-  } = props
+  const { totalDuration, input, batteryMaxEnergy, batteryMaxInputPower, soc } =
+    props
 
   let score = 0
-  let currentCharge = (soc / 100) * batteryMaxEnergy
+  let currentCharge = soc * batteryMaxEnergy
 
   for (const interval of fillInNormalPeriodsGenerator(
     totalDuration,
@@ -146,12 +139,15 @@ const fitnessFunction = (props) => (phenotype) => {
       batteryMaxEnergy - currentCharge
     )
     const maxDischarge = Math.min(batteryMaxInputPower, currentCharge)
+    const { importPrice, exportPrice, consumption, production } =
+      input[Math.floor(interval.start / 60)]
+
     const v = calculatePeriodScore({
       activity: interval.activity,
-      importPrice: priceData[Math.floor(interval.start / 60)].value,
-      exportPrice: priceData[Math.floor(interval.start / 60)].value,
-      consumption: averageConsumption * duration,
-      production: averageProduction * duration,
+      importPrice,
+      exportPrice,
+      consumption: consumption * duration,
+      production: production * duration,
       maxCharge,
       maxDischarge,
     })
