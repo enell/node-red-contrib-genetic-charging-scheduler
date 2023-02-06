@@ -114,32 +114,23 @@ describe('Fitness - calculateDischargeScore', () => {
   test('should discharge full hour, full battery', () => {
     expect(
       calculateDischargeScore({
-        duration: 1,
-        price: 2,
-        averageConsumption: 1,
-        currentCharge: 5,
+        importPrice: 2,
+        exportPrice: 2,
+        consumption: 1,
+        production: 0,
+        maxDischarge: 1,
       })
     ).toEqual([0, -1])
-  })
-
-  test('should discharge half hour, full battery', () => {
-    expect(
-      calculateDischargeScore({
-        duration: 30 / 60,
-        price: 2,
-        averageConsumption: 1,
-        currentCharge: 5,
-      })
-    ).toEqual([0, -0.5])
   })
 
   test('should discharge full hour, empty battery', () => {
     expect(
       calculateDischargeScore({
-        duration: 1,
-        price: 2,
-        averageConsumption: 1,
-        currentCharge: 0,
+        importPrice: 2,
+        exportPrice: 2,
+        consumption: 1,
+        production: 0,
+        maxDischarge: 0,
       })
     ).toEqual([2, -0])
   })
@@ -147,12 +138,37 @@ describe('Fitness - calculateDischargeScore', () => {
   test('should discharge full hour, almost empty battery', () => {
     expect(
       calculateDischargeScore({
-        duration: 1,
-        price: 2,
-        averageConsumption: 1,
-        currentCharge: 0.5,
+        importPrice: 2,
+        exportPrice: 2,
+        consumption: 1,
+        production: 0,
+        maxDischarge: 0.5,
       })
     ).toEqual([1, -0.5])
+  })
+
+  test('should discharge full hour, full battery, equal production', () => {
+    expect(
+      calculateDischargeScore({
+        importPrice: 2,
+        exportPrice: 2,
+        consumption: 1,
+        production: 1,
+        maxDischarge: 1,
+      })
+    ).toEqual([0, -0])
+  })
+
+  test('should discharge full hour, full battery, double production', () => {
+    expect(
+      calculateDischargeScore({
+        importPrice: 2,
+        exportPrice: 2,
+        consumption: 1,
+        production: 2,
+        maxDischarge: 1,
+      })
+    ).toEqual([-2, -0])
   })
 })
 
@@ -160,38 +176,24 @@ describe('Fitness - calculateChargeScore', () => {
   test('should charge full hour, full battery', () => {
     expect(
       calculateChargeScore({
-        duration: 1,
-        price: 2,
-        averageConsumption: 1,
-        currentCharge: 5,
-        batteryMaxEnergy: 5,
-        batteryMaxInputPower: 1,
+        importPrice: 2,
+        exportPrice: 2,
+        consumption: 1,
+        production: 0,
+        maxCharge: 0,
       })
     ).toEqual([2, 0])
-  })
-
-  test('should charge half hour, full battery', () => {
-    expect(
-      calculateChargeScore({
-        duration: 30 / 60,
-        price: 2,
-        averageConsumption: 1,
-        currentCharge: 5,
-        batteryMaxEnergy: 5,
-        batteryMaxInputPower: 1,
-      })
-    ).toEqual([1, 0])
   })
 
   test('should charge full hour, empty battery', () => {
     expect(
       calculateChargeScore({
         duration: 1,
-        price: 2,
-        averageConsumption: 1,
-        currentCharge: 0,
-        batteryMaxEnergy: 5,
-        batteryMaxInputPower: 1,
+        importPrice: 2,
+        exportPrice: 2,
+        consumption: 1,
+        production: 0,
+        maxCharge: 1,
       })
     ).toEqual([4, 1])
   })
@@ -199,36 +201,90 @@ describe('Fitness - calculateChargeScore', () => {
   test('should charge full hour, almost full battery', () => {
     expect(
       calculateChargeScore({
-        duration: 1,
-        price: 2,
-        averageConsumption: 1,
-        currentCharge: 4.5,
-        batteryMaxEnergy: 5,
-        batteryMaxInputPower: 1,
+        importPrice: 2,
+        exportPrice: 2,
+        consumption: 1,
+        production: 0,
+        maxCharge: 0.5,
       })
     ).toEqual([3, 0.5])
+  })
+
+  test('should charge full hour, empty battery, equal production', () => {
+    expect(
+      calculateChargeScore({
+        duration: 1,
+        importPrice: 2,
+        exportPrice: 2,
+        consumption: 1,
+        production: 1,
+        maxCharge: 1,
+      })
+    ).toEqual([2, 1])
+  })
+
+  test('should charge full hour, empty battery, double production', () => {
+    expect(
+      calculateChargeScore({
+        duration: 1,
+        importPrice: 2,
+        exportPrice: 2,
+        consumption: 1,
+        production: 2,
+        maxCharge: 1,
+      })
+    ).toEqual([0, 1])
+  })
+
+  test('should charge full hour, empty battery, triple production', () => {
+    expect(
+      calculateChargeScore({
+        duration: 1,
+        importPrice: 2,
+        exportPrice: 2,
+        consumption: 1,
+        production: 3,
+        maxCharge: 1,
+      })
+    ).toEqual([-2, 1])
   })
 })
 
 describe('Fitness - calculateNormalScore', () => {
-  test('should consume normal full hour', () => {
+  test('should consume normal full hour no production', () => {
     expect(
       calculateNormalScore({
-        duration: 1,
-        price: 2,
-        averageConsumption: 1,
+        importPrice: 2,
+        exportPrice: 2,
+        consumption: 1,
+        production: 0,
+        maxCharge: 1,
       })
     ).toEqual([2, 0])
   })
 
-  test('should consume normal half hour', () => {
+  test('should consume normal full hour with equal production', () => {
     expect(
       calculateNormalScore({
-        duration: 30 / 60,
-        price: 2,
-        averageConsumption: 1,
+        importPrice: 2,
+        exportPrice: 2,
+        consumption: 1,
+        production: 1,
+        maxCharge: 1,
       })
-    ).toEqual([1, 0])
+    ).toEqual([0, 0])
+  })
+
+  test('should consume normal full hour with double production', () => {
+    expect(
+      calculateNormalScore({
+        importPrice: 2,
+        exportPrice: 2,
+        consumption: 1,
+        production: 2,
+        maxCharge: 1,
+      })
+    ).toEqual([0, 1])
   })
 })
 
@@ -242,13 +298,16 @@ describe('Fitness', () => {
     const batteryMaxEnergy = 1
     const batteryMaxInputPower = 1
     const averageConsumption = 1
+    const averageProduction = 0
+    const soc = 0
     const score = fitnessFunction({
-      priceData,
       totalDuration,
+      priceData,
       batteryMaxEnergy,
       batteryMaxInputPower,
-      batteryMaxEnergy,
       averageConsumption,
+      averageProduction,
+      soc,
     })([
       { start: 30, duration: 60, activity: 1 },
       { start: 90, duration: 30, activity: -1 },
@@ -265,19 +324,48 @@ describe('Fitness', () => {
     const batteryMaxEnergy = 1
     const batteryMaxInputPower = 1
     const averageConsumption = 1
+    const averageProduction = 0
     const soc = 100
     const score = fitnessFunction({
       priceData,
       totalDuration,
       batteryMaxEnergy,
       batteryMaxInputPower,
-      batteryMaxEnergy,
       averageConsumption,
+      averageProduction,
       soc,
     })([
       { start: 30, duration: 60, activity: 1 },
       { start: 90, duration: 30, activity: -1 },
     ])
     expect(score).toEqual(-1.5)
+  })
+
+  test('should calculate 180 min charge period', () => {
+    let now = Date.now()
+    now = now - (now % (60 * 60 * 1000))
+    const priceData = [
+      { value: 1, start: new Date(now).toString() },
+      { value: 500, start: new Date(now + 60 * 60 * 1000).toString() },
+      { value: 500, start: new Date(now + 60 * 60 * 1000 * 2).toString() },
+    ]
+    const totalDuration = 3 * 60
+    const batteryMaxEnergy = 3 // kWh
+    const batteryMaxInputPower = 3 // kW
+    const averageConsumption = 1.5 // kW
+    const averageProduction = 0 // kW
+    const soc = 0
+    let score = fitnessFunction({
+      priceData,
+      totalDuration,
+      batteryMaxEnergy,
+      batteryMaxInputPower,
+      averageConsumption,
+      averageProduction,
+      soc,
+    })([{ start: 0, duration: 180, activity: -1 }])
+    expect(score).toEqual(-1501.5)
+
+    console.log(score)
   })
 })

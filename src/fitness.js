@@ -55,45 +55,59 @@ const fillInNormalPeriods = (totalDuration, p) => {
 }
 
 const calculateDischargeScore = (props) => {
-  const { duration, price, averageConsumption, currentCharge } = props
-  let cost = 0
-  let discharge = averageConsumption * duration
-  const overDischarge = currentCharge - discharge
-  if (overDischarge < 0) {
-    discharge += overDischarge
+  const { exportPrice, importPrice, consumption, production, maxDischarge } =
+    props
 
-    // apply cost for energy that is covered from the grid
-    cost += -overDischarge * price
+  const consumedFromProduction = Math.min(consumption, production)
+  const consumedFromBattery = Math.min(
+    consumption - consumedFromProduction,
+    maxDischarge
+  )
+  const soldFromProduction = production - consumedFromProduction
+  const consumedFromGrid =
+    consumption - consumedFromProduction - consumedFromBattery
 
-    // apply penalty for over discharging
-  }
+  let cost = consumedFromGrid * importPrice - soldFromProduction * exportPrice
+  let charge = consumedFromBattery
 
-  return [cost, -discharge]
+  return [cost, -charge]
 }
 
 const calculateNormalScore = (props) => {
-  const { duration, price, averageConsumption } = props
-  return [price * (averageConsumption * duration), 0]
+  const { exportPrice, importPrice, maxCharge, consumption, production } = props
+
+  const consumedFromProduction = Math.min(consumption, production)
+  const batteryChargeFromProduction = Math.min(
+    production - consumedFromProduction,
+    maxCharge
+  )
+  const soldFromProduction =
+    production - consumedFromProduction - batteryChargeFromProduction
+  const consumedFromGrid = consumption - consumedFromProduction
+
+  let cost = importPrice * consumedFromGrid - exportPrice * soldFromProduction
+  let charge = batteryChargeFromProduction
+  return [cost, charge]
 }
 
 const calculateChargeScore = (props) => {
-  const {
-    duration,
-    price,
-    batteryMaxInputPower,
-    averageConsumption,
-    currentCharge,
-    batteryMaxEnergy,
-  } = props
-  let cost = price * (averageConsumption * duration)
+  const { exportPrice, importPrice, consumption, production, maxCharge } = props
 
-  let charge = batteryMaxInputPower * duration
-  const overCharge = currentCharge + charge - batteryMaxEnergy
-  if (overCharge > 0) {
-    charge -= overCharge
-    // apply penalty for overcharge
-  }
-  cost += price * charge
+  const consumedFromProduction = Math.min(consumption, production)
+  const batteryChargeFromProduction = Math.min(
+    production - consumedFromProduction,
+    maxCharge
+  )
+  const soldFromProduction =
+    production - consumedFromProduction - batteryChargeFromProduction
+  const consumedFromGrid = consumption - consumedFromProduction
+  const chargedFromGrid = maxCharge - batteryChargeFromProduction
+
+  let cost =
+    (consumedFromGrid + chargedFromGrid) * importPrice -
+    soldFromProduction * exportPrice
+  let charge = batteryChargeFromProduction + chargedFromGrid
+
   return [cost, charge]
 }
 
@@ -115,25 +129,31 @@ const fitnessFunction = (props) => (phenotype) => {
     batteryMaxEnergy,
     batteryMaxInputPower,
     averageConsumption,
+    averageProduction,
+    soc,
   } = props
 
   let score = 0
-  const soc = props.soc ?? 0
   let currentCharge = (soc / 100) * batteryMaxEnergy
 
   for (const interval of fillInNormalPeriodsGenerator(
     totalDuration,
     phenotype
   )) {
+    const duration = interval.duration / 60
+    const maxCharge = Math.min(
+      batteryMaxInputPower,
+      batteryMaxEnergy - currentCharge
+    )
+    const maxDischarge = Math.min(batteryMaxInputPower, currentCharge)
     const v = calculatePeriodScore({
       activity: interval.activity,
-      price: priceData[Math.floor(interval.start / 60)].value,
-      duration: interval.duration / 60,
-      currentCharge: currentCharge,
-      totalDuration: totalDuration,
-      batteryMaxEnergy: batteryMaxEnergy,
-      batteryMaxInputPower: batteryMaxInputPower,
-      averageConsumption: averageConsumption,
+      importPrice: priceData[Math.floor(interval.start / 60)].value,
+      exportPrice: priceData[Math.floor(interval.start / 60)].value,
+      consumption: averageConsumption * duration,
+      production: averageProduction * duration,
+      maxCharge,
+      maxDischarge,
     })
     score -= v[0]
     currentCharge += v[1]

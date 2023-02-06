@@ -187,10 +187,11 @@ const calculateBatteryChargingStrategy = (config) => {
     batteryMaxEnergy,
     batteryMaxInputPower,
     averageConsumption,
+    averageProduction,
     soc,
   } = config
 
-  let priceData = config.priceData
+  let { priceData } = config
   if (Number.isInteger(soc)) {
     let now = Date.now()
     now = new Date(now - (now % (60 * 60 * 1000)))
@@ -217,6 +218,7 @@ const calculateBatteryChargingStrategy = (config) => {
       batteryMaxEnergy,
       batteryMaxInputPower,
       averageConsumption,
+      averageProduction,
       soc,
     }),
     population: generatePopulation(
