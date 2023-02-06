@@ -56,7 +56,7 @@ describe('Calculate', () => {
     const batteryMaxOutputPower = 3 // kW
     const batteryMaxInputPower = 3 // kW
     const averageConsumption = 1.5 // kW
-
+    const averageProduction = 0 // kW
     const soc = 0
 
     const config = {
@@ -69,6 +69,7 @@ describe('Calculate', () => {
       batteryMaxOutputPower,
       batteryMaxInputPower,
       averageConsumption,
+      averageProduction,
       soc,
     }
     const schedule = calculateBatteryChargingStrategy(config)
@@ -83,5 +84,44 @@ describe('Calculate', () => {
       activity: -1,
       name: 'discharging',
     })
+
+    const values = schedule
+      .filter((e) => e.activity != 0)
+      .reduce((total, e) => {
+        const toTimeString = (date) => {
+          const HH = date.getHours().toString().padStart(2, '0')
+          const mm = date.getMinutes().toString().padStart(2, '0')
+          return `${HH}:${mm}`
+        }
+
+        const touPattern = (start, end, charge) => {
+          let pattern = toTimeString(start)
+          pattern += '-'
+          pattern += toTimeString(end)
+          pattern += '/'
+          pattern += start.getDay()
+          pattern += '/'
+          pattern += charge
+          return pattern
+        }
+
+        const startDate = new Date(e.start)
+        const endDate = new Date(startDate.getTime() + (e.duration - 1) * 60000)
+        const charge = e.activity == 1 ? '+' : '-'
+        if (startDate.getDay() == endDate.getDay()) {
+          total.push(touPattern(startDate, endDate, charge))
+        } else {
+          const endDateDay1 = new Date(startDate)
+          endDateDay1.setHours(23)
+          endDateDay1.setMinutes(59)
+          total.push(touPattern(startDate, endDateDay1, charge))
+
+          const startDateDay2 = new Date(endDate)
+          startDateDay2.setHours(0)
+          startDateDay2.setMinutes(0)
+          total.push(touPattern(startDateDay2, endDate, charge))
+        }
+        return total
+      }, [])
   })
 })
