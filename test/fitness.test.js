@@ -290,23 +290,31 @@ describe('Fitness - calculateNormalScore', () => {
 
 describe('Fitness', () => {
   test('should calculate fitness', () => {
-    const priceData = [
-      { value: 1, start: '2022-12-01T00:00:00.000Z' },
-      { value: 1, start: '2022-12-01T01:00:00.000Z' },
+    const input = [
+      {
+        start: '2022-12-01T00:00:00.000Z',
+        importPrice: 1,
+        exportPrice: 1,
+        consumption: 1,
+        production: 0,
+      },
+      {
+        start: '2022-12-01T01:00:00.000Z',
+        importPrice: 1,
+        exportPrice: 1,
+        consumption: 1,
+        production: 0,
+      },
     ]
     const totalDuration = 2 * 60
     const batteryMaxEnergy = 1
     const batteryMaxInputPower = 1
-    const averageConsumption = 1
-    const averageProduction = 0
     const soc = 0
     const score = fitnessFunction({
       totalDuration,
-      priceData,
+      input,
       batteryMaxEnergy,
       batteryMaxInputPower,
-      averageConsumption,
-      averageProduction,
       soc,
     })([
       { start: 30, duration: 60, activity: 1 },
@@ -316,23 +324,33 @@ describe('Fitness', () => {
   })
 
   test('should calculate fitness with soc', () => {
-    const priceData = [
-      { value: 1, start: '2022-12-01T00:00:00.000Z' },
-      { value: 1, start: '2022-12-01T01:00:00.000Z' },
+    const input = [
+      {
+        start: '2022-12-01T00:00:00.000Z',
+        importPrice: 1,
+        exportPrice: 1,
+        consumption: 1,
+        production: 0,
+      },
+      {
+        start: '2022-12-01T01:00:00.000Z',
+        importPrice: 1,
+        exportPrice: 1,
+        consumption: 1,
+        production: 0,
+      },
     ]
     const totalDuration = 2 * 60
     const batteryMaxEnergy = 1
     const batteryMaxInputPower = 1
     const averageConsumption = 1
     const averageProduction = 0
-    const soc = 100
+    const soc = 1
     const score = fitnessFunction({
-      priceData,
+      input,
       totalDuration,
       batteryMaxEnergy,
       batteryMaxInputPower,
-      averageConsumption,
-      averageProduction,
       soc,
     })([
       { start: 30, duration: 60, activity: 1 },
@@ -344,24 +362,38 @@ describe('Fitness', () => {
   test('should calculate 180 min charge period', () => {
     let now = Date.now()
     now = now - (now % (60 * 60 * 1000))
-    const priceData = [
-      { value: 1, start: new Date(now).toString() },
-      { value: 500, start: new Date(now + 60 * 60 * 1000).toString() },
-      { value: 500, start: new Date(now + 60 * 60 * 1000 * 2).toString() },
+    const input = [
+      {
+        start: new Date(now).toString(),
+        importPrice: 1,
+        exportPrice: 1,
+        consumption: 1.5,
+        production: 0,
+      },
+      {
+        start: new Date(now + 60 * 60 * 1000).toString(),
+        importPrice: 500,
+        exportPrice: 500,
+        consumption: 1.5,
+        production: 0,
+      },
+      {
+        start: new Date(now + 60 * 60 * 1000 * 2).toString(),
+        importPrice: 500,
+        exportPrice: 500,
+        consumption: 1.5,
+        production: 0,
+      },
     ]
     const totalDuration = 3 * 60
     const batteryMaxEnergy = 3 // kWh
     const batteryMaxInputPower = 3 // kW
-    const averageConsumption = 1.5 // kW
-    const averageProduction = 0 // kW
     const soc = 0
     let score = fitnessFunction({
-      priceData,
+      input,
       totalDuration,
       batteryMaxEnergy,
       batteryMaxInputPower,
-      averageConsumption,
-      averageProduction,
       soc,
     })([{ start: 0, duration: 180, activity: -1 }])
     expect(score).toEqual(-1501.5)

@@ -20,11 +20,15 @@ const node = (RED) => {
       } = config
 
       this.on('input', async (msg, send, done) => {
-        const priceData = msg.payload?.priceData || []
+        const priceData = msg.payload?.priceData ?? []
+        const consumptionForecast = msg.payload?.consumptionForecast ?? []
+        const productionForecast = msg.payload?.productionForecast ?? []
         const soc = msg.payload?.soc ?? 0
 
         const schedule = calculateBatteryChargingStrategy({
           priceData,
+          consumptionForecast,
+          productionForecast,
           populationSize,
           numberOfPricePeriods,
           generations,
@@ -33,7 +37,9 @@ const node = (RED) => {
           batteryMaxOutputPower,
           batteryMaxInputPower,
           averageConsumption,
-          soc,
+          consumptionForecast,
+          productionForecast,
+          soc: soc / 100,
         })
 
         if (msg.payload) {
