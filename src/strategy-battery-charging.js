@@ -49,9 +49,9 @@ const node = (RED) => {
           msg.payload.excessPvEnergyUse = strategy.best.excessPvEnergyUse
           msg.payload.cost = strategy.best.cost
           msg.payload.noBattery = {
-            schedule: strategy.best.schedule,
-            excessPvEnergyUse: strategy.best.excessPvEnergyUse,
-            cost: strategy.best.cost,
+            schedule: strategy.noBattery.schedule,
+            excessPvEnergyUse: strategy.noBattery.excessPvEnergyUse,
+            cost: strategy.noBattery.cost,
           }
         }
         msg.payload = payload
