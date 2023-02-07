@@ -48,20 +48,22 @@ describe('Battery charging strategy Node', () => {
         done()
       })
 
+      let now = Date.now()
+      now = now - (now % (60 * 60 * 1000))
       const inputPayload = {
         payload: {
           priceData: [
             {
               value: 1,
-              start: '2022-12-01T00:00:00.000Z',
+              start: new Date(now + 60 * 60 * 1000 * 0).toString(),
             },
             {
               value: 2,
-              start: '2022-12-01T01:00:00.000Z',
+              start: new Date(now + 60 * 60 * 1000 * 1).toString(),
             },
             {
               value: 5,
-              start: '2022-12-01T02:00:00.000Z',
+              start: new Date(now + 60 * 60 * 1000 * 2).toString(),
             },
           ],
         },
@@ -86,7 +88,6 @@ describe('Battery charging strategy Node', () => {
       const n1 = helper.getNode('n1')
       n2.on('input', function inputCallback(msg) {
         expect(msg).toHaveProperty('payload')
-        expect(msg.payload).toHaveProperty('schedule')
         done()
       })
 

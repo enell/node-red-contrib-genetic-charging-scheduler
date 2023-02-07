@@ -23,9 +23,9 @@ const node = (RED) => {
         const priceData = msg.payload?.priceData ?? []
         const consumptionForecast = msg.payload?.consumptionForecast ?? []
         const productionForecast = msg.payload?.productionForecast ?? []
-        const soc = msg.payload?.soc ?? 0
+        const soc = msg.payload?.soc
 
-        const schedule = calculateBatteryChargingStrategy({
+        const strategy = calculateBatteryChargingStrategy({
           priceData,
           consumptionForecast,
           productionForecast,
@@ -42,11 +42,19 @@ const node = (RED) => {
           soc: soc / 100,
         })
 
-        if (msg.payload) {
-          msg.payload.schedule = schedule
-        } else {
-          msg.payload = { schedule }
+        const payload = msg.payload ?? {}
+
+        if (strategy && Object.keys(strategy).length > 0) {
+          msg.payload.schedule = strategy.best.schedule
+          msg.payload.excessPvEnergyUse = strategy.best.excessPvEnergyUse
+          msg.payload.cost = strategy.best.cost
+          msg.payload.noBattery = {
+            schedule: strategy.best.schedule,
+            excessPvEnergyUse: strategy.best.excessPvEnergyUse,
+            cost: strategy.best.cost,
+          }
         }
+        msg.payload = payload
 
         send(msg)
         done()
