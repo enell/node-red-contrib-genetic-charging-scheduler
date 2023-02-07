@@ -198,13 +198,12 @@ const mergeInput = (config) => {
     priceData,
     consumptionForecast,
     productionForecast,
-    soc,
   } = config
 
   let now = Date.now()
   now = new Date(now - (now % (60 * 60 * 1000)))
   return priceData
-    .filter((v) => new Date(v.start) >= now)
+    .filter((v) => new Date(v.start).getTime() >= now.getTime())
     .map((v) => {
       return {
         start: new Date(v.start),
@@ -235,7 +234,6 @@ const calculateBatteryChargingStrategy = (config) => {
     batteryMaxEnergy,
     batteryMaxInputPower,
     soc,
-    priceData,
   } = config
 
   const input = mergeInput(config)
@@ -269,12 +267,12 @@ const calculateBatteryChargingStrategy = (config) => {
   const noBattery = { periods: [], excessPvEnergyUse: 0 }
   return {
     best: {
-      schedule: toSchedule(best.periods, priceData[0].start),
+      schedule: toSchedule(best.periods, input[0].start),
       excessPvEnergyUse: best.excessPvEnergyUse,
       cost: f(best) * -1,
     },
     noBattery: {
-      schedule: toSchedule(noBattery.periods, priceData[0].start),
+      schedule: toSchedule(noBattery.periods, input[0].start),
       excessPvEnergyUse: noBattery.excessPvEnergyUse,
       cost: f(noBattery) * -1,
     },

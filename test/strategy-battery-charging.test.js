@@ -96,11 +96,13 @@ describe('Battery charging strategy Node', () => {
       n2.on('input', function inputCallback(msg) {
         expect(msg).toHaveProperty('payload')
         expect(msg.payload).toHaveProperty('schedule')
+
+        console.log(JSON.stringify(msg.payload, null, 1))
         done()
       })
 
       let now = Date.now()
-      now = now - (now % (60 * 60 * 1000))
+      now = now - (now % (24 * 60 * 60 * 1000))
       const inputPayload = {
         soc: 75,
         priceData: [
