@@ -1,3 +1,4 @@
+const { expect } = require('@jest/globals')
 const { mockRandomForEach } = require('jest-mock-random')
 const {
   clamp,
@@ -22,30 +23,48 @@ describe('Crossover', () => {
     const crossover = crossoverFunction(120)
 
     const p = crossover(
-      [
-        { start: 0, activity: 1, duration: 10 },
-        { start: 30, activity: -1, duration: 10 },
-      ],
-      [
-        { start: 60, activity: 1, duration: 10 },
-        { start: 80, activity: -1, duration: 10 },
-      ]
+      {
+        periods: [
+          { start: 0, activity: 1, duration: 10 },
+          { start: 30, activity: -1, duration: 10 },
+        ],
+        excessPvEnergyUse: 0,
+      },
+      {
+        periods: [
+          { start: 60, activity: 1, duration: 10 },
+          { start: 80, activity: -1, duration: 10 },
+        ],
+        excessPvEnergyUse: 0,
+      }
     )[0]
-    expect(p).toMatchObject([
-      { start: 0, activity: 1, duration: 10 },
-      { start: 80, activity: -1, duration: 10 },
-    ])
+    expect(p).toMatchObject({
+      periods: [
+        { start: 0, activity: 1, duration: 10 },
+        { start: 80, activity: -1, duration: 10 },
+      ],
+      excessPvEnergyUse: 0,
+    })
   })
 })
 
 describe('Calculate', () => {
+  mockRandomForEach(0.4)
   test('calculate', () => {
     let now = Date.now()
     now = now - (now % (60 * 60 * 1000))
     const priceData = [
-      { value: 1, start: new Date(now).toString() },
-      { value: 500, start: new Date(now + 60 * 60 * 1000).toString() },
-      { value: 500, start: new Date(now + 60 * 60 * 1000 * 2).toString() },
+      { importPrice: 1, exportPrice: 0, start: new Date(now).toString() },
+      {
+        importPrice: 500,
+        exportPrice: 0,
+        start: new Date(now + 60 * 60 * 1000).toString(),
+      },
+      {
+        importPrice: 500,
+        exportPrice: 0,
+        start: new Date(now + 60 * 60 * 1000 * 2).toString(),
+      },
     ]
     const productionForecast = priceData.map((v) => {
       return { start: v.start, value: 0 }
@@ -80,20 +99,27 @@ describe('Calculate', () => {
       consumptionForecast,
       soc,
     }
-    const schedule = calculateBatteryChargingStrategy(config)
-    console.log(schedule)
+    const strategy = calculateBatteryChargingStrategy(config)
+    const bestSchedule = strategy.best.schedule
+    console.log(bestSchedule)
 
-    expect(schedule.length).toBeGreaterThan(0)
-    expect(schedule[1]).toMatchObject({
-      activity: 1,
-      name: 'charging',
+    expect(bestSchedule.length).toEqual(3)
+    expect(bestSchedule[0]).toMatchObject({
+      activity: 0,
     })
-    expect(schedule[3]).toMatchObject({
+    expect(bestSchedule[1]).toMatchObject({
       activity: -1,
       name: 'discharging',
     })
+    expect(bestSchedule[2]).toMatchObject({
+      activity: 0,
+    })
+    expect(strategy.best.excessPvEnergyUse).toEqual(0)
 
-    const values = schedule
+    console.log(`best: ${strategy.best.cost}`)
+    console.log(`no battery: ${strategy.noBattery.cost}`)
+
+    const values = bestSchedule
       .filter((e) => e.activity != 0)
       .reduce((total, e) => {
         const toTimeString = (date) => {

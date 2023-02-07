@@ -132,7 +132,7 @@ describe('Fitness - calculateDischargeScore', () => {
         production: 0,
         maxDischarge: 0,
       })
-    ).toEqual([2, -0])
+    ).toEqual([2, 0])
   })
 
   test('should discharge full hour, almost empty battery', () => {
@@ -156,7 +156,7 @@ describe('Fitness - calculateDischargeScore', () => {
         production: 1,
         maxDischarge: 1,
       })
-    ).toEqual([0, -0])
+    ).toEqual([0, 0])
   })
 
   test('should discharge full hour, full battery, double production', () => {
@@ -168,7 +168,21 @@ describe('Fitness - calculateDischargeScore', () => {
         production: 2,
         maxDischarge: 1,
       })
-    ).toEqual([-2, -0])
+    ).toEqual([-2, 0])
+  })
+
+  test('should discharge full hour, full battery, double production, charge preference', () => {
+    expect(
+      calculateDischargeScore({
+        importPrice: 2,
+        exportPrice: 2,
+        consumption: 1,
+        production: 2,
+        maxDischarge: 1,
+        maxCharge: 1,
+        excessPvEnergyUse: 1,
+      })
+    ).toEqual([0, 1])
   })
 })
 
@@ -236,7 +250,7 @@ describe('Fitness - calculateChargeScore', () => {
     ).toEqual([0, 1])
   })
 
-  test('should charge full hour, empty battery, triple production', () => {
+  test('should charge full hour, empty battery, triple production, charge preference', () => {
     expect(
       calculateChargeScore({
         duration: 1,
@@ -245,6 +259,7 @@ describe('Fitness - calculateChargeScore', () => {
         consumption: 1,
         production: 3,
         maxCharge: 1,
+        excessPvEnergyUse: 1,
       })
     ).toEqual([-2, 1])
   })
@@ -275,7 +290,7 @@ describe('Fitness - calculateNormalScore', () => {
     ).toEqual([0, 0])
   })
 
-  test('should consume normal full hour with double production', () => {
+  test('should consume normal full hour with double production, charge preference', () => {
     expect(
       calculateNormalScore({
         importPrice: 2,
@@ -283,8 +298,22 @@ describe('Fitness - calculateNormalScore', () => {
         consumption: 1,
         production: 2,
         maxCharge: 1,
+        excessPvEnergyUse: 1,
       })
     ).toEqual([0, 1])
+  })
+
+  test('should consume normal full hour with double production, feed to grid preference', () => {
+    expect(
+      calculateNormalScore({
+        importPrice: 2,
+        exportPrice: 2,
+        consumption: 1,
+        production: 2,
+        maxCharge: 1,
+        excessPvEnergyUse: 0,
+      })
+    ).toEqual([-2, 0])
   })
 })
 
@@ -316,10 +345,13 @@ describe('Fitness', () => {
       batteryMaxEnergy,
       batteryMaxInputPower,
       soc,
-    })([
-      { start: 30, duration: 60, activity: 1 },
-      { start: 90, duration: 30, activity: -1 },
-    ])
+    })({
+      periods: [
+        { start: 30, duration: 60, activity: 1 },
+        { start: 90, duration: 30, activity: -1 },
+      ],
+      excessPvEnergyUse: 0,
+    })
     expect(score).toEqual(-2.5)
   })
 
@@ -352,10 +384,13 @@ describe('Fitness', () => {
       batteryMaxEnergy,
       batteryMaxInputPower,
       soc,
-    })([
-      { start: 30, duration: 60, activity: 1 },
-      { start: 90, duration: 30, activity: -1 },
-    ])
+    })({
+      periods: [
+        { start: 30, duration: 60, activity: 1 },
+        { start: 90, duration: 30, activity: -1 },
+      ],
+      excessPvEnergyUse: 0,
+    })
     expect(score).toEqual(-1.5)
   })
 
@@ -395,7 +430,10 @@ describe('Fitness', () => {
       batteryMaxEnergy,
       batteryMaxInputPower,
       soc,
-    })([{ start: 0, duration: 180, activity: -1 }])
+    })({
+      periods: [{ start: 0, duration: 180, activity: -1 }],
+      excessPvEnergyUse: 0,
+    })
     expect(score).toEqual(-1501.5)
 
     console.log(score)

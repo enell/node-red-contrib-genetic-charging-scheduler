@@ -54,33 +54,55 @@ const fillInNormalPeriods = (totalDuration, p) => {
   return [...fillInNormalPeriodsGenerator(totalDuration, p)]
 }
 
+const FEED_TO_GRID = 0
+const CHARGE = 1
+
 const calculateDischargeScore = (props) => {
-  const { exportPrice, importPrice, consumption, production, maxDischarge } =
-    props
+  const {
+    exportPrice,
+    importPrice,
+    consumption,
+    production,
+    maxDischarge,
+    maxCharge,
+    excessPvEnergyUse,
+  } = props
 
   const consumedFromProduction = Math.min(consumption, production)
+  const batteryChargeFromProduction =
+    excessPvEnergyUse == CHARGE
+      ? Math.min(production - consumedFromProduction, maxCharge)
+      : 0
   const consumedFromBattery = Math.min(
     consumption - consumedFromProduction,
     maxDischarge
   )
-  const soldFromProduction = production - consumedFromProduction
+  const soldFromProduction =
+    production - consumedFromProduction - batteryChargeFromProduction
   const consumedFromGrid =
     consumption - consumedFromProduction - consumedFromBattery
 
   let cost = consumedFromGrid * importPrice - soldFromProduction * exportPrice
-  let charge = consumedFromBattery
+  let charge = batteryChargeFromProduction - consumedFromBattery
 
-  return [cost, -charge]
+  return [cost, charge]
 }
 
 const calculateNormalScore = (props) => {
-  const { exportPrice, importPrice, maxCharge, consumption, production } = props
+  const {
+    exportPrice,
+    importPrice,
+    maxCharge,
+    consumption,
+    production,
+    excessPvEnergyUse,
+  } = props
 
   const consumedFromProduction = Math.min(consumption, production)
-  const batteryChargeFromProduction = Math.min(
-    production - consumedFromProduction,
-    maxCharge
-  )
+  const batteryChargeFromProduction =
+    excessPvEnergyUse == CHARGE
+      ? Math.min(production - consumedFromProduction, maxCharge)
+      : 0
   const soldFromProduction =
     production - consumedFromProduction - batteryChargeFromProduction
   const consumedFromGrid = consumption - consumedFromProduction
@@ -131,7 +153,7 @@ const fitnessFunction = (props) => (phenotype) => {
 
   for (const interval of fillInNormalPeriodsGenerator(
     totalDuration,
-    phenotype
+    phenotype.periods
   )) {
     const duration = interval.duration / 60
     const maxCharge = Math.min(
@@ -150,6 +172,7 @@ const fitnessFunction = (props) => (phenotype) => {
       production: production * duration,
       maxCharge,
       maxDischarge,
+      excessPvEnergyUse: phenotype.excessPvEnergyUse,
     })
     score -= v[0]
     currentCharge += v[1]

@@ -49,8 +49,8 @@ const mutationFunction = (endTime, mutationRate) => (phenotype) => {
     return adjustment
   }
 
-  for (let i = 0; i < phenotype.length; i += 1) {
-    const g = phenotype[i]
+  for (let i = 0; i < phenotype.periods.length; i += 1) {
+    const g = phenotype.periods[i]
     if (Math.random() < mutationRate) {
       // Mutate action
       g.activity *= -1
@@ -67,21 +67,35 @@ const mutationFunction = (endTime, mutationRate) => (phenotype) => {
       g.duration += timeChange
     }
   }
-  return repair(phenotype, endTime)
+  return {
+    periods: repair(phenotype.periods, endTime),
+    excessPvEnergyUse:
+      Math.random() < mutationRate
+        ? phenotype.excessPvEnergyUse ^ 1
+        : phenotype.excessPvEnergyUse,
+  }
 }
 
 const crossoverFunction = (endTime) => (phenotypeA, phenotypeB) => {
-  const midpoint = random(0, phenotypeA.length)
+  const midpoint = random(0, phenotypeA.periods.length)
   const childGenes = []
-  for (let i = 0; i < phenotypeA.length; i += 1) {
+  for (let i = 0; i < phenotypeA.periods.length; i += 1) {
     if (i <= midpoint) {
-      childGenes[i] = phenotypeA[i]
+      childGenes[i] = phenotypeA.periods[i]
     } else {
-      childGenes[i] = phenotypeB[i]
+      childGenes[i] = phenotypeB.periods[i]
     }
   }
 
-  return [repair(childGenes, endTime)]
+  return [
+    {
+      periods: repair(childGenes, endTime),
+      excessPvEnergyUse:
+        Math.random() < 0.5
+          ? phenotypeA.excessPvEnergyUse
+          : phenotypeB.excessPvEnergyUse,
+    },
+  ]
 }
 
 const generatePopulation = (endTime, populationSize, numberOfPricePeriods) => {
@@ -100,28 +114,27 @@ const generatePopulation = (endTime, populationSize, numberOfPricePeriods) => {
 
   const population = []
   for (let i = 0; i < populationSize; i += 1) {
-    const phenotype = []
+    const timePeriods = []
     for (let j = 0; j < numberOfPricePeriods; j += 1) {
       const gene = { activity: 0, start: 0, duration: 0 }
       gene.activity = Math.random() < 0.5 ? -1 : 1
       gene.start = random(0, endTime)
       gene.duration = 0
-      const location = sortedIndex(phenotype, gene)
-      phenotype.splice(location, 0, gene)
+      const location = sortedIndex(timePeriods, gene)
+      timePeriods.splice(location, 0, gene)
     }
 
-    for (let j = 0; j < phenotype.length - 1; j += 1) {
-      phenotype[j].duration = random(
-        0,
-        phenotype[j + 1].start - phenotype[j].start
-      )
+    for (let j = 0; j < timePeriods.length - 1; j += 1) {
+      const maxDuration = timePeriods[j + 1].start - timePeriods[j].start
+      timePeriods[j].duration = random(0, maxDuration)
     }
-    phenotype[phenotype.length - 1].duration = random(
-      0,
-      endTime - phenotype[phenotype.length - 1].start
-    )
+    const maxDuration = endTime - timePeriods[timePeriods.length - 1].start
+    timePeriods[timePeriods.length - 1].duration = random(0, maxDuration)
 
-    population.push(phenotype)
+    population.push({
+      periods: timePeriods,
+      excessPvEnergyUse: Math.round(Math.random()),
+    })
   }
   return population
 }
@@ -185,6 +198,7 @@ const mergeInput = (config) => {
     priceData,
     consumptionForecast,
     productionForecast,
+    soc,
   } = config
 
   let now = Date.now()
@@ -195,14 +209,14 @@ const mergeInput = (config) => {
       return {
         start: new Date(v.start),
         importPrice: v.importPrice ?? v.value,
-        exportPrice: v.exportPrice ?? v.value,
+        exportPrice: v.exportPrice ?? v.importPrice ?? v.value,
         consumption:
           consumptionForecast.find(
-            (c) => new Date(c.start) === new Date(v.start)
+            (c) => new Date(c.start).getTime() === new Date(v.start).getTime()
           )?.value ?? averageConsumption,
         production:
           productionForecast.find(
-            (p) => new Date(p.start) === new Date(v.start)
+            (p) => new Date(p.start).getTime() === new Date(v.start).getTime()
           )?.value ?? averageProduction,
       }
     })
@@ -221,20 +235,21 @@ const calculateBatteryChargingStrategy = (config) => {
   } = config
 
   const input = mergeInput(config)
-  if (input === undefined || input.length === 0) return []
+  if (input === undefined || input.length === 0) return {}
 
   let totalDuration = input.length * 60
 
+  const f = fitnessFunction({
+    input,
+    totalDuration,
+    batteryMaxEnergy,
+    batteryMaxInputPower,
+    soc,
+  })
   const geneticAlgorithm = geneticAlgorithmConstructor({
     mutationFunction: mutationFunction(totalDuration, mutationRate),
     crossoverFunction: crossoverFunction(totalDuration),
-    fitnessFunction: fitnessFunction({
-      input,
-      totalDuration,
-      batteryMaxEnergy,
-      batteryMaxInputPower,
-      soc,
-    }),
+    fitnessFunction: f,
     population: generatePopulation(
       totalDuration,
       populationSize,
@@ -246,7 +261,20 @@ const calculateBatteryChargingStrategy = (config) => {
     geneticAlgorithm.evolve()
   }
 
-  return toSchedule(geneticAlgorithm.best(), priceData[0].start)
+  const best = geneticAlgorithm.best()
+  const noBattery = { periods: [], excessPvEnergyUse: 0 }
+  return {
+    best: {
+      schedule: toSchedule(best.periods, priceData[0].start),
+      excessPvEnergyUse: best.excessPvEnergyUse,
+      cost: f(best),
+    },
+    noBattery: {
+      schedule: toSchedule(noBattery.periods, priceData[0].start),
+      excessPvEnergyUse: noBattery.excessPvEnergyUse,
+      cost: f(noBattery),
+    },
+  }
 }
 
 module.exports = {
