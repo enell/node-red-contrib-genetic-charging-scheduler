@@ -213,11 +213,15 @@ const mergeInput = (config) => {
         consumption:
           consumptionForecast.find(
             (c) => new Date(c.start).getTime() === new Date(v.start).getTime()
-          )?.value ?? averageConsumption,
+          )?.value ??
+          averageConsumption ??
+          0,
         production:
           productionForecast.find(
             (p) => new Date(p.start).getTime() === new Date(v.start).getTime()
-          )?.value ?? averageProduction,
+          )?.value ??
+          averageProduction ??
+          0,
       }
     })
 }
@@ -267,12 +271,12 @@ const calculateBatteryChargingStrategy = (config) => {
     best: {
       schedule: toSchedule(best.periods, priceData[0].start),
       excessPvEnergyUse: best.excessPvEnergyUse,
-      cost: f(best),
+      cost: f(best) * -1,
     },
     noBattery: {
       schedule: toSchedule(noBattery.periods, priceData[0].start),
       excessPvEnergyUse: noBattery.excessPvEnergyUse,
-      cost: f(noBattery),
+      cost: f(noBattery) * -1,
     },
   }
 }
