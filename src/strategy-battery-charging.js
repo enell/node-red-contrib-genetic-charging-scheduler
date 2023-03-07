@@ -39,6 +39,7 @@ const node = (RED) => {
           averageConsumption,
           consumptionForecast,
           productionForecast,
+          excessPvEnergyUse: 0, // 0=Fed to grid, 1=Charge
           soc: soc / 100,
         })
 

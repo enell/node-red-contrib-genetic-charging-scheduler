@@ -40,41 +40,35 @@ const repair = (phenotype, endTime) => {
   return p
 }
 
-const mutationFunction = (endTime, mutationRate) => (phenotype) => {
-  const timeAdjustment = () => {
-    const percent = Math.random() * 0.4 + 0.01
-    const adjustment =
-      Math.max(Math.floor(endTime * percent), 5) *
-      (Math.random() < 0.5 ? -1 : 1)
-    return adjustment
-  }
+const mutationFunction =
+  (endTime, mutationRate, excessPvEnergyUse) => (phenotype) => {
+    const timeAdjustment = () => {
+      return random(0, 61) - 30
+    }
 
-  for (let i = 0; i < phenotype.periods.length; i += 1) {
-    const g = phenotype.periods[i]
-    if (Math.random() < mutationRate) {
-      // Mutate action
-      g.activity *= -1
+    for (let i = 0; i < phenotype.periods.length; i += 1) {
+      const g = phenotype.periods[i]
+      if (Math.random() < mutationRate) {
+        // Mutate action
+        g.activity *= -1
+      }
+      if (Math.random() < mutationRate) {
+        // Mutate start time
+        const timeChange = timeAdjustment()
+        g.start += timeChange
+        g.duration -= timeChange
+      }
+      if (Math.random() < mutationRate) {
+        // Mutate duration
+        const timeChange = timeAdjustment()
+        g.duration += timeChange
+      }
     }
-    if (Math.random() < mutationRate) {
-      // Mutate start time
-      const timeChange = timeAdjustment()
-      g.start += timeChange
-      g.duration -= timeChange
-    }
-    if (Math.random() < mutationRate) {
-      // Mutate duration
-      const timeChange = timeAdjustment()
-      g.duration += timeChange
+    return {
+      periods: repair(phenotype.periods, endTime),
+      excessPvEnergyUse: excessPvEnergyUse,
     }
   }
-  return {
-    periods: repair(phenotype.periods, endTime),
-    excessPvEnergyUse:
-      Math.random() < mutationRate
-        ? phenotype.excessPvEnergyUse ^ 1
-        : phenotype.excessPvEnergyUse,
-  }
-}
 
 const crossoverFunction = (endTime) => (phenotypeA, phenotypeB) => {
   const midpoint = random(0, phenotypeA.periods.length)
@@ -98,7 +92,12 @@ const crossoverFunction = (endTime) => (phenotypeA, phenotypeB) => {
   ]
 }
 
-const generatePopulation = (endTime, populationSize, numberOfPricePeriods) => {
+const generatePopulation = (
+  endTime,
+  populationSize,
+  numberOfPricePeriods,
+  excessPvEnergyUse
+) => {
   const sortedIndex = (array, value) => {
     let low = 0
     let high = array.length
@@ -133,7 +132,7 @@ const generatePopulation = (endTime, populationSize, numberOfPricePeriods) => {
 
     population.push({
       periods: timePeriods,
-      excessPvEnergyUse: Math.round(Math.random()),
+      excessPvEnergyUse: excessPvEnergyUse,
     })
   }
   return population
@@ -234,6 +233,7 @@ const calculateBatteryChargingStrategy = (config) => {
     batteryMaxEnergy,
     batteryMaxInputPower,
     soc,
+    excessPvEnergyUse,
   } = config
 
   const input = mergeInput(config)
@@ -249,13 +249,18 @@ const calculateBatteryChargingStrategy = (config) => {
     soc,
   })
   const geneticAlgorithm = geneticAlgorithmConstructor({
-    mutationFunction: mutationFunction(totalDuration, mutationRate),
+    mutationFunction: mutationFunction(
+      totalDuration,
+      mutationRate,
+      excessPvEnergyUse
+    ),
     crossoverFunction: crossoverFunction(totalDuration),
     fitnessFunction: f,
     population: generatePopulation(
       totalDuration,
       populationSize,
-      numberOfPricePeriods
+      numberOfPricePeriods,
+      excessPvEnergyUse
     ),
   })
 
