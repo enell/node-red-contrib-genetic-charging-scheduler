@@ -1,5 +1,5 @@
 const geneticAlgorithmConstructor = require('geneticalgorithm')
-const { fitnessFunction } = require('./fitness')
+const { fitnessFunction, fillInNormalPeriodsGenerator } = require('./fitness')
 
 const random = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min
@@ -138,54 +138,40 @@ const generatePopulation = (
   return population
 }
 
-const toSchedule = (p, start) => {
+const toSchedule = (p, start, totalDuration) => {
   const addMinutes = (date, minutes) => {
     return new Date(date.getTime() + minutes * 60000)
   }
 
-  const schedule = []
-  p.forEach((g) => {
-    if (g.duration > 0) {
-      if (
-        schedule.length > 0 &&
-        g.activity === schedule[schedule.length - 1].activity
-      ) {
-        schedule[schedule.length - 1].duration += g.duration
-      } else {
-        let emptyPeriodStart = new Date(start)
-        if (schedule.length > 0) {
-          emptyPeriodStart = addMinutes(
-            schedule[schedule.length - 1].start,
-            schedule[schedule.length - 1].duration
-          )
-        }
-        schedule.push({
-          start: emptyPeriodStart,
-          activity: 0,
-          name: 'none',
-        })
-
-        let periodStart = new Date(start)
-        periodStart = addMinutes(periodStart, g.start)
-        const name = g.activity === 1 ? 'charging' : 'discharging'
-        schedule.push({
-          start: periodStart,
-          activity: g.activity,
-          duration: g.duration,
-          name,
-        })
-      }
+  const activityToName = (activity) => {
+    switch (activity) {
+      case -1:
+        return 'discharging'
+      case 1:
+        return 'charging'
+      default:
+        return 'idle'
     }
-  })
-
-  let emptyPeriodStart = new Date(start)
-  if (schedule.length > 0) {
-    emptyPeriodStart = addMinutes(
-      schedule[schedule.length - 1].start,
-      schedule[schedule.length - 1].duration
-    )
   }
-  schedule.push({ start: emptyPeriodStart, activity: 0, name: 'none' })
+
+  const schedule = []
+
+  for (const period of fillInNormalPeriodsGenerator(totalDuration, p)) {
+    if (period.duration <= 0) {
+      continue
+    }
+    let periodStart = new Date(start)
+    if (schedule.length && period.activity === schedule.at(-1).activity) {
+      schedule[schedule.length - 1].duration += period.duration
+    } else {
+      schedule.push({
+        start: addMinutes(periodStart, period.start),
+        activity: period.activity,
+        duration: period.duration,
+        name: activityToName(period.activity),
+      })
+    }
+  }
 
   return schedule
 }
@@ -272,12 +258,12 @@ const calculateBatteryChargingStrategy = (config) => {
   const noBattery = { periods: [], excessPvEnergyUse: 0 }
   return {
     best: {
-      schedule: toSchedule(best.periods, input[0].start),
+      schedule: toSchedule(best.periods, input[0].start, totalDuration),
       excessPvEnergyUse: best.excessPvEnergyUse,
       cost: f(best) * -1,
     },
     noBattery: {
-      schedule: toSchedule(noBattery.periods, input[0].start),
+      schedule: toSchedule(noBattery.periods, input[0].start, totalDuration),
       excessPvEnergyUse: noBattery.excessPvEnergyUse,
       cost: f(noBattery) * -1,
     },

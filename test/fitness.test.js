@@ -44,35 +44,23 @@ describe('Fitness - splitIntoHourIntervals', () => {
 describe('Fitness - fillInNormalPeriods', () => {
   test('should test fillInNormalPeriods empty', () => {
     expect(fillInNormalPeriods(300, [])).toMatchObject([
-      { start: 0, duration: 60, activity: 0 },
-      { start: 60, duration: 60, activity: 0 },
-      { start: 120, duration: 60, activity: 0 },
-      { start: 180, duration: 60, activity: 0 },
-      { start: 240, duration: 60, activity: 0 },
+      { start: 0, duration: 300, activity: 0 },
     ])
   })
 
   test('should test fillInNormalPeriods one activity', () => {
     expect(
       fillInNormalPeriods(300, [{ start: 0, duration: 300, activity: 1 }])
-    ).toMatchObject([
-      { start: 0, duration: 60, activity: 1 },
-      { start: 60, duration: 60, activity: 1 },
-      { start: 120, duration: 60, activity: 1 },
-      { start: 180, duration: 60, activity: 1 },
-      { start: 240, duration: 60, activity: 1 },
-    ])
+    ).toMatchObject([{ start: 0, duration: 300, activity: 1 }])
   })
 
   test('should test fillInNormalPeriods one in the middle', () => {
     expect(
       fillInNormalPeriods(300, [{ start: 120, duration: 60, activity: 1 }])
     ).toMatchObject([
-      { start: 0, duration: 60, activity: 0 },
-      { start: 60, duration: 60, activity: 0 },
+      { start: 0, duration: 120, activity: 0 },
       { start: 120, duration: 60, activity: 1 },
-      { start: 180, duration: 60, activity: 0 },
-      { start: 240, duration: 60, activity: 0 },
+      { start: 180, duration: 120, activity: 0 },
     ])
   })
 
@@ -80,13 +68,9 @@ describe('Fitness - fillInNormalPeriods', () => {
     expect(
       fillInNormalPeriods(300, [{ start: 100, duration: 100, activity: 1 }])
     ).toMatchObject([
-      { start: 0, duration: 60, activity: 0 },
-      { start: 60, duration: 40, activity: 0 },
-      { start: 100, duration: 20, activity: 1 },
-      { start: 120, duration: 60, activity: 1 },
-      { start: 180, duration: 20, activity: 1 },
-      { start: 200, duration: 40, activity: 0 },
-      { start: 240, duration: 60, activity: 0 },
+      { start: 0, duration: 100, activity: 0 },
+      { start: 100, duration: 100, activity: 1 },
+      { start: 200, duration: 100, activity: 0 },
     ])
   })
 
@@ -97,15 +81,11 @@ describe('Fitness - fillInNormalPeriods', () => {
         { start: 160, activity: -1, duration: 30 },
       ])
     ).toMatchObject([
-      { start: 0, duration: 60, activity: 0 },
-      { start: 60, duration: 10, activity: 0 },
-      { start: 70, duration: 50, activity: 1 },
-      { start: 120, duration: 30, activity: 1 },
+      { start: 0, duration: 70, activity: 0 },
+      { start: 70, duration: 80, activity: 1 },
       { start: 150, duration: 10, activity: 0 },
-      { start: 160, duration: 20, activity: -1 },
-      { start: 180, duration: 10, activity: -1 },
-      { start: 190, duration: 50, activity: 0 },
-      { start: 240, duration: 60, activity: 0 },
+      { start: 160, duration: 30, activity: -1 },
+      { start: 190, duration: 110, activity: 0 },
     ])
   })
 })

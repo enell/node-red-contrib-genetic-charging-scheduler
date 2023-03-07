@@ -83,6 +83,7 @@ describe('Calculate', () => {
     const averageConsumption = 1.5 // kW
     const averageProduction = 0 // kW
     const soc = 0
+    const excessPvEnergyUse = 0
 
     const config = {
       priceData,
@@ -98,6 +99,7 @@ describe('Calculate', () => {
       productionForecast,
       consumptionForecast,
       soc,
+      excessPvEnergyUse,
     }
     const strategy = calculateBatteryChargingStrategy(config)
     const bestSchedule = strategy.best.schedule
@@ -114,7 +116,7 @@ describe('Calculate', () => {
     expect(bestSchedule[2]).toMatchObject({
       activity: 0,
     })
-    expect(strategy.best.excessPvEnergyUse).toEqual(0)
+    expect(strategy.best.excessPvEnergyUse).toEqual(excessPvEnergyUse)
 
     console.log(`best: ${strategy.best.cost}`)
     console.log(`no battery: ${strategy.noBattery.cost}`)
