@@ -20,7 +20,7 @@ describe('Crossover', () => {
   mockRandomForEach(0.4)
 
   test('should perform a crossover', () => {
-    const crossover = crossoverFunction(120)
+    const crossover = crossoverFunction({ totalDuration: 120 })
 
     const p = crossover(
       {
@@ -117,6 +117,8 @@ describe('Calculate', () => {
       activity: 0,
     })
     expect(strategy.best.excessPvEnergyUse).toEqual(excessPvEnergyUse)
+    expect(strategy.best.cost).not.toBeNull()
+    expect(strategy.best.cost).not.toBeNaN()
 
     console.log(`best: ${strategy.best.cost}`)
     console.log(`no battery: ${strategy.noBattery.cost}`)

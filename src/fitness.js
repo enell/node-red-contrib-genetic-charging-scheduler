@@ -28,14 +28,30 @@ const calculateNormalPeriod = (g1, g2) => {
   }
 }
 
-function* fillInNormalPeriodsGenerator(totalDuration, p) {
+function* allPeriodsGenerator(props, excessPvEnergyUse, p) {
+  const { batteryMaxEnergy, soc, totalDuration } = props
+  let currentCharge = soc * batteryMaxEnergy
+
+  const addCosts = (period) => {
+    const score = calculatePeriodScore(
+      props,
+      period,
+      excessPvEnergyUse,
+      currentCharge
+    )
+    currentCharge += score[1]
+    period.cost = score[0]
+    period.charge = score[1]
+    return period
+  }
+
   for (let i = 0; i < p.length; i += 1) {
     const normalPeriod = calculateNormalPeriod(
       p[i - 1] ?? { start: 0, duration: 0 },
       p[i]
     )
-    if (normalPeriod.duration > 0) yield normalPeriod
-    yield p[i]
+    if (normalPeriod.duration > 0) yield addCosts(normalPeriod)
+    yield addCosts(p[i])
   }
 
   const normalPeriod = calculateNormalPeriod(
@@ -44,11 +60,11 @@ function* fillInNormalPeriodsGenerator(totalDuration, p) {
       start: totalDuration,
     }
   )
-  if (normalPeriod.duration > 0) yield normalPeriod
+  if (normalPeriod.duration > 0) yield addCosts(normalPeriod)
 }
 
-const fillInNormalPeriods = (totalDuration, p) => {
-  return [...fillInNormalPeriodsGenerator(totalDuration, p)]
+const allPeriods = (props, excessPvEnergyUse, p) => {
+  return [...allPeriodsGenerator(props, excessPvEnergyUse, p)]
 }
 
 const FEED_TO_GRID = 0
@@ -141,18 +157,30 @@ const calculateIntervalScore = (props) => {
   }
 }
 
-const calculatePeriodScore = (props, period, _currentCharge) => {
-  const { input, batteryMaxEnergy, batteryMaxInputPower, excessPvEnergyUse } =
-    props
+const calculatePeriodScore = (
+  props,
+  period,
+  excessPvEnergyUse,
+  _currentCharge
+) => {
+  const {
+    input,
+    batteryMaxEnergy,
+    batteryMaxInputPower,
+    batteryMaxOutputPower,
+  } = props
   let cost = 0
   let currentCharge = _currentCharge
   for (const interval of splitIntoHourIntervals(period)) {
     const duration = interval.duration / 60
     const maxCharge = Math.min(
-      batteryMaxInputPower,
+      batteryMaxInputPower * duration,
       batteryMaxEnergy - currentCharge
     )
-    const maxDischarge = Math.min(batteryMaxInputPower, currentCharge)
+    const maxDischarge = Math.min(
+      batteryMaxOutputPower * duration,
+      currentCharge
+    )
     const { importPrice, exportPrice, consumption, production } =
       input[Math.floor(interval.start / 60)]
 
@@ -173,18 +201,14 @@ const calculatePeriodScore = (props, period, _currentCharge) => {
 }
 
 const fitnessFunction = (props) => (phenotype) => {
-  const { totalDuration, batteryMaxEnergy, soc } = props
-
   let cost = 0
-  let currentCharge = soc * batteryMaxEnergy
 
-  for (const period of fillInNormalPeriodsGenerator(
-    totalDuration,
+  for (const period of allPeriodsGenerator(
+    props,
+    phenotype.excessPvEnergyUse,
     phenotype.periods
   )) {
-    const score = calculatePeriodScore(props, period, currentCharge)
-    cost -= score[0]
-    currentCharge += score[1]
+    cost -= period.cost
   }
 
   return cost
@@ -193,8 +217,9 @@ const fitnessFunction = (props) => (phenotype) => {
 module.exports = {
   fitnessFunction,
   splitIntoHourIntervals,
-  fillInNormalPeriodsGenerator,
-  fillInNormalPeriods,
+  allPeriodsGenerator,
+  allPeriods,
+  calculatePeriodScore,
   calculateDischargeScore,
   calculateChargeScore,
   calculateNormalScore,

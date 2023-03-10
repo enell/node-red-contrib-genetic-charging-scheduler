@@ -14,7 +14,6 @@ const node = (RED) => {
         generations,
         mutationRate,
         batteryMaxEnergy,
-        batteryMaxOutputPower,
         batteryMaxInputPower,
         averageConsumption,
       } = config
@@ -34,7 +33,7 @@ const node = (RED) => {
           generations,
           mutationRate: mutationRate / 100,
           batteryMaxEnergy,
-          batteryMaxOutputPower,
+          batteryMaxOutputPower: batteryMaxInputPower,
           batteryMaxInputPower,
           averageConsumption,
           consumptionForecast,

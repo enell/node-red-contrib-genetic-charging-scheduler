@@ -7,7 +7,7 @@ describe('Mutation', () => {
   mockRandomForEach(0.4)
 
   test('should mutate', () => {
-    const mutate = mutationFunction(120, 1, 0)
+    const mutate = mutationFunction({ totalDuration: 120, mutationRate: 1 })
 
     const p = mutate({
       periods: [
@@ -19,8 +19,8 @@ describe('Mutation', () => {
 
     expect(p).toMatchObject({
       periods: [
-        { start: 0, activity: -1, duration: 4 },
-        { start: 84, activity: 1, duration: 10 },
+        { start: 0, activity: -1, duration: 5 },
+        { start: 85, activity: 1, duration: 10 },
       ],
       excessPvEnergyUse: 0,
     })
