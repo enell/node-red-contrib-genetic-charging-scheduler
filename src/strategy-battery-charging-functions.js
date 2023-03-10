@@ -1,9 +1,6 @@
+const geneticalgorithm = require('geneticalgorithm')
 const geneticAlgorithmConstructor = require('geneticalgorithm')
-const {
-  fitnessFunction,
-  allPeriodsGenerator,
-  calculatePeriodScore,
-} = require('./fitness')
+const { fitnessFunction, allPeriodsGenerator } = require('./fitness')
 
 const random = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min
@@ -15,13 +12,7 @@ const clamp = (num, min, max) => {
 
 const repair = (phenotype, totalDuration) => {
   const trimGene = (gene) => {
-    if (gene.start < 0) {
-      gene.duration += Math.max(gene.start, gene.duration * -1)
-      gene.start = 0
-    }
-    if (gene.start > totalDuration) {
-      gene.start = totalDuration - 1
-    }
+    gene.start = clamp(gene.start, 0, totalDuration - 1)
     gene.duration = clamp(gene.duration, 0, totalDuration - gene.start)
   }
 
@@ -38,7 +29,7 @@ const repair = (phenotype, totalDuration) => {
       const adjustment = (diff / 2) * -1
       g1.duration -= clamp(Math.ceil(adjustment), 0, g1.duration)
       g2.start += Math.floor(adjustment)
-      g2.duration -= clamp(Math.ceil(adjustment), 0, g2.duration)
+      g2.duration -= clamp(Math.floor(adjustment), 0, g2.duration)
     }
   }
   return p
@@ -167,16 +158,12 @@ const toSchedule = (props, phenotype) => {
   const schedule = []
   //props, totalDuration, excessPvEnergyUse, p
   const periodStart = new Date(input[0].start)
-  for (const period of allPeriodsGenerator(
-    props,
-    phenotype.excessPvEnergyUse,
-    phenotype.periods
-  )) {
+  for (const period of allPeriodsGenerator(props, phenotype)) {
     if (period.duration <= 0) {
       continue
     }
 
-    if (schedule.length && period.activity === schedule.at(-1).activity) {
+    if (schedule.length && period.activity == schedule.at(-1).activity) {
       schedule.at(-1).duration += period.duration
       schedule.at(-1).cost += period.cost
       schedule.at(-1).charge += period.charge
@@ -241,13 +228,14 @@ const calculateBatteryChargingStrategy = (config) => {
     totalDuration: input.length * 60,
   }
 
-  const f = fitnessFunction(props)
-  const geneticAlgorithm = geneticAlgorithmConstructor({
+  const options = {
     mutationFunction: mutationFunction(props),
     crossoverFunction: crossoverFunction(props),
-    fitnessFunction: f,
+    fitnessFunction: fitnessFunction(props),
     population: generatePopulation(props),
-  })
+  }
+
+  const geneticAlgorithm = geneticAlgorithmConstructor(options)
 
   for (let i = 0; i < generations; i += 1) {
     geneticAlgorithm.evolve()
@@ -259,18 +247,19 @@ const calculateBatteryChargingStrategy = (config) => {
     best: {
       schedule: toSchedule(props, best),
       excessPvEnergyUse: best.excessPvEnergyUse,
-      cost: f(best) * -1,
+      cost: options.fitnessFunction(best) * -1,
     },
     noBattery: {
       schedule: toSchedule(props, noBattery),
       excessPvEnergyUse: noBattery.excessPvEnergyUse,
-      cost: f(noBattery) * -1,
+      cost: options.fitnessFunction(noBattery) * -1,
     },
   }
 }
 
 module.exports = {
   clamp,
+  repair,
   crossoverFunction,
   mutationFunction,
   fitnessFunction,

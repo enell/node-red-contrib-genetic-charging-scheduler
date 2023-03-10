@@ -28,8 +28,9 @@ const calculateNormalPeriod = (g1, g2) => {
   }
 }
 
-function* allPeriodsGenerator(props, excessPvEnergyUse, p) {
+function* allPeriodsGenerator(props, phenotype) {
   const { batteryMaxEnergy, soc, totalDuration } = props
+  const { excessPvEnergyUse, periods } = phenotype
   let currentCharge = soc * batteryMaxEnergy
 
   const addCosts = (period) => {
@@ -45,17 +46,17 @@ function* allPeriodsGenerator(props, excessPvEnergyUse, p) {
     return period
   }
 
-  for (let i = 0; i < p.length; i += 1) {
+  for (let i = 0; i < periods.length; i += 1) {
     const normalPeriod = calculateNormalPeriod(
-      p[i - 1] ?? { start: 0, duration: 0 },
-      p[i]
+      periods[i - 1] ?? { start: 0, duration: 0 },
+      periods[i]
     )
     if (normalPeriod.duration > 0) yield addCosts(normalPeriod)
-    yield addCosts(p[i])
+    yield addCosts(periods[i])
   }
 
   const normalPeriod = calculateNormalPeriod(
-    p.at(-1) ?? { start: 0, duration: 0 },
+    periods.at(-1) ?? { start: 0, duration: 0 },
     {
       start: totalDuration,
     }
@@ -63,8 +64,8 @@ function* allPeriodsGenerator(props, excessPvEnergyUse, p) {
   if (normalPeriod.duration > 0) yield addCosts(normalPeriod)
 }
 
-const allPeriods = (props, excessPvEnergyUse, p) => {
-  return [...allPeriodsGenerator(props, excessPvEnergyUse, p)]
+const allPeriods = (props, phenotype) => {
+  return [...allPeriodsGenerator(props, phenotype)]
 }
 
 const FEED_TO_GRID = 0
@@ -203,11 +204,7 @@ const calculatePeriodScore = (
 const fitnessFunction = (props) => (phenotype) => {
   let cost = 0
 
-  for (const period of allPeriodsGenerator(
-    props,
-    phenotype.excessPvEnergyUse,
-    phenotype.periods
-  )) {
+  for (const period of allPeriodsGenerator(props, phenotype)) {
     cost -= period.cost
   }
 

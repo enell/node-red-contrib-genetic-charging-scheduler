@@ -1,7 +1,8 @@
-const { expect } = require('@jest/globals')
+const { expect, describe, it } = require('@jest/globals')
 const { mockRandomForEach } = require('jest-mock-random')
 const {
   clamp,
+  repair,
   calculateBatteryChargingStrategy,
   crossoverFunction,
 } = require('../src/strategy-battery-charging-functions')
@@ -161,5 +162,139 @@ describe('Calculate', () => {
         }
         return total
       }, [])
+  })
+})
+
+describe('Repair', () => {
+  it('Repair - one valid gene', () => {
+    const p = [{ start: 5, duration: 10 }]
+    expect(repair(p, 20)).toEqual(p)
+  })
+
+  it('Repair - one valid gene filling all', () => {
+    const p = [{ start: 0, duration: 10 }]
+    expect(repair(p, 10)).toEqual(p)
+  })
+
+  it('Repair - two valid genes', () => {
+    const p = [
+      { start: 5, duration: 10 },
+      { start: 20, duration: 10 },
+    ]
+    expect(repair(p, 50)).toEqual(p)
+  })
+
+  it('Repair - two valid genes in wrong order', () => {
+    const p = [
+      { start: 20, duration: 10 },
+      { start: 5, duration: 10 },
+    ]
+    expect(repair(p, 50)).toEqual([
+      { start: 5, duration: 10 },
+      { start: 20, duration: 10 },
+    ])
+  })
+
+  it('Repair - two genes next to each other', () => {
+    const p = [
+      { start: 5, duration: 10 },
+      { start: 15, duration: 10 },
+    ]
+    expect(repair(p, 50)).toEqual([
+      { start: 5, duration: 10 },
+      { start: 15, duration: 10 },
+    ])
+  })
+
+  it('Repair - two genes just crossing', () => {
+    const p = [
+      { start: 5, duration: 10 },
+      { start: 14, duration: 10 },
+    ]
+    expect(repair(p, 50)).toEqual([
+      { start: 5, duration: 9 },
+      { start: 14, duration: 10 },
+    ])
+  })
+
+  it('Repair - two genes crossing', () => {
+    const p = [
+      { start: 5, duration: 10 },
+      { start: 10, duration: 10 },
+    ]
+    expect(repair(p, 50)).toEqual([
+      { start: 5, duration: 7 },
+      { start: 12, duration: 8 },
+    ])
+  })
+
+  it('Repair - three genes crossing', () => {
+    const p = [
+      { start: 5, duration: 10 },
+      { start: 10, duration: 10 },
+      { start: 16, duration: 10 },
+    ]
+    expect(repair(p, 50)).toEqual([
+      { start: 5, duration: 7 },
+      { start: 12, duration: 6 },
+      { start: 18, duration: 8 },
+    ])
+  })
+
+  it('Repair - two genes completely overlapping', () => {
+    const p = [
+      { start: 5, duration: 10 },
+      { start: 5, duration: 10 },
+    ]
+    expect(repair(p, 50)).toEqual([
+      { start: 5, duration: 5 },
+      { start: 10, duration: 5 },
+    ])
+  })
+
+  it('Repair - three genes completely overlapping', () => {
+    const p = [
+      { start: 5, duration: 10 },
+      { start: 5, duration: 10 },
+      { start: 5, duration: 10 },
+    ]
+    expect(repair(p, 50)).toEqual([
+      { start: 5, duration: 5 },
+      { start: 10, duration: 0 },
+      { start: 10, duration: 5 },
+    ])
+  })
+
+  it('Repair - start lower than 0', () => {
+    const p = [
+      { start: -5, duration: 10 },
+      { start: 20, duration: 10 },
+    ]
+    expect(repair(p, 50)).toEqual([
+      { start: 0, duration: 10 },
+      { start: 20, duration: 10 },
+    ])
+  })
+
+  it('Repair - duration higher than max', () => {
+    const p = [
+      { start: 0, duration: 10 },
+      { start: 45, duration: 10 },
+    ]
+    expect(repair(p, 50)).toEqual([
+      { start: 0, duration: 10 },
+      { start: 45, duration: 5 },
+    ])
+  })
+
+  it('Repair - start higher than max', () => {
+    const p = [
+      { start: 0, duration: 10 },
+      { start: 55, duration: 10 },
+    ]
+    expect(repair(p, 50)).toEqual([
+      { start: 0, duration: 10 },
+      { start: 49, duration: 1 },
+    ])
   })
 })
