@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1683320714431,
+  "lastUpdate": 1683320735069,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -527,6 +527,37 @@ window.BENCHMARK_DATA = {
             "range": "±2.97%",
             "unit": "ops/sec",
             "extra": "11 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a233454dec7cf9278bda541299f848799210496c",
+          "message": "chore(deps): update jest monorepo to v29.5.0 (#28)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2023-05-05T23:05:00+02:00",
+          "tree_id": "3591ac0a31453f2611b62ba553c7825cfec8b319",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/a233454dec7cf9278bda541299f848799210496c"
+        },
+        "date": 1683320733266,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 3.1,
+            "range": "±1.81%",
+            "unit": "ops/sec",
+            "extra": "12 samples"
           }
         ]
       }
