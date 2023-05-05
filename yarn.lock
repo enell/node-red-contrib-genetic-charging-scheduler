@@ -7258,8 +7258,8 @@ __metadata:
   linkType: soft
 
 "node-red-node-test-helper@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "node-red-node-test-helper@npm:0.3.0"
+  version: 0.3.1
+  resolution: "node-red-node-test-helper@npm:0.3.1"
   dependencies:
     body-parser: 1.20.0
     express: 4.18.1
@@ -7270,7 +7270,7 @@ __metadata:
     sinon: 11.1.2
     stoppable: 1.1.0
     supertest: 6.2.3
-  checksum: 05ddd043bb2a0acb78778b481720144c6a8d14332227a1f4a94da8bd17d6b782e741667c440eed8de8d1e69d975e4df81bfee34b9a44f90d0a6ed70c087de5cd
+  checksum: 92608922f3189c8e099f80fe7e97446a172d41081e043caae0973338dbcd26349afe4532a70c752caa5be428f25df76aa0635af3a005d03f6f8c10a0d693b545
   languageName: node
   linkType: hard
 
