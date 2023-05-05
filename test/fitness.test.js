@@ -96,20 +96,26 @@ describe('Fitness - splitIntoHourIntervals', () => {
 
 describe('Fitness - allPeriods', () => {
   test('should test allPeriods empty', () => {
-    expect(allPeriods(props, 0, [])).toMatchObject([
-      { start: 0, duration: 300, activity: 0 },
-    ])
+    expect(
+      allPeriods(props, { excessPvEnergyUse: 0, periods: [] })
+    ).toMatchObject([{ start: 0, duration: 300, activity: 0 }])
   })
 
   test('should test allPeriods one activity', () => {
     expect(
-      allPeriods(props, 0, [{ start: 0, duration: 300, activity: 1 }])
+      allPeriods(props, {
+        excessPvEnergyUse: 0,
+        periods: [{ start: 0, duration: 300, activity: 1 }],
+      })
     ).toMatchObject([{ start: 0, duration: 300, activity: 1 }])
   })
 
   test('should test allPeriods one in the middle', () => {
     expect(
-      allPeriods(props, 0, [{ start: 120, duration: 60, activity: 1 }])
+      allPeriods(props, {
+        excessPvEnergyUse: 0,
+        periods: [{ start: 120, duration: 60, activity: 1 }],
+      })
     ).toMatchObject([
       { start: 0, duration: 120, activity: 0 },
       { start: 120, duration: 60, activity: 1 },
@@ -119,7 +125,10 @@ describe('Fitness - allPeriods', () => {
 
   test('should test allPeriods one long activity', () => {
     expect(
-      allPeriods(props, 0, [{ start: 100, duration: 100, activity: 1 }])
+      allPeriods(props, {
+        excessPvEnergyUse: 0,
+        periods: [{ start: 100, duration: 100, activity: 1 }],
+      })
     ).toMatchObject([
       { start: 0, duration: 100, activity: 0 },
       { start: 100, duration: 100, activity: 1 },
@@ -129,10 +138,13 @@ describe('Fitness - allPeriods', () => {
 
   test('should test allPeriods two activities', () => {
     expect(
-      allPeriods(props, 0, [
-        { start: 70, activity: 1, duration: 80 },
-        { start: 160, activity: -1, duration: 30 },
-      ])
+      allPeriods(props, {
+        excessPvEnergyUse: 0,
+        periods: [
+          { start: 70, activity: 1, duration: 80 },
+          { start: 160, activity: -1, duration: 30 },
+        ],
+      })
     ).toMatchObject([
       { start: 0, duration: 70, activity: 0 },
       { start: 70, duration: 80, activity: 1 },

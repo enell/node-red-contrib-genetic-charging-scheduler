@@ -19,7 +19,7 @@ describe('Mutation', () => {
 
     expect(p).toMatchObject({
       periods: [
-        { start: 0, activity: -1, duration: 5 },
+        { start: 0, activity: -1, duration: 10 },
         { start: 85, activity: 1, duration: 10 },
       ],
       excessPvEnergyUse: 0,
