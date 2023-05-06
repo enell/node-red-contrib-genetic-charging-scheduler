@@ -102,6 +102,25 @@ const calculateDischargeScore = (props) => {
   return [cost, charge]
 }
 
+const calculateForceDischargeScore = (props) => {
+  const {
+    exportPrice,
+    importPrice,
+    consumption,
+    production,
+    maxDischarge,
+  } = props
+
+  const consumedFromProduction = Math.min(consumption, production)
+  const soldFromProduction = production - consumedFromProduction
+  const soldFromBattery = maxDischarge
+  const consumedFromGrid = consumption - consumedFromProduction
+
+  let cost = consumedFromGrid * importPrice - (soldFromProduction + soldFromBattery) * exportPrice
+
+  return [cost, soldFromBattery]
+}
+
 const calculateNormalScore = (props) => {
   const {
     exportPrice,
@@ -149,6 +168,8 @@ const calculateChargeScore = (props) => {
 
 const calculateIntervalScore = (props) => {
   switch (props.activity) {
+    case -2:
+      return calculateForceDischargeScore(props)
     case -1:
       return calculateDischargeScore(props)
     case 1:
