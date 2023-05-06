@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1683324169021,
+  "lastUpdate": 1683407494537,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -682,6 +682,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.33%",
             "unit": "ops/sec",
             "extra": "86 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "johan.enell@qlik.com",
+            "name": "Johan Enell",
+            "username": "enell"
+          },
+          "committer": {
+            "email": "johan.enell@qlik.com",
+            "name": "Johan Enell",
+            "username": "enell"
+          },
+          "distinct": true,
+          "id": "58cd5978143d4c4feb5395392e114f311894ed3b",
+          "message": "ci: removed old renovate config",
+          "timestamp": "2023-05-06T23:10:46+02:00",
+          "tree_id": "688b8e072f2530810056981a08aca4a95ed0cd58",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/58cd5978143d4c4feb5395392e114f311894ed3b"
+        },
+        "date": 1683407492673,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 645638,
+            "range": "±1.40%",
+            "unit": "ops/sec",
+            "extra": "95 samples"
           }
         ]
       }
