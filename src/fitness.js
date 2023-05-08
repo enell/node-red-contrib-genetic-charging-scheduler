@@ -118,7 +118,7 @@ const calculateForceDischargeScore = (props) => {
 
   let cost = consumedFromGrid * importPrice - (soldFromProduction + soldFromBattery) * exportPrice
 
-  return [cost, soldFromBattery]
+  return [cost, -soldFromBattery]
 }
 
 const calculateNormalScore = (props) => {
@@ -241,4 +241,5 @@ module.exports = {
   calculateDischargeScore,
   calculateChargeScore,
   calculateNormalScore,
+  calculateForceDischargeScore,
 }

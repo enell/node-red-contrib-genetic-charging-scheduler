@@ -7,6 +7,7 @@ const {
   calculateDischargeScore,
   calculateChargeScore,
   calculateNormalScore,
+  calculateForceDischargeScore,
 } = require('../src/fitness')
 
 let props
@@ -156,6 +157,45 @@ describe('Fitness - allPeriods', () => {
 })
 
 describe('Fitness - calculateScore', () => {
+
+  describe('Fitness - calculateForceDischargeScore', () => {
+    test('should discharge full hour, full battery', () => {
+      expect(
+        calculateForceDischargeScore({
+          importPrice: 2,
+          exportPrice: 2,
+          consumption: 1,
+          production: 0,
+          maxDischarge: 1,
+        })
+      ).toEqual([0, -1])
+    })
+
+    test('should discharge full hour, full battery, production', () => {
+      expect(
+        calculateForceDischargeScore({
+          importPrice: 2,
+          exportPrice: 2,
+          consumption: 1,
+          production: 1,
+          maxDischarge: 1,
+        })
+      ).toEqual([-2, -1])
+    })
+
+    test('should discharge full hour, full battery, no consumption', () => {
+      expect(
+        calculateForceDischargeScore({
+          importPrice: 2,
+          exportPrice: 2,
+          consumption: 0,
+          production: 1,
+          maxDischarge: 1,
+        })
+      ).toEqual([-4, -1])
+    })
+  })
+
   describe('Fitness - calculateDischargeScore', () => {
     test('should discharge full hour, full battery', () => {
       expect(
@@ -364,7 +404,7 @@ describe('Fitness - calculateScore', () => {
   })
 
   describe('Fitness - calculatePeriodScore', () => {
-    test('shod not charge faster than max input power', () => {
+    test('should not charge faster than max input power', () => {
       const period = { start: 0, duration: 1, activity: 1 }
       const currentCharge = 0
       const excessPvEnergyUse = 0
@@ -380,7 +420,7 @@ describe('Fitness - calculateScore', () => {
       expect(score[1]).toBeCloseTo(1 / 60)
     })
 
-    test('shod not discharge faster than max output power', () => {
+    test('should not discharge faster than max output power', () => {
       const period = { start: 0, duration: 1, activity: -1 }
       const currentCharge = 100
       const excessPvEnergyUse = 0
@@ -395,6 +435,22 @@ describe('Fitness - calculateScore', () => {
       expect(score[0]).toBeCloseTo(0)
       expect(score[1]).toBeCloseTo((1 / 60) * -1)
     })
+  })
+
+  test('should not force discharge faster than max output power', () => {
+    const period = { start: 0, duration: 1, activity: -2}
+    const currentCharge = 100
+    const excessPvEnergyUse = 0
+    const score = calculatePeriodScore(
+      props,
+      period,
+      excessPvEnergyUse,
+      currentCharge
+    )
+    const dischargeSpeed = (score[1] / (1 / 60)) * -1
+    expect(dischargeSpeed).toBeCloseTo(props.batteryMaxOutputPower)
+    expect(score[0]).toBeCloseTo(0)
+    expect(score[1]).toBeCloseTo((1 / 60) * -1)
   })
 })
 
