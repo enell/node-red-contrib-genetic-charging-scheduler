@@ -203,8 +203,13 @@ const calculatePeriodScore = (
 
 const fitnessFunction = (props) => (phenotype) => {
   let cost = 0
+  let averagePrice = props.input.reduce((acc, cur) => acc + cur.importPrice, 0) / props.input.length
 
   for (const period of allPeriodsGenerator(props, phenotype)) {
+    let periodScore = period.cost
+    if (period.activity != 0 && period.charge == 0) {
+      periodScore += averagePrice * period.duration / 60
+    }
     cost -= period.cost
   }
 
