@@ -1,6 +1,5 @@
-const geneticalgorithm = require('geneticalgorithm')
 const geneticAlgorithmConstructor = require('geneticalgorithm')
-const { fitnessFunction, allPeriodsGenerator } = require('./fitness')
+const { fitnessFunction, allPeriodsGenerator, allPeriods, cost } = require('./fitness')
 
 const random = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min
@@ -247,12 +246,12 @@ const calculateBatteryChargingStrategy = (config) => {
     best: {
       schedule: toSchedule(props, best),
       excessPvEnergyUse: best.excessPvEnergyUse,
-      cost: options.fitnessFunction(best) * -1,
+      cost: cost(allPeriods(props, best))
     },
     noBattery: {
       schedule: toSchedule(props, noBattery),
       excessPvEnergyUse: noBattery.excessPvEnergyUse,
-      cost: options.fitnessFunction(noBattery) * -1,
+      cost: cost(allPeriods(props, noBattery))
     },
   }
 }
