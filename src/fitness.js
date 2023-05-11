@@ -201,22 +201,25 @@ const calculatePeriodScore = (
   return [cost, currentCharge - _currentCharge]
 }
 
+const cost = (periods) => {
+  return periods.reduce((acc, cur) => acc + cur.cost, 0)
+}
+
 const fitnessFunction = (props) => (phenotype) => {
-  let cost = 0
+  const periods = allPeriods(props, phenotype)
+  let score = -cost(periods)
+
   let averagePrice = props.input.reduce((acc, cur) => acc + cur.importPrice, 0) / props.input.length
+  score -= periods.reduce((acc, cur) => {
+    if (cur.activity != 0 && cur.charge == 0) return acc + cur.duration * averagePrice / 60
+    else return acc
+  }, 0)
 
-  for (const period of allPeriodsGenerator(props, phenotype)) {
-    let periodScore = period.cost
-    if (period.activity != 0 && period.charge == 0) {
-      periodScore += averagePrice * period.duration / 60
-    }
-    cost -= period.cost
-  }
-
-  return cost
+  return score
 }
 
 module.exports = {
+  cost,
   fitnessFunction,
   splitIntoHourIntervals,
   allPeriodsGenerator,

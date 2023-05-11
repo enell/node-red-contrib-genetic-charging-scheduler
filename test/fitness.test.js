@@ -412,9 +412,30 @@ describe('Fitness', () => {
     expect(score).toEqual(-3.5)
   })
 
+  test('should calculate fitness penalty for empty charge', () => {
+    props.totalDuration = 180
+    props.soc = 0
+    const score1 = fitnessFunction(props)({
+      periods: [
+        { start: 0, duration: 180, activity: -1 },
+      ],
+      excessPvEnergyUse: 0,
+    })
+    expect(score1).toEqual(-6)
+
+    props.soc = 1
+    const score2 = fitnessFunction(props)({
+      periods: [
+        { start: 0, duration: 180, activity: 1 },
+      ],
+      excessPvEnergyUse: 0,
+    })
+    expect(score2).toEqual(-6)
+  })
+
   test('should calculate fitness with soc', () => {
     props.totalDuration = 120
-    props.soc = 1
+    props.soc = 0
     const score = fitnessFunction(props)({
       periods: [
         { start: 30, duration: 60, activity: 1 },
@@ -422,7 +443,7 @@ describe('Fitness', () => {
       ],
       excessPvEnergyUse: 0,
     })
-    expect(score).toEqual(-1.5)
+    expect(score).toEqual(-2.5)
   })
 
   test('should calculate 180 min charge period with full battery', () => {
@@ -457,6 +478,6 @@ describe('Fitness', () => {
       periods: [{ start: 0, duration: 180, activity: 1 }],
       excessPvEnergyUse: 0,
     })
-    expect(score).toEqual(-1501.5)
+    expect(score).toEqual(-2502.5)
   })
 })
