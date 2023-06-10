@@ -1723,6 +1723,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@semantic-release/error@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@semantic-release/error@npm:4.0.0"
+  checksum: 01213195ae3b8e2490b0d0db79525f7abbb1cc795494b46b8022f81ab1f24f5eab6232b549528b437cff872a66d36649f2fb4f3b56eba351d947a02cccc81ecc
+  languageName: node
+  linkType: hard
+
 "@semantic-release/github@npm:^9.0.0":
   version: 9.0.0
   resolution: "@semantic-release/github@npm:9.0.0"
@@ -7938,7 +7945,7 @@ __metadata:
     node-red: 3.0.2
     node-red-node-test-helper: 0.3.1
     prettier: 2.8.8
-    semantic-release: 21.0.3
+    semantic-release: 21.0.4
   languageName: unknown
   linkType: soft
 
@@ -9635,12 +9642,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semantic-release@npm:21.0.3":
-  version: 21.0.3
-  resolution: "semantic-release@npm:21.0.3"
+"semantic-release@npm:21.0.4":
+  version: 21.0.4
+  resolution: "semantic-release@npm:21.0.4"
   dependencies:
     "@semantic-release/commit-analyzer": ^10.0.0
-    "@semantic-release/error": ^3.0.0
+    "@semantic-release/error": ^4.0.0
     "@semantic-release/github": ^9.0.0
     "@semantic-release/npm": ^10.0.2
     "@semantic-release/release-notes-generator": ^11.0.0
@@ -9669,7 +9676,7 @@ __metadata:
     yargs: ^17.5.1
   bin:
     semantic-release: bin/semantic-release.js
-  checksum: bbfed3497df4e4066374eca3c0162fbe4f38aa30a26fa402b5044b2d0b4dd17ec9656dd54236ba44835a6456b2d28bd196c8feca95b62cb0fcada2979526110c
+  checksum: bbeabb5d8eea8f840922964f63f3ef6921de4a079dffd507c03404fba842e64457774035836391f706788b507d5f926b60424c20b7e19f81d9677e773e74f08e
   languageName: node
   linkType: hard
 
