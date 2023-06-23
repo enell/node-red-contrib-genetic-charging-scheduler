@@ -7944,15 +7944,15 @@ __metadata:
     jest: 29.5.0
     jest-mock-random: 1.1.1
     node-red: 3.0.2
-    node-red-node-test-helper: 0.3.1
+    node-red-node-test-helper: 0.3.2
     prettier: 2.8.8
     semantic-release: 21.0.5
   languageName: unknown
   linkType: soft
 
-"node-red-node-test-helper@npm:0.3.1":
-  version: 0.3.1
-  resolution: "node-red-node-test-helper@npm:0.3.1"
+"node-red-node-test-helper@npm:0.3.2":
+  version: 0.3.2
+  resolution: "node-red-node-test-helper@npm:0.3.2"
   dependencies:
     body-parser: 1.20.0
     express: 4.18.1
@@ -7963,7 +7963,7 @@ __metadata:
     sinon: 11.1.2
     stoppable: 1.1.0
     supertest: 6.2.3
-  checksum: 92608922f3189c8e099f80fe7e97446a172d41081e043caae0973338dbcd26349afe4532a70c752caa5be428f25df76aa0635af3a005d03f6f8c10a0d693b545
+  checksum: 8bd2d0e3097214c6df676e4ac9a909f4998a9a617b1e173d57130263850cf6d00075a8b761525a60e94f9115c2492c013828897e73701e5e80afdcc4e89eb0fc
   languageName: node
   linkType: hard
 
