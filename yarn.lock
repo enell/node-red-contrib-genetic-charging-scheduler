@@ -56,33 +56,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/compat-data@npm:^7.22.5":
-  version: 7.22.5
-  resolution: "@babel/compat-data@npm:7.22.5"
-  checksum: eb1a47ebf79ae268b4a16903e977be52629339806e248455eb9973897c503a04b701f36a9de64e19750d6e081d0561e77a514c8dc470babbeba59ae94298ed18
+"@babel/compat-data@npm:^7.22.6":
+  version: 7.22.6
+  resolution: "@babel/compat-data@npm:7.22.6"
+  checksum: b88631143a2ebdb75e5bac47984e950983294f1739c2133f32569c6f2fcee85f83634bb6cf4378afb44fa8eb7877d11e48811d1e6a52afa161f82276ffdc3fb4
   languageName: node
   linkType: hard
 
-"@babel/core@npm:7.22.5":
-  version: 7.22.5
-  resolution: "@babel/core@npm:7.22.5"
+"@babel/core@npm:7.22.6":
+  version: 7.22.6
+  resolution: "@babel/core@npm:7.22.6"
   dependencies:
     "@ampproject/remapping": ^2.2.0
     "@babel/code-frame": ^7.22.5
     "@babel/generator": ^7.22.5
-    "@babel/helper-compilation-targets": ^7.22.5
+    "@babel/helper-compilation-targets": ^7.22.6
     "@babel/helper-module-transforms": ^7.22.5
-    "@babel/helpers": ^7.22.5
-    "@babel/parser": ^7.22.5
+    "@babel/helpers": ^7.22.6
+    "@babel/parser": ^7.22.6
     "@babel/template": ^7.22.5
-    "@babel/traverse": ^7.22.5
+    "@babel/traverse": ^7.22.6
     "@babel/types": ^7.22.5
+    "@nicolo-ribaudo/semver-v6": ^6.3.3
     convert-source-map: ^1.7.0
     debug: ^4.1.0
     gensync: ^1.0.0-beta.2
     json5: ^2.2.2
-    semver: ^6.3.0
-  checksum: 173ae426958c90c7bbd7de622c6f13fcab8aef0fac3f138e2d47bc466d1cd1f86f71ca82ae0acb9032fd8794abed8efb56fea55c031396337eaec0d673b69d56
+  checksum: 6113ff87c0b707f9c2216285cd3e0a02088ecee427a75a6f3f865da7db25a4863ceb34950248df6ad86f6dd5c608b0f7220f972533f1cc27ff6a9b4380d6ef2c
   languageName: node
   linkType: hard
 
@@ -159,18 +159,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helper-compilation-targets@npm:^7.22.5":
-  version: 7.22.5
-  resolution: "@babel/helper-compilation-targets@npm:7.22.5"
+"@babel/helper-compilation-targets@npm:^7.22.6":
+  version: 7.22.6
+  resolution: "@babel/helper-compilation-targets@npm:7.22.6"
   dependencies:
-    "@babel/compat-data": ^7.22.5
+    "@babel/compat-data": ^7.22.6
     "@babel/helper-validator-option": ^7.22.5
-    browserslist: ^4.21.3
+    "@nicolo-ribaudo/semver-v6": ^6.3.3
+    browserslist: ^4.21.9
     lru-cache: ^5.1.1
-    semver: ^6.3.0
   peerDependencies:
     "@babel/core": ^7.0.0
-  checksum: a479460615acffa0f4fd0a29b740eafb53a93694265207d23a6038ccd18d183a382cacca515e77b7c9b042c3ba80b0aca0da5f1f62215140e81660d2cf721b68
+  checksum: c7788c48099c4f0edf2adeb367a941a930d39ed7453140ceb10d7114c4091922adf56d3cdd832050fd4501f25e872886390629042ddd365d3bce2ecad69ed394
   languageName: node
   linkType: hard
 
@@ -336,6 +336,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/helper-split-export-declaration@npm:^7.22.6":
+  version: 7.22.6
+  resolution: "@babel/helper-split-export-declaration@npm:7.22.6"
+  dependencies:
+    "@babel/types": ^7.22.5
+  checksum: e141cace583b19d9195f9c2b8e17a3ae913b7ee9b8120246d0f9ca349ca6f03cb2c001fd5ec57488c544347c0bb584afec66c936511e447fd20a360e591ac921
+  languageName: node
+  linkType: hard
+
 "@babel/helper-string-parser@npm:^7.19.4":
   version: 7.19.4
   resolution: "@babel/helper-string-parser@npm:7.19.4"
@@ -396,14 +405,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helpers@npm:^7.22.5":
-  version: 7.22.5
-  resolution: "@babel/helpers@npm:7.22.5"
+"@babel/helpers@npm:^7.22.6":
+  version: 7.22.6
+  resolution: "@babel/helpers@npm:7.22.6"
   dependencies:
     "@babel/template": ^7.22.5
-    "@babel/traverse": ^7.22.5
+    "@babel/traverse": ^7.22.6
     "@babel/types": ^7.22.5
-  checksum: a96e785029dff72f171190943df895ab0f76e17bf3881efd630bc5fae91215042d1c2e9ed730e8e4adf4da6f28b24bd1f54ed93b90ffbca34c197351872a084e
+  checksum: 5c1f33241fe7bf7709868c2105134a0a86dca26a0fbd508af10a89312b1f77ca38ebae43e50be3b208613c5eacca1559618af4ca236f0abc55d294800faeff30
   languageName: node
   linkType: hard
 
@@ -453,6 +462,15 @@ __metadata:
   bin:
     parser: ./bin/babel-parser.js
   checksum: 470ebba516417ce8683b36e2eddd56dcfecb32c54b9bb507e28eb76b30d1c3e618fd0cfeee1f64d8357c2254514e1a19e32885cfb4e73149f4ae875436a6d59c
+  languageName: node
+  linkType: hard
+
+"@babel/parser@npm:^7.22.6":
+  version: 7.22.6
+  resolution: "@babel/parser@npm:7.22.6"
+  bin:
+    parser: ./bin/babel-parser.js
+  checksum: 1f81e2e82a0e931b33ae739d47987ba5d6736d47867df7cb7cab5edd5a908402f27964f1a1b383e8b80512585182187094cc951dbc9bab776a65532e864b3ce7
   languageName: node
   linkType: hard
 
@@ -683,6 +701,24 @@ __metadata:
     debug: ^4.1.0
     globals: ^11.1.0
   checksum: 560931422dc1761f2df723778dcb4e51ce0d02e560cf2caa49822921578f49189a5a7d053b78a32dca33e59be886a6b2200a6e24d4ae9b5086ca0ba803815694
+  languageName: node
+  linkType: hard
+
+"@babel/traverse@npm:^7.22.6":
+  version: 7.22.6
+  resolution: "@babel/traverse@npm:7.22.6"
+  dependencies:
+    "@babel/code-frame": ^7.22.5
+    "@babel/generator": ^7.22.5
+    "@babel/helper-environment-visitor": ^7.22.5
+    "@babel/helper-function-name": ^7.22.5
+    "@babel/helper-hoist-variables": ^7.22.5
+    "@babel/helper-split-export-declaration": ^7.22.6
+    "@babel/parser": ^7.22.6
+    "@babel/types": ^7.22.5
+    debug: ^4.1.0
+    globals: ^11.1.0
+  checksum: e38c6bf31c62b646dab0e90b86ed4fd03ba5be2f14bbdb5370939b9479c477633c33c34efd2ea45f24aa41ac50605cb41d7f1f4281193f79dcf99e999ebe6166
   languageName: node
   linkType: hard
 
@@ -1175,6 +1211,15 @@ __metadata:
   bin:
     node-pre-gyp: bin/node-pre-gyp
   checksum: 1a98db05d955b74dad3814679593df293b9194853698f3f5f1ed00ecd93128cdd4b14fb8767fe44ac6981ef05c23effcfdc88710e7c1de99ccb6f647890597c8
+  languageName: node
+  linkType: hard
+
+"@nicolo-ribaudo/semver-v6@npm:^6.3.3":
+  version: 6.3.3
+  resolution: "@nicolo-ribaudo/semver-v6@npm:6.3.3"
+  bin:
+    semver: bin/semver.js
+  checksum: 8290855b1591477d2298364541fda64fafd4acc110b387067a71c9b05f4105c0a4ac079857ae9cd107c42ee884e8724a406b5116f069575e02d7ab87a35a5272
   languageName: node
   linkType: hard
 
@@ -2874,6 +2919,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"browserslist@npm:^4.21.9":
+  version: 4.21.9
+  resolution: "browserslist@npm:4.21.9"
+  dependencies:
+    caniuse-lite: ^1.0.30001503
+    electron-to-chromium: ^1.4.431
+    node-releases: ^2.0.12
+    update-browserslist-db: ^1.0.11
+  bin:
+    browserslist: cli.js
+  checksum: 80d3820584e211484ad1b1a5cfdeca1dd00442f47be87e117e1dda34b628c87e18b81ae7986fa5977b3e6a03154f6d13cd763baa6b8bf5dd9dd19f4926603698
+  languageName: node
+  linkType: hard
+
 "bser@npm:2.1.1":
   version: 2.1.1
   resolution: "bser@npm:2.1.1"
@@ -3049,6 +3108,13 @@ __metadata:
   version: 1.0.30001441
   resolution: "caniuse-lite@npm:1.0.30001441"
   checksum: 0f5aa8f7ea4d165e88e0d1eaa44564c5bfee66641f265a1fd959e74f0a7e6bc0207db6c28e2fb63dc8b2cd23e0e3cee06c4f372de11c93c57ff5ff4207962c3f
+  languageName: node
+  linkType: hard
+
+"caniuse-lite@npm:^1.0.30001503":
+  version: 1.0.30001512
+  resolution: "caniuse-lite@npm:1.0.30001512"
+  checksum: 18432eecfaf4748465e5d574fd29aa018e255cda620c8e8d564b9fc03c4cb572acf9248a5da2ba7b4d58d6fbc6c7436c02e1e19247b2a72f5aab818070460dec
   languageName: node
   linkType: hard
 
@@ -3991,6 +4057,13 @@ __metadata:
   version: 1.4.284
   resolution: "electron-to-chromium@npm:1.4.284"
   checksum: be496e9dca6509dbdbb54dc32146fc99f8eb716d28a7ee8ccd3eba0066561df36fc51418d8bd7cf5a5891810bf56c0def3418e74248f51ea4a843d423603d10a
+  languageName: node
+  linkType: hard
+
+"electron-to-chromium@npm:^1.4.431":
+  version: 1.4.449
+  resolution: "electron-to-chromium@npm:1.4.449"
+  checksum: 68167088b23145ed5acd923af8eaa423c792310b92c27da0f4218c960bf732c4856a27129f13c47158ab1e7ffd9509d52c93039aeda39c6f8be5ee527d3d0227
   languageName: node
   linkType: hard
 
@@ -7934,7 +8007,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "node-red-contrib-genetic-charging-strategy@workspace:."
   dependencies:
-    "@babel/core": 7.22.5
+    "@babel/core": 7.22.6
     "@jest/globals": 29.5.0
     babel-jest: 29.5.0
     benchmark: 2.1.4
@@ -7997,6 +8070,13 @@ __metadata:
     node-red: red.js
     node-red-pi: bin/node-red-pi
   checksum: 90899411725329a376284bce0e2a44b0db573c47aeaab977c06e2798e64bf77fa29584f3c0847513edae41bda10dffd25ac0d7590d2130df760e85e55231be65
+  languageName: node
+  linkType: hard
+
+"node-releases@npm:^2.0.12":
+  version: 2.0.12
+  resolution: "node-releases@npm:2.0.12"
+  checksum: b8c56db82c4642a0f443332b331a4396dae452a2ac5a65c8dbd93ef89ecb2fbb0da9d42ac5366d4764973febadca816cf7587dad492dce18d2a6b2af59cda260
   languageName: node
   linkType: hard
 
@@ -10824,6 +10904,20 @@ __metadata:
   version: 1.0.0
   resolution: "unpipe@npm:1.0.0"
   checksum: 4fa18d8d8d977c55cb09715385c203197105e10a6d220087ec819f50cb68870f02942244f1017565484237f1f8c5d3cd413631b1ae104d3096f24fdfde1b4aa2
+  languageName: node
+  linkType: hard
+
+"update-browserslist-db@npm:^1.0.11":
+  version: 1.0.11
+  resolution: "update-browserslist-db@npm:1.0.11"
+  dependencies:
+    escalade: ^3.1.1
+    picocolors: ^1.0.0
+  peerDependencies:
+    browserslist: ">= 4.21.0"
+  bin:
+    update-browserslist-db: cli.js
+  checksum: b98327518f9a345c7cad5437afae4d2ae7d865f9779554baf2a200fdf4bac4969076b679b1115434bd6557376bdd37ca7583d0f9b8f8e302d7d4cc1e91b5f231
   languageName: node
   linkType: hard
 
