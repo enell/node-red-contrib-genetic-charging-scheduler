@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.22.10",
-    "@jest/globals": "29.6.2",
+    "@jest/globals": "29.6.3",
     "babel-jest": "29.6.2",
     "benchmark": "2.1.4",
     "eslint": "8.47.0",
