@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1692501931376,
+  "lastUpdate": 1692628999378,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -2075,6 +2075,37 @@ window.BENCHMARK_DATA = {
             "name": "calculate schedule",
             "value": 615055,
             "range": "±0.38%",
+            "unit": "ops/sec",
+            "extra": "94 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "distinct": true,
+          "id": "cb82daf772ca90c9b8e187850da679193c87fb46",
+          "message": "chore(deps): update dependency @jest/globals to v29.6.3",
+          "timestamp": "2023-08-21T14:42:42Z",
+          "tree_id": "b7fc83015efb22e721a1d3d3dabd39bf65273af3",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/cb82daf772ca90c9b8e187850da679193c87fb46"
+        },
+        "date": 1692628997361,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 617404,
+            "range": "±0.35%",
             "unit": "ops/sec",
             "extra": "94 samples"
           }
