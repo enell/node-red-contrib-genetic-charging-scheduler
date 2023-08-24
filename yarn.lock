@@ -2772,7 +2772,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-jest@npm:29.6.3, babel-jest@npm:^29.6.3":
+"babel-jest@npm:29.6.4":
+  version: 29.6.4
+  resolution: "babel-jest@npm:29.6.4"
+  dependencies:
+    "@jest/transform": ^29.6.4
+    "@types/babel__core": ^7.1.14
+    babel-plugin-istanbul: ^6.1.1
+    babel-preset-jest: ^29.6.3
+    chalk: ^4.0.0
+    graceful-fs: ^4.2.9
+    slash: ^3.0.0
+  peerDependencies:
+    "@babel/core": ^7.8.0
+  checksum: c574f1805ab6b51a7d0f5a028aad19eec4634be81e66e6f4631b79b34d8ea05dfb53629f3686c77345163872730aa0408c9e5937ed85f846984228f7ab5e5d96
+  languageName: node
+  linkType: hard
+
+"babel-jest@npm:^29.6.3":
   version: 29.6.3
   resolution: "babel-jest@npm:29.6.3"
   dependencies:
@@ -8571,7 +8588,7 @@ __metadata:
   dependencies:
     "@babel/core": 7.22.11
     "@jest/globals": 29.6.4
-    babel-jest: 29.6.3
+    babel-jest: 29.6.4
     benchmark: 2.1.4
     eslint: 8.47.0
     eslint-config-airbnb: 19.0.4
