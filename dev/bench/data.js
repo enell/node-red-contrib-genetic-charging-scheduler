@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1692896669448,
+  "lastUpdate": 1692903388167,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -2294,6 +2294,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.38%",
             "unit": "ops/sec",
             "extra": "95 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "distinct": true,
+          "id": "e43476de1a14d8a66112f1cb001980ad184a52b2",
+          "message": "chore(deps): update dependency babel-jest to v29.6.4",
+          "timestamp": "2023-08-24T18:55:47Z",
+          "tree_id": "225ba61ec081ad349500cd11dc057af1cc4f679f",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/e43476de1a14d8a66112f1cb001980ad184a52b2"
+        },
+        "date": 1692903385815,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 610201,
+            "range": "±1.03%",
+            "unit": "ops/sec",
+            "extra": "96 samples"
           }
         ]
       }
