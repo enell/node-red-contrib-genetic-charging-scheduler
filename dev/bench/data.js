@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1694840456283,
+  "lastUpdate": 1694884513345,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -2695,6 +2695,37 @@ window.BENCHMARK_DATA = {
             "name": "calculate schedule",
             "value": 657718,
             "range": "±0.28%",
+            "unit": "ops/sec",
+            "extra": "96 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "distinct": true,
+          "id": "9cc3d7245be5e7acc64dccb5bcd1c327696dc38c",
+          "message": "chore(deps): update dependency @babel/core to v7.22.20",
+          "timestamp": "2023-09-16T17:14:29Z",
+          "tree_id": "9d306cd560eb109a618de91f2a39ed6b76f15aa8",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/9cc3d7245be5e7acc64dccb5bcd1c327696dc38c"
+        },
+        "date": 1694884509570,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 662140,
+            "range": "±0.27%",
             "unit": "ops/sec",
             "extra": "96 samples"
           }
