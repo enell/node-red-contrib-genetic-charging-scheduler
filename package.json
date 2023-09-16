@@ -36,7 +36,7 @@
     "geneticalgorithm": "1.0.2"
   },
   "devDependencies": {
-    "@babel/core": "7.22.19",
+    "@babel/core": "7.22.20",
     "@jest/globals": "29.7.0",
     "babel-jest": "29.7.0",
     "benchmark": "2.1.4",
