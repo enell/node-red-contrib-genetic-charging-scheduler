@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1696026521405,
+  "lastUpdate": 1696383732854,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -2976,6 +2976,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.41%",
             "unit": "ops/sec",
             "extra": "96 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "distinct": true,
+          "id": "26d01158eaefb7a9c3e480bc27352b96f3eb3aa1",
+          "message": "chore(deps): update yarn to v3.6.4",
+          "timestamp": "2023-10-04T01:41:25Z",
+          "tree_id": "3f98e980380b2b50c3dfdcb6a781617c0523bacd",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/26d01158eaefb7a9c3e480bc27352b96f3eb3aa1"
+        },
+        "date": 1696383730063,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 598271,
+            "range": "±0.38%",
+            "unit": "ops/sec",
+            "extra": "95 samples"
           }
         ]
       }
