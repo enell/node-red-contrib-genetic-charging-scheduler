@@ -4703,9 +4703,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jest@npm:27.4.3":
-  version: 27.4.3
-  resolution: "eslint-plugin-jest@npm:27.4.3"
+"eslint-plugin-jest@npm:27.5.0":
+  version: 27.5.0
+  resolution: "eslint-plugin-jest@npm:27.5.0"
   dependencies:
     "@typescript-eslint/utils": ^5.10.0
   peerDependencies:
@@ -4717,7 +4717,7 @@ __metadata:
       optional: true
     jest:
       optional: true
-  checksum: de062a04f30d72535aecfd6594aa302cf350d62e86805c8f0edbb3dce4cde5b557766e7acfd0f87709a9b70854cc2522c04b875337925c64d0d9bc1118ef4693
+  checksum: 435d9e8ed17234a06d11e17046ff5f4a47f04cca9cf5c15ad6a278d2dc50042bc2e4f95d798447315906b28da1e069996a959002671ed3d72ec5712c373e376e
   languageName: node
   linkType: hard
 
@@ -8678,7 +8678,7 @@ __metadata:
     eslint-config-airbnb: 19.0.4
     eslint-config-prettier: 9.0.0
     eslint-plugin-import: 2.29.0
-    eslint-plugin-jest: 27.4.3
+    eslint-plugin-jest: 27.5.0
     eslint-plugin-jsx-a11y: 6.7.1
     eslint-plugin-prettier: 5.0.1
     eslint-plugin-react: 7.33.2
