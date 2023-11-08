@@ -26,7 +26,7 @@ The node expects the input data to be in a format like this:
     ],
     "productionForecast": [
         { "start": '2023-11-07T05:00:00.000Z', "value": 0 },
-        { "start": '2023-11-07T06:00:00.000Z', "value": 0.037584765924899996 }, // kWh
+        { "start": '2023-11-07T06:00:00.000Z', "value": 0.0375 }, // kWh
          ...
     ],
     "priceData": [
