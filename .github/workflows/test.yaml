@@ -16,6 +16,8 @@ jobs:
           cache: yarn
       - name: Lint
         run: yarn run lint
+      - name: Prettier
+        run: yarn run prettier
       - name: Test
         run: yarn run test
       #- name: Release

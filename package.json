@@ -19,7 +19,8 @@
     "lint": "eslint",
     "benchmark": "cd benchmark && node bench.js | tee output.txt",
     "release": "semantic-release",
-    "prettier": "prettier --write src test"
+    "prettier": "prettier -c src test",
+    "prettier:fix": "prettier --write src test"
   },
   "author": "Johan Enell<johan.enell@gmail.com>, Samuel Brucksch<rangarid@gmail.com>",
   "license": "MIT",
