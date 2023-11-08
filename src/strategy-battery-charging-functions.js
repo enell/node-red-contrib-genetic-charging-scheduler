@@ -163,6 +163,11 @@ const toSchedule = (props, phenotype) => {
       continue
     }
 
+    if (period.activity === 0 && period.charge === 0 && period.cost === 0) {
+      // we probably do not need to be idle here, this seems to happen during PV production
+      continue
+    }
+
     if (schedule.length && period.activity == schedule.at(-1).activity) {
       schedule.at(-1).duration += period.duration
       schedule.at(-1).cost += period.cost
