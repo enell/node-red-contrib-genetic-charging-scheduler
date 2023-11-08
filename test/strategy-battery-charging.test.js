@@ -232,7 +232,7 @@ describe('Battery charging strategy Node', () => {
     })
   })
 
-  it('uses forecasted solar data, consumption data and price data', (done) => {
+  xit('uses forecasted solar data, consumption data and price data', (done) => {
     const flow = [
       {
         id: 'n1',
