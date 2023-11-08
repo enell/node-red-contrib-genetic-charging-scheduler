@@ -15,7 +15,7 @@
     "powersaver"
   ],
   "scripts": {
-    "test": "jest test/*.test.js",
+    "test": "jest test/*.test.js --silent",
     "lint": "eslint",
     "benchmark": "cd benchmark && node bench.js | tee output.txt",
     "release": "semantic-release"
