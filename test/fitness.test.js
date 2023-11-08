@@ -55,7 +55,7 @@ beforeEach(() => {
   props = {
     input,
     totalDuration: input.length * 60,
-    batteryMaxEnergy: "1",
+    batteryMaxEnergy: 1,
     batteryMaxInputPower: 1,
     batteryMaxOutputPower: 2,
     soc: 1,
