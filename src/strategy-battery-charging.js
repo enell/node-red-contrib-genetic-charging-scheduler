@@ -4,7 +4,7 @@ const {
 
 const node = (RED) => {
   RED.nodes.registerType(
-    'enell-strategy-genetic-charging',
+    'strategy-genetic-charging',
     function callback(config) {
       RED.nodes.createNode(this, config)
 
@@ -15,6 +15,7 @@ const node = (RED) => {
         mutationRate,
         batteryMaxEnergy,
         batteryMaxInputPower,
+        batteryMaxOutputPower,
         averageConsumption,
       } = config
 
@@ -33,7 +34,7 @@ const node = (RED) => {
           generations,
           mutationRate: mutationRate / 100,
           batteryMaxEnergy,
-          batteryMaxOutputPower: batteryMaxInputPower,
+          batteryMaxOutputPower: batteryMaxOutputPower ?? batteryMaxInputPower, // for backwards compatible with older versions
           batteryMaxInputPower,
           averageConsumption,
           consumptionForecast,

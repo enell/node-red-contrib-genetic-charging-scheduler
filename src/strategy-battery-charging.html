@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    RED.nodes.registerType('enell-strategy-genetic-charging', {
+    RED.nodes.registerType('strategy-genetic-charging', {
         category: 'Power Saver',
         color: '#a6bbcf',
         defaults: {
@@ -54,7 +54,7 @@
     });
 </script>
 
-<script type="text/html" data-template-name="enell-strategy-genetic-charging">
+<script type="text/html" data-template-name="strategy-genetic-charging">
     <div class="form-row">
         <label for="node-input-name" style="width: 240px"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name"/>
@@ -68,6 +68,11 @@
     <div class="form-row">
         <label for="node-input-batteryMaxInputPower" style="width: 240px">Max battery input power (kW)</label>
         <input type="text" id="node-input-batteryMaxInputPower"/>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-batteryMaxOutputPower" style="width: 240px">Max battery output power (kW)</label>
+        <input type="text" id="node-input-batteryMaxOutputPower"/>
     </div>
 
     <div class="form-row">
@@ -96,6 +101,6 @@
     </div>
 </script>
 
-<script type="text/html" data-help-name="enell-strategy-genetic-charging">
+<script type="text/html" data-help-name="strategy-genetic-charging">
     <p>A strategy addon for powersaver to calculate the optimal batter charging schedule using genetic algorithms</p>
 </script>

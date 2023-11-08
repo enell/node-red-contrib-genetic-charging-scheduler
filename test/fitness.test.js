@@ -10,6 +10,7 @@ const {
 } = require('../src/fitness')
 
 let props
+let dischargeProps
 
 beforeEach(() => {
   let now = Date.now()
@@ -56,9 +57,10 @@ beforeEach(() => {
     totalDuration: input.length * 60,
     batteryMaxEnergy: 1,
     batteryMaxInputPower: 1,
-    batteryMaxOutputPower: 1,
+    batteryMaxOutputPower: 2,
     soc: 1,
   }
+  dischargeProps = {...props, input:props.input.map(i => ({ ...i, consumption: i.consumption * props.batteryMaxOutputPower }))}
 })
 
 describe('Fitness - splitIntoHourIntervals', () => {
@@ -364,7 +366,7 @@ describe('Fitness - calculateScore', () => {
   })
 
   describe('Fitness - calculatePeriodScore', () => {
-    test('shod not charge faster than max input power', () => {
+    test('should not charge faster than max input power', () => {
       const period = { start: 0, duration: 1, activity: 1 }
       const currentCharge = 0
       const excessPvEnergyUse = 0
@@ -380,20 +382,20 @@ describe('Fitness - calculateScore', () => {
       expect(score[1]).toBeCloseTo(1 / 60)
     })
 
-    test('shod not discharge faster than max output power', () => {
+    test('should not discharge faster than max output power', () => {
       const period = { start: 0, duration: 1, activity: -1 }
       const currentCharge = 100
       const excessPvEnergyUse = 0
       const score = calculatePeriodScore(
-        props,
+        dischargeProps,
         period,
         excessPvEnergyUse,
         currentCharge
       )
-      const dischargeSpeed = (score[1] / (1 / 60)) * -1
+      const dischargeSpeed = (score[1] / (period.duration / 60)) * -1
       expect(dischargeSpeed).toBeCloseTo(props.batteryMaxOutputPower)
       expect(score[0]).toBeCloseTo(0)
-      expect(score[1]).toBeCloseTo((1 / 60) * -1)
+      expect(score[1]).toBeCloseTo((period.duration / 60) * -props.batteryMaxOutputPower)
     })
   })
 })
