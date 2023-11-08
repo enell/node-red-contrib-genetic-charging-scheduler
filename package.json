@@ -18,7 +18,8 @@
     "test": "jest test/*.test.js --silent",
     "lint": "eslint",
     "benchmark": "cd benchmark && node bench.js | tee output.txt",
-    "release": "semantic-release"
+    "release": "semantic-release",
+    "prettier": "prettier --write src test"
   },
   "author": "Johan Enell<johan.enell@gmail.com>, Samuel Brucksch<rangarid@gmail.com>",
   "license": "MIT",
