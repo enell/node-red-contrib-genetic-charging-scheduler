@@ -19,32 +19,32 @@ You need to at least provide the current SoC of the battery and a list of prices
 The node expects the input data to be in a format like this:
 ```json
 {
-        consumptionForecast: [
-          { start: '2023-11-07T05:00:00.000Z', value: 0.35 }, // kWh
-          { start: '2023-11-07T06:00:00.000Z', value: 0.35 },
-          ...
-        ],
-        productionForecast: [
-          { start: '2023-11-07T05:00:00.000Z', value: 0 },
-          { start: '2023-11-07T06:00:00.000Z', value: 0.037584765924899996 }, // kWh
-          ...
-        ],
-        priceData: [
-          {
-            value: 0.2552, // price
-            start: '2023-11-07T00:00:00.000+01:00',
-            exportPrice: 0, // sell
-            importPrice: 0.2552 // buy
-          },
-          {
-            value: 0.2521,
-            start: '2023-11-07T01:00:00.000+01:00',
-            exportPrice: 0
-          },
-          ...
-        ],
-        soc: 74
-      }
+    "consumptionForecast": [
+        { "start": '2023-11-07T05:00:00.000Z', "value": 0.35 }, // kWh
+        { "start": '2023-11-07T06:00:00.000Z', "value": 0.35 },
+         ...
+    ],
+    "productionForecast": [
+        { "start": '2023-11-07T05:00:00.000Z', "value": 0 },
+        { "start": '2023-11-07T06:00:00.000Z', "value": 0.037584765924899996 }, // kWh
+         ...
+    ],
+    "priceData": [
+        {
+            "value": 0.2552, // price
+            "start": '2023-11-07T00:00:00.000+01:00',
+            "exportPrice": 0, // sell
+            "importPrice": 0.2552 // buy
+        },
+        {
+            "value": 0.2521,
+            "start": '2023-11-07T01:00:00.000+01:00',
+            "exportPrice": 0
+        },
+         ...
+    ],
+    "soc": 74
+}
 ```
 
 `consumptionForecast` [optional] contains the consumption of the house, which is powered by the battery. If not provided, the average consumption from the node config is used.
