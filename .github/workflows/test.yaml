@@ -1,12 +1,12 @@
 ---
-name: Release
+name: Test
 # yamllint disable-line rule:truthy
 on:
   workflow_dispatch:
   push:
 jobs:
-  release:
-    name: Release
+  test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - uses: mskelton/setup-yarn@v1
