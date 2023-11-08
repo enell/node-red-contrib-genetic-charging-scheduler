@@ -60,7 +60,13 @@ beforeEach(() => {
     batteryMaxOutputPower: 2,
     soc: 1,
   }
-  dischargeProps = {...props, input:props.input.map(i => ({ ...i, consumption: i.consumption * props.batteryMaxOutputPower }))}
+  dischargeProps = {
+    ...props,
+    input: props.input.map((i) => ({
+      ...i,
+      consumption: i.consumption * props.batteryMaxOutputPower,
+    })),
+  }
 })
 
 describe('Fitness - splitIntoHourIntervals', () => {
@@ -395,7 +401,9 @@ describe('Fitness - calculateScore', () => {
       const dischargeSpeed = (score[1] / (period.duration / 60)) * -1
       expect(dischargeSpeed).toBeCloseTo(props.batteryMaxOutputPower)
       expect(score[0]).toBeCloseTo(0)
-      expect(score[1]).toBeCloseTo((period.duration / 60) * -props.batteryMaxOutputPower)
+      expect(score[1]).toBeCloseTo(
+        (period.duration / 60) * -props.batteryMaxOutputPower
+      )
     })
   })
 })

@@ -158,7 +158,7 @@ const toSchedule = (props, phenotype) => {
   const schedule = []
   //props, totalDuration, excessPvEnergyUse, p
   const periodStart = new Date(input[0].start)
-    for (const period of allPeriodsGenerator(props, phenotype)) {
+  for (const period of allPeriodsGenerator(props, phenotype)) {
     if (period.duration <= 0) {
       continue
     }
@@ -176,7 +176,7 @@ const toSchedule = (props, phenotype) => {
         cost: period.cost,
         charge: period.charge,
       })
-          }
+    }
   }
 
   return schedule
