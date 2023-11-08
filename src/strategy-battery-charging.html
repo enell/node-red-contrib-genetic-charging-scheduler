@@ -1,101 +1,127 @@
 <script type="text/javascript">
-    RED.nodes.registerType('enell-strategy-genetic-charging', {
-        category: 'Power Saver',
-        color: '#a6bbcf',
-        defaults: {
-            name: { value: "" },
-            populationSize: {
-                value: 20,
-                required: true,
-                validate: RED.validators.number(),
-            },
-            generations: {
-                value: 400,
-                required: true,
-                validate: RED.validators.number(),
-            },
-            mutationRate: {
-                value: 3,
-                required: true,
-                validate: RED.validators.number(),
-            },
-            numberOfPricePeriods: {
-                value: 8,
-                required: true,
-                validate: RED.validators.number(),
-            },
-            batteryMaxEnergy: {
-                value: 5,
-                required: true,
-                validate: RED.validators.number(),
-            },
-            batteryMaxInputPower: {
-                value: 2.5,
-                required: true,
-                validate: RED.validators.number(),
-            },
-            batteryMaxOutputPower: {
-                value: 2.5,
-                required: true,
-                validate: RED.validators.number(),
-            },
-            averageConsumption: {
-                value: 1.5,
-                required: true,
-                validate: RED.validators.number(),
-            },
-        },
-        inputs: 1,
-        outputs: 1,
-        icon: "font-awesome/fa-battery",
-        label: function () {
-            return this.name || "Battery charging schedule";
-        }
-    });
+  RED.nodes.registerType('strategy-genetic-charging', {
+    category: 'Power Saver',
+    color: '#a6bbcf',
+    defaults: {
+      name: { value: '' },
+      populationSize: {
+        value: 20,
+        required: true,
+        validate: RED.validators.number(),
+      },
+      generations: {
+        value: 400,
+        required: true,
+        validate: RED.validators.number(),
+      },
+      mutationRate: {
+        value: 3,
+        required: true,
+        validate: RED.validators.number(),
+      },
+      numberOfPricePeriods: {
+        value: 8,
+        required: true,
+        validate: RED.validators.number(),
+      },
+      batteryMaxEnergy: {
+        value: 5,
+        required: true,
+        validate: RED.validators.number(),
+      },
+      batteryMaxInputPower: {
+        value: 2.5,
+        required: true,
+        validate: RED.validators.number(),
+      },
+      batteryMaxOutputPower: {
+        value: 2.5,
+        required: true,
+        validate: RED.validators.number(),
+      },
+      averageConsumption: {
+        value: 1.5,
+        required: true,
+        validate: RED.validators.number(),
+      },
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: 'font-awesome/fa-battery',
+    label: function () {
+      return this.name || 'Battery charging schedule'
+    },
+  })
 </script>
 
-<script type="text/html" data-template-name="enell-strategy-genetic-charging">
-    <div class="form-row">
-        <label for="node-input-name" style="width: 240px"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name"/>
-    </div>
-    <h3>Energy settings</h3>
-    <div class="form-row">
-        <label for="node-input-batteryMaxEnergy" style="width: 240px">Battery capacity (kWh)</label>
-        <input type="text" id="node-input-batteryMaxEnergy"/>
-    </div>
+<script type="text/html" data-template-name="strategy-genetic-charging">
+  <div class="form-row">
+    <label for="node-input-name" style="width: 240px"
+      ><i class="fa fa-tag"></i> Name</label
+    >
+    <input type="text" id="node-input-name" placeholder="Name" />
+  </div>
+  <h3>Energy settings</h3>
+  <div class="form-row">
+    <label for="node-input-batteryMaxEnergy" style="width: 240px"
+      >Battery capacity (kWh)</label
+    >
+    <input type="text" id="node-input-batteryMaxEnergy" />
+  </div>
 
-    <div class="form-row">
-        <label for="node-input-batteryMaxInputPower" style="width: 240px">Max battery input power (kW)</label>
-        <input type="text" id="node-input-batteryMaxInputPower"/>
-    </div>
+  <div class="form-row">
+    <label for="node-input-batteryMaxInputPower" style="width: 240px"
+      >Max battery input power (kW)</label
+    >
+    <input type="text" id="node-input-batteryMaxInputPower" />
+  </div>
 
-    <div class="form-row">
-        <label for="node-input-averageConsumption" style="width: 240px">Average consumption per hour (kW)</label>
-        <input type="text" id="node-input-averageConsumption"/>
-    </div>
-    <h3>Genetic algorithm</h3>
-    <div class="form-row">
-        <label for="node-input-populationSize" style="width: 240px">Population size</label>
-        <input type="text" id="node-input-populationSize"/>
-    </div>
+  <div class="form-row">
+    <label for="node-input-batteryMaxOutputPower" style="width: 240px"
+      >Max battery output power (kW)</label
+    >
+    <input type="text" id="node-input-batteryMaxOutputPower" />
+  </div>
 
-    <div class="form-row">
-        <label for="node-input-generations" style="width: 240px">Number of generations</label>
-        <input type="text" id="node-input-generations"/>
-    </div>
+  <div class="form-row">
+    <label for="node-input-averageConsumption" style="width: 240px"
+      >Average consumption per hour (kW)</label
+    >
+    <input type="text" id="node-input-averageConsumption" />
+  </div>
+  <h3>Genetic algorithm</h3>
+  <div class="form-row">
+    <label for="node-input-populationSize" style="width: 240px"
+      >Population size</label
+    >
+    <input type="text" id="node-input-populationSize" />
+  </div>
 
-    <div class="form-row">
-        <label for="node-input-mutationRate" style="width: 240px">Mutation chance (%)</label>
-        <input type="text" id="node-input-mutationRate"/>
-    </div>
+  <div class="form-row">
+    <label for="node-input-generations" style="width: 240px"
+      >Number of generations</label
+    >
+    <input type="text" id="node-input-generations" />
+  </div>
 
-    <div class="form-row">
-        <label for="node-input-numberOfPricePeriods" style="width: 240px">Number of charging/discharging periods</label>
-        <input type="text" id="node-input-numberOfPricePeriods"/>
-    </div>
+  <div class="form-row">
+    <label for="node-input-mutationRate" style="width: 240px"
+      >Mutation chance (%)</label
+    >
+    <input type="text" id="node-input-mutationRate" />
+  </div>
+
+  <div class="form-row">
+    <label for="node-input-numberOfPricePeriods" style="width: 240px"
+      >Number of charging/discharging periods</label
+    >
+    <input type="text" id="node-input-numberOfPricePeriods" />
+  </div>
 </script>
 
-<script type="text/html" data-help-name="enell-strategy-genetic-charging">
-    <p>A strategy addon for powersaver to calculate the optimal batter charging schedule using genetic algorithms</p>
+<script type="text/html" data-help-name="strategy-genetic-charging">
+  <p>
+    A strategy addon for powersaver to calculate the optimal batter charging
+    schedule using genetic algorithms
+  </p>
 </script>

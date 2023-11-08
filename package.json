@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-genetic-charging-strategy",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "description": "A module for Node-RED that adds a battery charging strategy to node-red-contrib-power-saver. It uses genetic algorithms to find the best schedule",
   "main": "dist/main.js",
   "type": "commonjs",
@@ -15,12 +15,14 @@
     "powersaver"
   ],
   "scripts": {
-    "test": "jest test/*.test.js",
+    "test": "jest test/*.test.js --silent",
     "lint": "eslint",
     "benchmark": "cd benchmark && node bench.js | tee output.txt",
-    "release": "semantic-release"
+    "release": "semantic-release",
+    "prettier": "prettier -c src test",
+    "prettier:fix": "prettier --write src test"
   },
-  "author": "Johan Enell<johan.enell@gmail.com>",
+  "author": "Johan Enell<johan.enell@gmail.com>, Samuel Brucksch<rangarid@gmail.com>",
   "license": "MIT",
   "files": [
     "src/*",
@@ -28,7 +30,7 @@
   ],
   "node-red": {
     "nodes": {
-      "enell-strategy-genetic-charging": "src/strategy-battery-charging.js"
+      "strategy-genetic-charging": "src/strategy-battery-charging.js"
     },
     "version": ">=2.2.0"
   },
@@ -59,6 +61,6 @@
   "packageManager": "yarn@3.6.4",
   "repository": {
     "type": "git",
-    "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler.git"
+    "url": "https://github.com/samuelbrucksch/node-red-contrib-genetic-charging-scheduler.git"
   }
 }

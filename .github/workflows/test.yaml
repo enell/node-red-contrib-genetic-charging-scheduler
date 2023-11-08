@@ -1,12 +1,12 @@
 ---
-name: Release
+name: Test
 # yamllint disable-line rule:truthy
 on:
   workflow_dispatch:
   push:
 jobs:
-  release:
-    name: Release
+  test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - uses: mskelton/setup-yarn@v1
@@ -16,10 +16,12 @@ jobs:
           cache: yarn
       - name: Lint
         run: yarn run lint
+      - name: Prettier
+        run: yarn run prettier
       - name: Test
         run: yarn run test
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: yarn run release
+      #- name: Release
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #    NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      #  run: yarn run release
