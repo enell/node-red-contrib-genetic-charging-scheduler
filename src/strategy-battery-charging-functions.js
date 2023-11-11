@@ -170,16 +170,16 @@ const toSchedule = (props, phenotype) => {
       schedule.at(-1).charge += period.charge
       schedule.at(-1).socEnd = period.socEnd
     } else {*/
-      schedule.push({
-        start: addMinutes(periodStart, period.start),
-        activity: period.activity,
-        name: activityToName(period.activity),
-        duration: period.duration,
-        cost: period.cost,
-        charge: period.charge,
-        socStart: period.socStart,
-        socEnd: period.socEnd
-      })
+    schedule.push({
+      start: addMinutes(periodStart, period.start),
+      activity: period.activity,
+      name: activityToName(period.activity),
+      duration: period.duration,
+      cost: period.cost,
+      charge: period.charge,
+      socStart: period.socStart,
+      socEnd: period.socEnd,
+    })
     // }
   }
 
