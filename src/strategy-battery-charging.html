@@ -40,7 +40,12 @@
         validate: RED.validators.number(),
       },
       averageConsumption: {
-        value: 1.5,
+        value: 1,
+        required: true,
+        validate: RED.validators.number(),
+      },
+      excessPvEnergyUse: {
+        value: 0,
         required: true,
         validate: RED.validators.number(),
       },
@@ -117,11 +122,19 @@
     >
     <input type="text" id="node-input-numberOfPricePeriods" />
   </div>
+
+  <h3>Excessive PV Energy</h3>
+  <div class="form-row">
+    <label for="node-input-excessPvEnergyUse" style="width: 240px"
+      >Feed-In (0) or Charge (1)</label
+    >
+    <input type="text" id="node-input-excessPvEnergyUse" />
+  </div>
 </script>
 
 <script type="text/html" data-help-name="strategy-genetic-charging">
   <p>
-    A strategy addon for powersaver to calculate the optimal batter charging
+    A strategy addon for powersaver to calculate the optimal battery charging
     schedule using genetic algorithms
   </p>
 </script>

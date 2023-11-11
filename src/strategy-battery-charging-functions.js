@@ -132,28 +132,29 @@ const generatePopulation = (props) => {
 
     population.push({
       periods: timePeriods,
-      excessPvEnergyUse: excessPvEnergyUse,
+      excessPvEnergyUse,
     })
   }
   return population
 }
 
+const addMinutes = (date, minutes) => {
+  return new Date(date.getTime() + minutes * 60000)
+}
+
+const activityToName = (activity) => {
+  switch (activity) {
+    case -1:
+      return 'discharging'
+    case 1:
+      return 'charging'
+    default:
+      return 'idle'
+  }
+}
+
 const toSchedule = (props, phenotype) => {
   const { input } = props
-  const addMinutes = (date, minutes) => {
-    return new Date(date.getTime() + minutes * 60000)
-  }
-
-  const activityToName = (activity) => {
-    switch (activity) {
-      case -1:
-        return 'discharging'
-      case 1:
-        return 'charging'
-      default:
-        return 'idle'
-    }
-  }
 
   const schedule = []
   //props, totalDuration, excessPvEnergyUse, p
@@ -163,20 +164,23 @@ const toSchedule = (props, phenotype) => {
       continue
     }
 
-    if (schedule.length && period.activity == schedule.at(-1).activity) {
+    /*if (schedule.length && period.activity == schedule.at(-1).activity) {
       schedule.at(-1).duration += period.duration
       schedule.at(-1).cost += period.cost
       schedule.at(-1).charge += period.charge
-    } else {
-      schedule.push({
-        start: addMinutes(periodStart, period.start),
-        activity: period.activity,
-        name: activityToName(period.activity),
-        duration: period.duration,
-        cost: period.cost,
-        charge: period.charge,
-      })
-    }
+      schedule.at(-1).socEnd = period.socEnd
+    } else {*/
+    schedule.push({
+      start: addMinutes(periodStart, period.start),
+      activity: period.activity,
+      name: activityToName(period.activity),
+      duration: period.duration,
+      cost: period.cost,
+      charge: period.charge,
+      socStart: period.socStart,
+      socEnd: period.socEnd,
+    })
+    // }
   }
 
   return schedule
