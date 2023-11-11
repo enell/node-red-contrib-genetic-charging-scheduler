@@ -248,6 +248,7 @@ describe('Battery charging strategy Node', () => {
         averageConsumption: 1,
         wires: [['n2']],
         excessPvEnergyUse: 1,
+        combineSchedules: 1,
       },
       { id: 'n2', type: 'helper' },
     ]

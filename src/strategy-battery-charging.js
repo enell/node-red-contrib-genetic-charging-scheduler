@@ -17,7 +17,8 @@ const node = (RED) => {
         batteryMaxInputPower,
         batteryMaxOutputPower,
         averageConsumption,
-        excessPvEnergyUse = 0, // 0=Feed to grid, 1=Charge
+        excessPvEnergyUse, // 0=Feed to grid, 1=Charge
+        combineSchedules,
       } = config
 
       this.on('input', async (msg, send, done) => {
@@ -42,6 +43,7 @@ const node = (RED) => {
           productionForecast,
           excessPvEnergyUse,
           soc: soc / 100,
+          combineSchedules,
         })
 
         const payload = msg.payload ?? {}

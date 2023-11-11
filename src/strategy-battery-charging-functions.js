@@ -154,7 +154,7 @@ const activityToName = (activity) => {
 }
 
 const toSchedule = (props, phenotype) => {
-  const { input } = props
+  const { input, combineSchedules } = props
 
   const schedule = []
   //props, totalDuration, excessPvEnergyUse, p
@@ -164,23 +164,27 @@ const toSchedule = (props, phenotype) => {
       continue
     }
 
-    /*if (schedule.length && period.activity == schedule.at(-1).activity) {
+    if (
+      schedule.length &&
+      period.activity == schedule.at(-1).activity &&
+      combineSchedules
+    ) {
       schedule.at(-1).duration += period.duration
       schedule.at(-1).cost += period.cost
       schedule.at(-1).charge += period.charge
       schedule.at(-1).socEnd = period.socEnd
-    } else {*/
-    schedule.push({
-      start: addMinutes(periodStart, period.start),
-      activity: period.activity,
-      name: activityToName(period.activity),
-      duration: period.duration,
-      cost: period.cost,
-      charge: period.charge,
-      socStart: period.socStart,
-      socEnd: period.socEnd,
-    })
-    // }
+    } else {
+      schedule.push({
+        start: addMinutes(periodStart, period.start),
+        activity: period.activity,
+        name: activityToName(period.activity),
+        duration: period.duration,
+        cost: period.cost,
+        charge: period.charge,
+        socStart: period.socStart,
+        socEnd: period.socEnd,
+      })
+    }
   }
 
   return schedule

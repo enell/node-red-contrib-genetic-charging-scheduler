@@ -49,6 +49,11 @@
         required: true,
         validate: RED.validators.number(),
       },
+      combineSchedules: {
+        value: 1,
+        required: true,
+        validate: RED.validators.number(),
+      },
     },
     inputs: 1,
     outputs: 1,
@@ -129,6 +134,14 @@
       >Feed-In (0) or Charge (1)</label
     >
     <input type="text" id="node-input-excessPvEnergyUse" />
+  </div>
+
+  <h3>Config</h3>
+  <div class="form-row">
+    <label for="node-input-combineSchedules" style="width: 240px"
+      >Combine schedules (0/1)</label
+    >
+    <input type="text" id="node-input-combineSchedules" />
   </div>
 </script>
 
