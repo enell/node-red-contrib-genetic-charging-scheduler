@@ -132,28 +132,29 @@ const generatePopulation = (props) => {
 
     population.push({
       periods: timePeriods,
-      excessPvEnergyUse: excessPvEnergyUse,
+      excessPvEnergyUse,
     })
   }
   return population
 }
 
+const addMinutes = (date, minutes) => {
+  return new Date(date.getTime() + minutes * 60000)
+}
+
+const activityToName = (activity) => {
+  switch (activity) {
+    case -1:
+      return 'discharging'
+    case 1:
+      return 'charging'
+    default:
+      return 'idle'
+  }
+}
+
 const toSchedule = (props, phenotype) => {
   const { input } = props
-  const addMinutes = (date, minutes) => {
-    return new Date(date.getTime() + minutes * 60000)
-  }
-
-  const activityToName = (activity) => {
-    switch (activity) {
-      case -1:
-        return 'discharging'
-      case 1:
-        return 'charging'
-      default:
-        return 'idle'
-    }
-  }
 
   const schedule = []
   //props, totalDuration, excessPvEnergyUse, p
@@ -163,11 +164,18 @@ const toSchedule = (props, phenotype) => {
       continue
     }
 
-    if (schedule.length && period.activity == schedule.at(-1).activity) {
+    if (period.activity === 0 && period.charge === 0 && period.cost === 0) {
+      // we probably do not need to be idle here, this seems to happen only during PV production
+      // convert to discharge, as it makes no different wether we are idle or discharge with no consumption
+      period.activity = -1
+    }
+
+    /*if (schedule.length && period.activity == schedule.at(-1).activity) {
       schedule.at(-1).duration += period.duration
       schedule.at(-1).cost += period.cost
       schedule.at(-1).charge += period.charge
-    } else {
+      schedule.at(-1).socEnd = period.socEnd
+    } else {*/
       schedule.push({
         start: addMinutes(periodStart, period.start),
         activity: period.activity,
@@ -175,8 +183,10 @@ const toSchedule = (props, phenotype) => {
         duration: period.duration,
         cost: period.cost,
         charge: period.charge,
+        socStart: period.socStart,
+        socEnd: period.socEnd
       })
-    }
+    // }
   }
 
   return schedule

@@ -40,9 +40,11 @@ function* allPeriodsGenerator(props, phenotype) {
       excessPvEnergyUse,
       currentCharge
     )
+    period.socStart = currentCharge / batteryMaxEnergy;
     currentCharge += score[1]
     period.cost = score[0]
     period.charge = score[1]
+    period.socEnd = currentCharge / batteryMaxEnergy;
     return period
   }
 
@@ -193,7 +195,7 @@ const calculatePeriodScore = (
       production: production * duration,
       maxCharge,
       maxDischarge,
-      excessPvEnergyUse: excessPvEnergyUse,
+      excessPvEnergyUse,
     })
     cost += v[0]
     currentCharge += v[1]
