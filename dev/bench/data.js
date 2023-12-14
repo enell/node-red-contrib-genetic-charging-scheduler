@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1702366363831,
+  "lastUpdate": 1702582800347,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -3904,6 +3904,37 @@ window.BENCHMARK_DATA = {
             "name": "calculate schedule",
             "value": 1046359,
             "range": "±1.06%",
+            "unit": "ops/sec",
+            "extra": "93 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "distinct": true,
+          "id": "7a7d60b06f00fd9de3c1e166c2ed703fcdd5c3c6",
+          "message": "chore(deps): update dependency eslint-plugin-import to v2.29.1",
+          "timestamp": "2023-12-14T19:39:16Z",
+          "tree_id": "93a6fea899b149c0414887598a64a27d614e522f",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/7a7d60b06f00fd9de3c1e166c2ed703fcdd5c3c6"
+        },
+        "date": 1702582798108,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1047605,
+            "range": "±0.96%",
             "unit": "ops/sec",
             "extra": "93 samples"
           }
