@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1703024020830,
+  "lastUpdate": 1703186088555,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -3999,6 +3999,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.90%",
             "unit": "ops/sec",
             "extra": "94 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "distinct": true,
+          "id": "1e00490863aecd40d97458a12a2cb175d16977c4",
+          "message": "chore(deps): update dependency eslint-plugin-prettier to v5.1.1",
+          "timestamp": "2023-12-21T19:14:13Z",
+          "tree_id": "74985cc752daea24cf4d26ceaf9f0e44ad37f1af",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/1e00490863aecd40d97458a12a2cb175d16977c4"
+        },
+        "date": 1703186086645,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1036483,
+            "range": "±1.42%",
+            "unit": "ops/sec",
+            "extra": "88 samples"
           }
         ]
       }
