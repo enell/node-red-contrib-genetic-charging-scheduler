@@ -10,7 +10,7 @@ jobs:
     name: Run JavaScript benchmark
     runs-on: ubuntu-latest
     steps:
-      - uses: mskelton/setup-yarn@v1
+      - uses: mskelton/setup-yarn@v2
         with:
           node-version: lts/*
           flags: --immutable-cache
