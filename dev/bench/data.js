@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1704864949057,
+  "lastUpdate": 1704883013044,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -4185,6 +4185,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.77%",
             "unit": "ops/sec",
             "extra": "92 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "distinct": true,
+          "id": "68f62de2a8f16a17b1e7b00eed0641bd494c685d",
+          "message": "chore(deps): update dependency eslint-plugin-jest to v27.6.2",
+          "timestamp": "2024-01-10T10:36:17Z",
+          "tree_id": "2f2426fe1a4c1884300d77107b2bc8a1d5f63895",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/68f62de2a8f16a17b1e7b00eed0641bd494c685d"
+        },
+        "date": 1704883011181,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1061013,
+            "range": "±0.77%",
+            "unit": "ops/sec",
+            "extra": "94 samples"
           }
         ]
       }
