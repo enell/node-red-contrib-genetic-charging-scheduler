@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1705098148667,
+  "lastUpdate": 1705112933180,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -4307,6 +4307,37 @@ window.BENCHMARK_DATA = {
             "name": "calculate schedule",
             "value": 1056290,
             "range": "±0.84%",
+            "unit": "ops/sec",
+            "extra": "91 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "distinct": true,
+          "id": "9be270f9df7da85d8086c26336b5e03ef20264ca",
+          "message": "chore(deps): update dependency semantic-release to v23",
+          "timestamp": "2024-01-13T02:28:10Z",
+          "tree_id": "1d29aa1c1c1b0f47c2755895b14f92433df0ded9",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/9be270f9df7da85d8086c26336b5e03ef20264ca"
+        },
+        "date": 1705112930989,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1046757,
+            "range": "±1.18%",
             "unit": "ops/sec",
             "extra": "91 samples"
           }
