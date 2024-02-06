@@ -1247,12 +1247,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@node-red/editor-api@npm:3.1.3":
-  version: 3.1.3
-  resolution: "@node-red/editor-api@npm:3.1.3"
+"@node-red/editor-api@npm:3.1.4":
+  version: 3.1.4
+  resolution: "@node-red/editor-api@npm:3.1.4"
   dependencies:
-    "@node-red/editor-client": 3.1.3
-    "@node-red/util": 3.1.3
+    "@node-red/editor-client": 3.1.4
+    "@node-red/util": 3.1.4
     bcrypt: 5.1.0
     bcryptjs: 2.4.3
     body-parser: 1.20.2
@@ -1272,20 +1272,20 @@ __metadata:
   dependenciesMeta:
     bcrypt:
       optional: true
-  checksum: 90c907ee421764c93ede1c19067496ce9ad3e6235edf3abdafdd4941ef4be45fd7c3148687ff5abe8d5a3764cb74c406eb19e8d481a29549b0183d6f9187d7a1
+  checksum: 3a16e04a4a98c8e79f584978ebe0924d4e0c7150e268d2878bbf14baba339386817ba99ee3efc488c8058a5a049734c0838022dac277c0290d8a6212e28e4b72
   languageName: node
   linkType: hard
 
-"@node-red/editor-client@npm:3.1.3":
-  version: 3.1.3
-  resolution: "@node-red/editor-client@npm:3.1.3"
-  checksum: e72ce938758aa28834a1fb07b17ac53cd587cdd25acadf5facf34d57b22b763e4294f93c35b1a784abdc588c415ca79ad9586e7751479383136cc3262674b6d0
+"@node-red/editor-client@npm:3.1.4":
+  version: 3.1.4
+  resolution: "@node-red/editor-client@npm:3.1.4"
+  checksum: d11e851f8703cf8da9842762f1edc0482250ac1b17970920f76d3b3239103d575acf2d8f13d36a7d7ab5cb68b0dc90b43493a6f30934546f52a171e39d6a1806
   languageName: node
   linkType: hard
 
-"@node-red/nodes@npm:3.1.3":
-  version: 3.1.3
-  resolution: "@node-red/nodes@npm:3.1.3"
+"@node-red/nodes@npm:3.1.4":
+  version: 3.1.4
+  resolution: "@node-red/nodes@npm:3.1.4"
   dependencies:
     acorn: 8.8.2
     acorn-walk: 8.2.0
@@ -1318,42 +1318,42 @@ __metadata:
     uuid: 9.0.0
     ws: 7.5.6
     xml2js: 0.6.2
-  checksum: 5f71c5c62a5470e8a3182ed784d9ac41b9fe76b7ddc0f518ed4836bd3c197c815f27c90dfd6002ed76fee6572cefd618cbb088b93813040032bdcbe55a6fbed4
+  checksum: 8f7c9f68e43365b8a8ca537df5601a5f81be5e13cc14abcc6474419494023abe39323a29c57329a75f854f14ce58a17709289ebc63f458673571d5bfaec05ebb
   languageName: node
   linkType: hard
 
-"@node-red/registry@npm:3.1.3":
-  version: 3.1.3
-  resolution: "@node-red/registry@npm:3.1.3"
+"@node-red/registry@npm:3.1.4":
+  version: 3.1.4
+  resolution: "@node-red/registry@npm:3.1.4"
   dependencies:
-    "@node-red/util": 3.1.3
+    "@node-red/util": 3.1.4
     clone: 2.1.2
     fs-extra: 11.1.1
     semver: 7.5.4
     tar: 6.1.13
     uglify-js: 3.17.4
-  checksum: 97ae9d2613ccba7b7ec86d16c7dfbf7ecbf51f82f79a1d4374f9f98e6ee34c289ab59b17dd8979d2b9f731d87c26a7011f86ec31d71f896673cec02fbcfa3481
+  checksum: dd146f713b5f977233fa03d6036b5cd5d03097015ac92b951768d5d8002c25a81f35b0fcc19880eb49f5913f7187e88e4178e7c063ca3c2d69ce387d21fee468
   languageName: node
   linkType: hard
 
-"@node-red/runtime@npm:3.1.3":
-  version: 3.1.3
-  resolution: "@node-red/runtime@npm:3.1.3"
+"@node-red/runtime@npm:3.1.4":
+  version: 3.1.4
+  resolution: "@node-red/runtime@npm:3.1.4"
   dependencies:
-    "@node-red/registry": 3.1.3
-    "@node-red/util": 3.1.3
+    "@node-red/registry": 3.1.4
+    "@node-red/util": 3.1.4
     async-mutex: 0.4.0
     clone: 2.1.2
     express: 4.18.2
     fs-extra: 11.1.1
     json-stringify-safe: 5.0.1
-  checksum: 147e79b82a75df1758257709160501ab458e1d3798dc9618440d67a4e7b1373f9d704d04e36e12234945dd18374ab70bc18442f11b72a2fa17dca8aafb7e7d8a
+  checksum: db42cbd7147f2228e53d3b01b8b355c9e8e6e7a050ffd3ca4d5eda37e5bb685f570cd46e298589c99ecefdd719aa63c2825f58502096ceaf15b27182faad95c7
   languageName: node
   linkType: hard
 
-"@node-red/util@npm:3.1.3":
-  version: 3.1.3
-  resolution: "@node-red/util@npm:3.1.3"
+"@node-red/util@npm:3.1.4":
+  version: 3.1.4
+  resolution: "@node-red/util@npm:3.1.4"
   dependencies:
     fs-extra: 11.1.1
     i18next: 21.10.0
@@ -1362,7 +1362,7 @@ __metadata:
     lodash.clonedeep: ^4.5.0
     moment: 2.29.4
     moment-timezone: 0.5.43
-  checksum: 69f67fdcf65ca67694cb544077d42d154c9211d7c40680761e58b079cd2f377713732b76d17508c30c8e4abb5be7c4c44f712278a295c21a0946d78eb5d63929
+  checksum: 3cf21844f51a44b67c5980553135c0cb638ce746d0da05b510f52a04f8b9b9cf97e67bbf180a5a2ebd8d8933c19457e548884dd0ec975890ee5794ae6fc790b4
   languageName: node
   linkType: hard
 
@@ -2804,14 +2804,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.6.1":
-  version: 1.6.2
-  resolution: "axios@npm:1.6.2"
+"axios@npm:^1.6.7":
+  version: 1.6.7
+  resolution: "axios@npm:1.6.7"
   dependencies:
-    follow-redirects: ^1.15.0
+    follow-redirects: ^1.15.4
     form-data: ^4.0.0
     proxy-from-env: ^1.1.0
-  checksum: 4a7429e2b784be0f2902ca2680964391eae7236faa3967715f30ea45464b98ae3f1c6f631303b13dfe721b17126b01f486c7644b9ef276bfc63112db9fd379f8
+  checksum: 87d4d429927d09942771f3b3a6c13580c183e31d7be0ee12f09be6d5655304996bb033d85e54be81606f4e89684df43be7bf52d14becb73a12727bf33298a082
   languageName: node
   linkType: hard
 
@@ -5387,13 +5387,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.15.0":
-  version: 1.15.3
-  resolution: "follow-redirects@npm:1.15.3"
+"follow-redirects@npm:^1.15.4":
+  version: 1.15.5
+  resolution: "follow-redirects@npm:1.15.5"
   peerDependenciesMeta:
     debug:
       optional: true
-  checksum: 584da22ec5420c837bd096559ebfb8fe69d82512d5585004e36a3b4a6ef6d5905780e0c74508c7b72f907d1fa2b7bd339e613859e9c304d0dc96af2027fd0231
+  checksum: 5ca49b5ce6f44338cbfc3546823357e7a70813cecc9b7b768158a1d32c1e62e7407c944402a918ea8c38ae2e78266312d617dc68783fac502cbb55e1047b34ec
   languageName: node
   linkType: hard
 
@@ -8702,12 +8702,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-red-admin@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "node-red-admin@npm:3.1.1"
+"node-red-admin@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "node-red-admin@npm:3.1.2"
   dependencies:
     ansi-colors: ^4.1.3
-    axios: ^1.6.1
+    axios: ^1.6.7
     bcrypt: 5.1.1
     bcryptjs: ^2.4.3
     cli-table: ^0.3.11
@@ -8720,7 +8720,7 @@ __metadata:
       optional: true
   bin:
     node-red-admin: node-red-admin.js
-  checksum: 2669e5ecf9411d0cbc82c8adc3bffa8d7c079dc973bb036819ec402c83521a88b3fad644225ff75ef34930ccfebf4f310bba71ffd489069855798a80bd511275
+  checksum: 2f292758f92f7f54188c263e8a3e5f9815dd10f4f6fcc6038f787a083479c2f3672f3e23352108d5e0c0bf24789c09ef762ef9e5df8eec95c0d544c0893beeea
   languageName: node
   linkType: hard
 
@@ -8744,7 +8744,7 @@ __metadata:
     geneticalgorithm: 1.0.2
     jest: 29.7.0
     jest-mock-random: 1.1.1
-    node-red: 3.1.3
+    node-red: 3.1.4
     node-red-node-test-helper: 0.3.3
     prettier: 3.2.5
     semantic-release: 23.0.0
@@ -8768,20 +8768,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-red@npm:3.1.3":
-  version: 3.1.3
-  resolution: "node-red@npm:3.1.3"
+"node-red@npm:3.1.4":
+  version: 3.1.4
+  resolution: "node-red@npm:3.1.4"
   dependencies:
-    "@node-red/editor-api": 3.1.3
-    "@node-red/nodes": 3.1.3
-    "@node-red/runtime": 3.1.3
-    "@node-red/util": 3.1.3
+    "@node-red/editor-api": 3.1.4
+    "@node-red/nodes": 3.1.4
+    "@node-red/runtime": 3.1.4
+    "@node-red/util": 3.1.4
     basic-auth: 2.0.1
     bcrypt: 5.1.0
     bcryptjs: 2.4.3
     express: 4.18.2
     fs-extra: 11.1.1
-    node-red-admin: ^3.1.1
+    node-red-admin: ^3.1.2
     nopt: 5.0.0
     semver: 7.5.4
   dependenciesMeta:
@@ -8790,7 +8790,7 @@ __metadata:
   bin:
     node-red: red.js
     node-red-pi: bin/node-red-pi
-  checksum: 989074c5145e21e30479c2bfa9fdd8052995a649ca6a3ebc3d1b72072d8efee5ee7fee21c0e5b63429630aa2c1a5401af24be04e64b5d8ef53ec3c6735b55dc4
+  checksum: 54658f0587bd00349951e6892b210628ea7fef98f3d972a803a7c1b003c1b012a1f95980fb720fd67a6cdca4c45b7466efbd05749b4be0528c468ab103cd302b
   languageName: node
   linkType: hard
 
