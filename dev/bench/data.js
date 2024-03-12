@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1709545547163,
+  "lastUpdate": 1710269969627,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -4836,6 +4836,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.79%",
             "unit": "ops/sec",
             "extra": "93 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "distinct": true,
+          "id": "d134a3c293274ff0d5ddc6405fe1a9f3c692f3c6",
+          "message": "chore(deps): update dependency node-red to v3.1.7",
+          "timestamp": "2024-03-12T18:58:48Z",
+          "tree_id": "3db611d7ed7046db253f9af72594eb2de1c21709",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/d134a3c293274ff0d5ddc6405fe1a9f3c692f3c6"
+        },
+        "date": 1710269966560,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1021414,
+            "range": "±0.93%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
           }
         ]
       }
