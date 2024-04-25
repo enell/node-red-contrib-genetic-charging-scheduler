@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1712865955956,
+  "lastUpdate": 1714077798012,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -5332,6 +5332,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.90%",
             "unit": "ops/sec",
             "extra": "89 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "distinct": true,
+          "id": "18c1d3d1c9af5898c279dfa983c241c987f80617",
+          "message": "chore(deps): update dependency eslint-plugin-react-hooks to v4.6.1",
+          "timestamp": "2024-04-25T20:42:40Z",
+          "tree_id": "31bfc52dab5b03be09d35548f9c52ea8ff807758",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/18c1d3d1c9af5898c279dfa983c241c987f80617"
+        },
+        "date": 1714077796197,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1006889,
+            "range": "±0.76%",
+            "unit": "ops/sec",
+            "extra": "91 samples"
           }
         ]
       }
