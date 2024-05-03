@@ -209,7 +209,7 @@ describe('Battery charging strategy Node', () => {
     })
   })
 
-  it('should send handle empty priceData', (done) => {
+  it('should handle empty priceData', (done) => {
     const flow = [
       {
         id: 'n1',
