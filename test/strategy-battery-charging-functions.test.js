@@ -81,9 +81,15 @@ describe('Calculate', () => {
       activity: -1,
       name: 'discharging',
     });
+
+    const noBatterySchedule = strategy.noBattery.schedule;
+    expect(noBatterySchedule.length).toEqual(1);
+
     expect(strategy.best.excessPvEnergyUse).toEqual(excessPvEnergyUse);
     expect(strategy.best.cost).not.toBeNull();
     expect(strategy.best.cost).not.toBeNaN();
+    expect(strategy.best.noBattery).not.toBeNull();
+    expect(strategy.best.noBattery).not.toBeNaN();
 
     console.log(`best: ${strategy.best.cost}`);
     console.log(`no battery: ${strategy.noBattery.cost}`);
