@@ -12,7 +12,6 @@ jobs:
       - uses: mskelton/setup-yarn@v2
         with:
           node-version: lts/*
-          flags: --immutable-cache
           cache: yarn
       - name: Lint
         run: yarn run lint
