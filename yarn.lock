@@ -5828,13 +5828,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"geneticalgorithm@npm:1.0.2":
-  version: 1.0.2
-  resolution: "geneticalgorithm@npm:1.0.2"
-  checksum: 6e413850594ff56e13dfb972658f213b5b73f1eca57392796840d85303123792a59561ce446271b458a42c356065764111624f964c43c0c102ff8a2765aea94b
-  languageName: node
-  linkType: hard
-
 "gensync@npm:^1.0.0-beta.2":
   version: 1.0.0-beta.2
   resolution: "gensync@npm:1.0.0-beta.2"
@@ -8769,6 +8762,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"moment@npm:2.30.1":
+  version: 2.30.1
+  resolution: "moment@npm:2.30.1"
+  checksum: 859236bab1e88c3e5802afcf797fc801acdbd0ee509d34ea3df6eea21eb6bcc2abd4ae4e4e64aa7c986aa6cba563c6e62806218e6412a765010712e5fa121ba6
+  languageName: node
+  linkType: hard
+
 "mqtt-packet@npm:^6.8.0":
   version: 6.10.0
   resolution: "mqtt-packet@npm:6.10.0"
@@ -9041,9 +9041,9 @@ __metadata:
     eslint-plugin-prettier: 5.1.3
     eslint-plugin-react: 7.34.1
     eslint-plugin-react-hooks: 4.6.2
-    geneticalgorithm: 1.0.2
     jest: 29.7.0
     jest-mock-random: 1.1.1
+    moment: 2.30.1
     node-red: 3.1.9
     node-red-node-test-helper: 0.3.4
     prettier: 3.2.5

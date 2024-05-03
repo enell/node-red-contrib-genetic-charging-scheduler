@@ -1,4 +1,4 @@
-const { expect, describe } = require('@jest/globals')
+const { expect, describe } = require('@jest/globals');
 const {
   fitnessFunction,
   splitIntoHourIntervals,
@@ -7,13 +7,14 @@ const {
   calculateDischargeScore,
   calculateChargeScore,
   calculateNormalScore,
-} = require('../src/fitness')
+} = require('../src/fitness');
+const { DoublyLinkedList } = require('../src/schedule');
 
-let props
+let props;
 
 beforeEach(() => {
-  let now = Date.now()
-  now = now - (now % (60 * 60 * 1000))
+  let now = Date.now();
+  now = now - (now % (60 * 60 * 1000));
   const input = [
     {
       start: new Date(now).toString(),
@@ -50,7 +51,7 @@ beforeEach(() => {
       consumption: 1,
       production: 0,
     },
-  ]
+  ];
   props = {
     input,
     totalDuration: input.length * 60,
@@ -58,31 +59,31 @@ beforeEach(() => {
     batteryMaxInputPower: 1,
     batteryMaxOutputPower: 1,
     soc: 1,
-  }
-})
+  };
+});
 
 describe('Fitness - splitIntoHourIntervals', () => {
   test('should split into one intervals', () => {
     expect(
       splitIntoHourIntervals({ start: 0, activity: 1, duration: 60 })
-    ).toMatchObject([{ start: 0, activity: 1, duration: 60 }])
-  })
+    ).toMatchObject([{ start: 0, activity: 1, duration: 60 }]);
+  });
   test('should split into two intervals', () => {
     expect(
       splitIntoHourIntervals({ start: 0, activity: 1, duration: 90 })
     ).toMatchObject([
       { start: 0, activity: 1, duration: 60 },
       { start: 60, activity: 1, duration: 30 },
-    ])
-  })
+    ]);
+  });
   test('should split into hour two 30min intervals', () => {
     expect(
       splitIntoHourIntervals({ start: 30, activity: 1, duration: 60 })
     ).toMatchObject([
       { start: 30, activity: 1, duration: 30 },
       { start: 60, activity: 1, duration: 30 },
-    ])
-  })
+    ]);
+  });
   test('should split into 3 intervals', () => {
     expect(
       splitIntoHourIntervals({ start: 30, activity: 1, duration: 120 })
@@ -90,60 +91,39 @@ describe('Fitness - splitIntoHourIntervals', () => {
       { start: 30, activity: 1, duration: 30 },
       { start: 60, activity: 1, duration: 60 },
       { start: 120, activity: 1, duration: 30 },
-    ])
-  })
-})
+    ]);
+  });
+});
 
 describe('Fitness - allPeriods', () => {
   test('should test allPeriods empty', () => {
     expect(
-      allPeriods(props, { excessPvEnergyUse: 0, periods: [] })
-    ).toMatchObject([{ start: 0, duration: 300, activity: 0 }])
-  })
+      allPeriods(props, {
+        excessPvEnergyUse: 0,
+        periods: new DoublyLinkedList(),
+      })
+    ).toMatchObject([]);
+  });
 
   test('should test allPeriods one activity', () => {
     expect(
       allPeriods(props, {
         excessPvEnergyUse: 0,
-        periods: [{ start: 0, duration: 300, activity: 1 }],
+        periods: new DoublyLinkedList().insertBack({ start: 0, activity: 1 }),
       })
-    ).toMatchObject([{ start: 0, duration: 300, activity: 1 }])
-  })
+    ).toMatchObject([{ start: 0, duration: 300, activity: 1 }]);
+  });
 
-  test('should test allPeriods one in the middle', () => {
+  test('should test allPeriods many activities', () => {
     expect(
       allPeriods(props, {
         excessPvEnergyUse: 0,
-        periods: [{ start: 120, duration: 60, activity: 1 }],
-      })
-    ).toMatchObject([
-      { start: 0, duration: 120, activity: 0 },
-      { start: 120, duration: 60, activity: 1 },
-      { start: 180, duration: 120, activity: 0 },
-    ])
-  })
-
-  test('should test allPeriods one long activity', () => {
-    expect(
-      allPeriods(props, {
-        excessPvEnergyUse: 0,
-        periods: [{ start: 100, duration: 100, activity: 1 }],
-      })
-    ).toMatchObject([
-      { start: 0, duration: 100, activity: 0 },
-      { start: 100, duration: 100, activity: 1 },
-      { start: 200, duration: 100, activity: 0 },
-    ])
-  })
-
-  test('should test allPeriods two activities', () => {
-    expect(
-      allPeriods(props, {
-        excessPvEnergyUse: 0,
-        periods: [
-          { start: 70, activity: 1, duration: 80 },
-          { start: 160, activity: -1, duration: 30 },
-        ],
+        periods: new DoublyLinkedList()
+          .insertBack({ start: 0, activity: 0 })
+          .insertBack({ start: 70, activity: 1 })
+          .insertBack({ start: 150, activity: 0 })
+          .insertBack({ start: 160, activity: -1 })
+          .insertBack({ start: 190, activity: 0 }),
       })
     ).toMatchObject([
       { start: 0, duration: 70, activity: 0 },
@@ -151,9 +131,9 @@ describe('Fitness - allPeriods', () => {
       { start: 150, duration: 10, activity: 0 },
       { start: 160, duration: 30, activity: -1 },
       { start: 190, duration: 110, activity: 0 },
-    ])
-  })
-})
+    ]);
+  });
+});
 
 describe('Fitness - calculateScore', () => {
   describe('Fitness - calculateDischargeScore', () => {
@@ -166,8 +146,8 @@ describe('Fitness - calculateScore', () => {
           production: 0,
           maxDischarge: 1,
         })
-      ).toEqual([0, -1])
-    })
+      ).toEqual([0, -1]);
+    });
 
     test('should discharge full hour, empty battery', () => {
       expect(
@@ -178,8 +158,8 @@ describe('Fitness - calculateScore', () => {
           production: 0,
           maxDischarge: 0,
         })
-      ).toEqual([2, 0])
-    })
+      ).toEqual([2, 0]);
+    });
 
     test('should discharge full hour, almost empty battery', () => {
       expect(
@@ -190,8 +170,8 @@ describe('Fitness - calculateScore', () => {
           production: 0,
           maxDischarge: 0.5,
         })
-      ).toEqual([1, -0.5])
-    })
+      ).toEqual([1, -0.5]);
+    });
 
     test('should discharge full hour, full battery, equal production', () => {
       expect(
@@ -202,8 +182,8 @@ describe('Fitness - calculateScore', () => {
           production: 1,
           maxDischarge: 1,
         })
-      ).toEqual([0, 0])
-    })
+      ).toEqual([0, 0]);
+    });
 
     test('should discharge full hour, full battery, double production', () => {
       expect(
@@ -214,8 +194,8 @@ describe('Fitness - calculateScore', () => {
           production: 2,
           maxDischarge: 1,
         })
-      ).toEqual([-2, 0])
-    })
+      ).toEqual([-2, 0]);
+    });
 
     test('should discharge full hour, full battery, double production, charge preference', () => {
       expect(
@@ -228,9 +208,9 @@ describe('Fitness - calculateScore', () => {
           maxCharge: 1,
           excessPvEnergyUse: 1,
         })
-      ).toEqual([0, 1])
-    })
-  })
+      ).toEqual([0, 1]);
+    });
+  });
 
   describe('Fitness - calculateChargeScore', () => {
     test('should charge full hour, full battery', () => {
@@ -242,8 +222,8 @@ describe('Fitness - calculateScore', () => {
           production: 0,
           maxCharge: 0,
         })
-      ).toEqual([2, 0])
-    })
+      ).toEqual([2, 0]);
+    });
 
     test('should charge full hour, empty battery', () => {
       expect(
@@ -255,8 +235,8 @@ describe('Fitness - calculateScore', () => {
           production: 0,
           maxCharge: 1,
         })
-      ).toEqual([4, 1])
-    })
+      ).toEqual([4, 1]);
+    });
 
     test('should charge full hour, almost full battery', () => {
       expect(
@@ -267,8 +247,8 @@ describe('Fitness - calculateScore', () => {
           production: 0,
           maxCharge: 0.5,
         })
-      ).toEqual([3, 0.5])
-    })
+      ).toEqual([3, 0.5]);
+    });
 
     test('should charge full hour, empty battery, equal production', () => {
       expect(
@@ -280,8 +260,8 @@ describe('Fitness - calculateScore', () => {
           production: 1,
           maxCharge: 1,
         })
-      ).toEqual([2, 1])
-    })
+      ).toEqual([2, 1]);
+    });
 
     test('should charge full hour, empty battery, double production', () => {
       expect(
@@ -293,8 +273,8 @@ describe('Fitness - calculateScore', () => {
           production: 2,
           maxCharge: 1,
         })
-      ).toEqual([0, 1])
-    })
+      ).toEqual([0, 1]);
+    });
 
     test('should charge full hour, empty battery, triple production, charge preference', () => {
       expect(
@@ -307,9 +287,9 @@ describe('Fitness - calculateScore', () => {
           maxCharge: 1,
           excessPvEnergyUse: 1,
         })
-      ).toEqual([-2, 1])
-    })
-  })
+      ).toEqual([-2, 1]);
+    });
+  });
 
   describe('Fitness - calculateNormalScore', () => {
     test('should consume normal full hour no production', () => {
@@ -321,8 +301,8 @@ describe('Fitness - calculateScore', () => {
           production: 0,
           maxCharge: 1,
         })
-      ).toEqual([2, 0])
-    })
+      ).toEqual([2, 0]);
+    });
 
     test('should consume normal full hour with equal production', () => {
       expect(
@@ -333,8 +313,8 @@ describe('Fitness - calculateScore', () => {
           production: 1,
           maxCharge: 1,
         })
-      ).toEqual([0, 0])
-    })
+      ).toEqual([0, 0]);
+    });
 
     test('should consume normal full hour with double production, charge preference', () => {
       expect(
@@ -346,8 +326,8 @@ describe('Fitness - calculateScore', () => {
           maxCharge: 1,
           excessPvEnergyUse: 1,
         })
-      ).toEqual([0, 1])
-    })
+      ).toEqual([0, 1]);
+    });
 
     test('should consume normal full hour with double production, feed to grid preference', () => {
       expect(
@@ -359,77 +339,95 @@ describe('Fitness - calculateScore', () => {
           maxCharge: 1,
           excessPvEnergyUse: 0,
         })
-      ).toEqual([-2, 0])
-    })
-  })
+      ).toEqual([-2, 0]);
+    });
+  });
 
   describe('Fitness - calculatePeriodScore', () => {
     test('shod not charge faster than max input power', () => {
-      const period = { start: 0, duration: 1, activity: 1 }
-      const currentCharge = 0
-      const excessPvEnergyUse = 0
+      const period = { start: 0, duration: 1, activity: 1 };
+      const currentCharge = 0;
+      const excessPvEnergyUse = 0;
       const score = calculatePeriodScore(
         props,
         period,
         excessPvEnergyUse,
         currentCharge
-      )
-      const chargeSpeed = score[1] / (1 / 60)
-      expect(chargeSpeed).toBeCloseTo(props.batteryMaxInputPower)
-      expect(score[0]).toBeCloseTo(2 / 60)
-      expect(score[1]).toBeCloseTo(1 / 60)
-    })
+      );
+      const chargeSpeed = score[1] / (1 / 60);
+      expect(chargeSpeed).toBeCloseTo(props.batteryMaxInputPower);
+      expect(score[0]).toBeCloseTo(2 / 60);
+      expect(score[1]).toBeCloseTo(1 / 60);
+    });
 
     test('shod not discharge faster than max output power', () => {
-      const period = { start: 0, duration: 1, activity: -1 }
-      const currentCharge = 100
-      const excessPvEnergyUse = 0
+      const period = { start: 0, duration: 1, activity: -1 };
+      const currentCharge = 100;
+      const excessPvEnergyUse = 0;
       const score = calculatePeriodScore(
         props,
         period,
         excessPvEnergyUse,
         currentCharge
-      )
-      const dischargeSpeed = (score[1] / (1 / 60)) * -1
-      expect(dischargeSpeed).toBeCloseTo(props.batteryMaxOutputPower)
-      expect(score[0]).toBeCloseTo(0)
-      expect(score[1]).toBeCloseTo((1 / 60) * -1)
-    })
-  })
-})
+      );
+      const dischargeSpeed = (score[1] / (1 / 60)) * -1;
+      expect(dischargeSpeed).toBeCloseTo(props.batteryMaxOutputPower);
+      expect(score[0]).toBeCloseTo(0);
+      expect(score[1]).toBeCloseTo((1 / 60) * -1);
+    });
+  });
+});
 
 describe('Fitness', () => {
   test('should calculate fitness', () => {
-    props.totalDuration = 180
-    props.soc = 0
+    props.totalDuration = 180;
+    props.soc = 0;
     const score = fitnessFunction(props)({
-      periods: [
-        { start: 30, duration: 60, activity: 1 },
-        { start: 90, duration: 30, activity: -1 },
-      ],
+      periods: new DoublyLinkedList()
+        .insertBack({ start: 0, activity: 0 })
+        .insertBack({ start: 30, activity: 1 })
+        .insertBack({ start: 90, activity: -1 })
+        .insertBack({ start: 120, activity: 0 }),
       excessPvEnergyUse: 0,
-    })
-    expect(score).toEqual(-3.5)
-  })
+    });
+    expect(score).toEqual(-3.5);
+  });
+
+  test('should calculate fitness penalty for empty charge', () => {
+    props.totalDuration = 180;
+    props.soc = 0;
+    const score1 = fitnessFunction(props)({
+      periods: new DoublyLinkedList().insertBack({ start: 0, activity: -1 }),
+      excessPvEnergyUse: 0,
+    });
+    expect(score1).toEqual(-6);
+
+    props.soc = 1;
+    const score2 = fitnessFunction(props)({
+      periods: new DoublyLinkedList().insertBack({ start: 0, activity: 1 }),
+      excessPvEnergyUse: 0,
+    });
+    expect(score2).toEqual(-6);
+  });
 
   test('should calculate fitness with soc', () => {
-    props.totalDuration = 120
-    props.soc = 1
+    props.totalDuration = 120;
+    props.soc = 0;
     const score = fitnessFunction(props)({
-      periods: [
-        { start: 30, duration: 60, activity: 1 },
-        { start: 90, duration: 30, activity: -1 },
-      ],
+      periods: new DoublyLinkedList()
+        .insertBack({ start: 0, activity: 0 })
+        .insertBack({ start: 30, activity: 1 })
+        .insertBack({ start: 90, activity: -1 }),
       excessPvEnergyUse: 0,
-    })
-    expect(score).toEqual(-1.5)
-  })
+    });
+    expect(score).toEqual(-2.5);
+  });
 
   test('should calculate 180 min charge period with full battery', () => {
-    props.totalDuration = 180
-    props.soc = 1
-    let now = Date.now()
-    now = now - (now % (60 * 60 * 1000))
+    props.totalDuration = 180;
+    props.soc = 1;
+    let now = Date.now();
+    now = now - (now % (60 * 60 * 1000));
     props.input = [
       {
         start: new Date(now).toString(),
@@ -452,11 +450,11 @@ describe('Fitness', () => {
         consumption: 1.5,
         production: 0,
       },
-    ]
+    ];
     let score = fitnessFunction(props)({
-      periods: [{ start: 0, duration: 180, activity: 1 }],
+      periods: new DoublyLinkedList().insertBack({ start: 0, activity: 1 }),
       excessPvEnergyUse: 0,
-    })
-    expect(score).toEqual(-1501.5)
-  })
-})
+    });
+    expect(score).toEqual(-2502.5);
+  });
+});

@@ -1,37 +1,27 @@
 function* splitIntoHourIntervalsGenerator(seed) {
-  let remainingDuration = seed.duration
-  let start = seed.start
+  let remainingDuration = seed.duration;
+  let start = seed.start;
   while (remainingDuration > 0) {
-    const i = Math.min(60 - (start % 60), remainingDuration)
+    const i = Math.min(60 - (start % 60), remainingDuration);
     yield {
       start: start,
       duration: i,
       activity: seed.activity,
-    }
-    start += i
-    remainingDuration -= i
+    };
+    start += i;
+    remainingDuration -= i;
   }
-  return
+  return;
 }
 
 const splitIntoHourIntervals = (seed) => [
   ...splitIntoHourIntervalsGenerator(seed),
-]
-
-const end = (g) => g.start + g.duration
-
-const calculateNormalPeriod = (g1, g2) => {
-  return {
-    start: end(g1),
-    duration: g2.start - end(g1),
-    activity: 0,
-  }
-}
+];
 
 function* allPeriodsGenerator(props, phenotype) {
-  const { batteryMaxEnergy, soc, totalDuration } = props
-  const { excessPvEnergyUse, periods } = phenotype
-  let currentCharge = soc * batteryMaxEnergy
+  const { batteryMaxEnergy, soc, totalDuration } = props;
+  const { excessPvEnergyUse, periods } = phenotype;
+  let currentCharge = soc * batteryMaxEnergy;
 
   const addCosts = (period) => {
     const score = calculatePeriodScore(
@@ -39,37 +29,29 @@ function* allPeriodsGenerator(props, phenotype) {
       period,
       excessPvEnergyUse,
       currentCharge
-    )
-    currentCharge += score[1]
-    period.cost = score[0]
-    period.charge = score[1]
-    return period
-  }
+    );
+    currentCharge += score[1];
+    period.cost = score[0];
+    period.charge = score[1];
+    return period;
+  };
 
-  for (let i = 0; i < periods.length; i += 1) {
-    const normalPeriod = calculateNormalPeriod(
-      periods[i - 1] ?? { start: 0, duration: 0 },
-      periods[i]
-    )
-    if (normalPeriod.duration > 0) yield addCosts(normalPeriod)
-    yield addCosts(periods[i])
+  let node = periods.head;
+  while (node) {
+    const end = node.next ? node.next.data.start : totalDuration;
+    const period = { ...node.data };
+    period.duration = end - period.start;
+    yield addCosts(period);
+    node = node.next;
   }
-
-  const normalPeriod = calculateNormalPeriod(
-    periods.at(-1) ?? { start: 0, duration: 0 },
-    {
-      start: totalDuration,
-    }
-  )
-  if (normalPeriod.duration > 0) yield addCosts(normalPeriod)
 }
 
 const allPeriods = (props, phenotype) => {
-  return [...allPeriodsGenerator(props, phenotype)]
-}
+  return [...allPeriodsGenerator(props, phenotype)];
+};
 
-const FEED_TO_GRID = 0
-const CHARGE = 1
+const FEED_TO_GRID = 0;
+const CHARGE = 1;
 
 const calculateDischargeScore = (props) => {
   const {
@@ -80,27 +62,27 @@ const calculateDischargeScore = (props) => {
     maxDischarge,
     maxCharge,
     excessPvEnergyUse,
-  } = props
+  } = props;
 
-  const consumedFromProduction = Math.min(consumption, production)
+  const consumedFromProduction = Math.min(consumption, production);
   const batteryChargeFromProduction =
     excessPvEnergyUse == CHARGE
       ? Math.min(production - consumedFromProduction, maxCharge)
-      : 0
+      : 0;
   const consumedFromBattery = Math.min(
     consumption - consumedFromProduction,
     maxDischarge
-  )
+  );
   const soldFromProduction =
-    production - consumedFromProduction - batteryChargeFromProduction
+    production - consumedFromProduction - batteryChargeFromProduction;
   const consumedFromGrid =
-    consumption - consumedFromProduction - consumedFromBattery
+    consumption - consumedFromProduction - consumedFromBattery;
 
-  let cost = consumedFromGrid * importPrice - soldFromProduction * exportPrice
-  let charge = batteryChargeFromProduction - consumedFromBattery
+  let cost = consumedFromGrid * importPrice - soldFromProduction * exportPrice;
+  let charge = batteryChargeFromProduction - consumedFromBattery;
 
-  return [cost, charge]
-}
+  return [cost, charge];
+};
 
 const calculateNormalScore = (props) => {
   const {
@@ -110,53 +92,54 @@ const calculateNormalScore = (props) => {
     consumption,
     production,
     excessPvEnergyUse,
-  } = props
+  } = props;
 
-  const consumedFromProduction = Math.min(consumption, production)
+  const consumedFromProduction = Math.min(consumption, production);
   const batteryChargeFromProduction =
     excessPvEnergyUse == CHARGE
       ? Math.min(production - consumedFromProduction, maxCharge)
-      : 0
+      : 0;
   const soldFromProduction =
-    production - consumedFromProduction - batteryChargeFromProduction
-  const consumedFromGrid = consumption - consumedFromProduction
+    production - consumedFromProduction - batteryChargeFromProduction;
+  const consumedFromGrid = consumption - consumedFromProduction;
 
-  let cost = importPrice * consumedFromGrid - exportPrice * soldFromProduction
-  let charge = batteryChargeFromProduction
-  return [cost, charge]
-}
+  let cost = importPrice * consumedFromGrid - exportPrice * soldFromProduction;
+  let charge = batteryChargeFromProduction;
+  return [cost, charge];
+};
 
 const calculateChargeScore = (props) => {
-  const { exportPrice, importPrice, consumption, production, maxCharge } = props
+  const { exportPrice, importPrice, consumption, production, maxCharge } =
+    props;
 
-  const consumedFromProduction = Math.min(consumption, production)
+  const consumedFromProduction = Math.min(consumption, production);
   const batteryChargeFromProduction = Math.min(
     production - consumedFromProduction,
     maxCharge
-  )
+  );
   const soldFromProduction =
-    production - consumedFromProduction - batteryChargeFromProduction
-  const consumedFromGrid = consumption - consumedFromProduction
-  const chargedFromGrid = maxCharge - batteryChargeFromProduction
+    production - consumedFromProduction - batteryChargeFromProduction;
+  const consumedFromGrid = consumption - consumedFromProduction;
+  const chargedFromGrid = maxCharge - batteryChargeFromProduction;
 
   let cost =
     (consumedFromGrid + chargedFromGrid) * importPrice -
-    soldFromProduction * exportPrice
-  let charge = batteryChargeFromProduction + chargedFromGrid
+    soldFromProduction * exportPrice;
+  let charge = batteryChargeFromProduction + chargedFromGrid;
 
-  return [cost, charge]
-}
+  return [cost, charge];
+};
 
 const calculateIntervalScore = (props) => {
   switch (props.activity) {
     case -1:
-      return calculateDischargeScore(props)
+      return calculateDischargeScore(props);
     case 1:
-      return calculateChargeScore(props)
+      return calculateChargeScore(props);
     default:
-      return calculateNormalScore(props)
+      return calculateNormalScore(props);
   }
-}
+};
 
 const calculatePeriodScore = (
   props,
@@ -169,21 +152,21 @@ const calculatePeriodScore = (
     batteryMaxEnergy,
     batteryMaxInputPower,
     batteryMaxOutputPower,
-  } = props
-  let cost = 0
-  let currentCharge = _currentCharge
+  } = props;
+  let cost = 0;
+  let currentCharge = _currentCharge;
   for (const interval of splitIntoHourIntervals(period)) {
-    const duration = interval.duration / 60
+    const duration = interval.duration / 60;
     const maxCharge = Math.min(
       batteryMaxInputPower * duration,
       batteryMaxEnergy - currentCharge
-    )
+    );
     const maxDischarge = Math.min(
       batteryMaxOutputPower * duration,
       currentCharge
-    )
+    );
     const { importPrice, exportPrice, consumption, production } =
-      input[Math.floor(interval.start / 60)]
+      input[Math.floor(interval.start / 60)];
 
     const v = calculateIntervalScore({
       activity: interval.activity,
@@ -194,24 +177,35 @@ const calculatePeriodScore = (
       maxCharge,
       maxDischarge,
       excessPvEnergyUse: excessPvEnergyUse,
-    })
-    cost += v[0]
-    currentCharge += v[1]
+    });
+    cost += v[0];
+    currentCharge += v[1];
   }
-  return [cost, currentCharge - _currentCharge]
-}
+  return [cost, currentCharge - _currentCharge];
+};
+
+const cost = (periods) => {
+  return periods.reduce((acc, cur) => acc + cur.cost, 0);
+};
 
 const fitnessFunction = (props) => (phenotype) => {
-  let cost = 0
+  const periods = allPeriods(props, phenotype);
+  let score = -cost(periods);
 
-  for (const period of allPeriodsGenerator(props, phenotype)) {
-    cost -= period.cost
-  }
+  let averagePrice =
+    props.input.reduce((acc, cur) => acc + cur.importPrice, 0) /
+    props.input.length;
+  score -= periods.reduce((acc, cur) => {
+    if (cur.activity != 0 && cur.charge == 0)
+      return acc + (cur.duration * averagePrice) / 60;
+    else return acc;
+  }, 0);
 
-  return cost
-}
+  return score;
+};
 
 module.exports = {
+  cost,
   fitnessFunction,
   splitIntoHourIntervals,
   allPeriodsGenerator,
@@ -220,4 +214,4 @@ module.exports = {
   calculateDischargeScore,
   calculateChargeScore,
   calculateNormalScore,
-}
+};
