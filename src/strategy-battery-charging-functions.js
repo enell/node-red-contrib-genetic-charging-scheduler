@@ -8,6 +8,7 @@ const {
 const { populationFunction } = require('./population');
 const { mutationFunction } = require('./mutation');
 const { crossoverFunction } = require('./crossover');
+const { DoublyLinkedList } = require('./schedule');
 
 const toSchedule = (props, phenotype) => {
   const { input } = props;
@@ -114,7 +115,10 @@ const calculateBatteryChargingStrategy = (config) => {
   const p = geneticAlgorithm.population();
 
   const best = geneticAlgorithm.best();
-  const noBattery = { periods: [], excessPvEnergyUse: 0 };
+  const noBattery = {
+    periods: new DoublyLinkedList().insertBack({ start: 0, activity: 0 }),
+    excessPvEnergyUse: 0,
+  };
   return {
     best: {
       schedule: toSchedule(props, best),
