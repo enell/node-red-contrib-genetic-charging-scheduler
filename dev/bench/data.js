@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1714744993201,
+  "lastUpdate": 1715195653238,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -5580,6 +5580,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.77%",
             "unit": "ops/sec",
             "extra": "95 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "distinct": true,
+          "id": "8d41bad053dbec8b72f3831badf5c8547d9622c1",
+          "message": "chore(deps): update yarn to v4.2.2",
+          "timestamp": "2024-05-08T19:13:34Z",
+          "tree_id": "9341621b6eb23aa69ba9aa09a8653a59df5d136b",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/8d41bad053dbec8b72f3831badf5c8547d9622c1"
+        },
+        "date": 1715195651486,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 996329,
+            "range": "±1.42%",
+            "unit": "ops/sec",
+            "extra": "93 samples"
           }
         ]
       }
