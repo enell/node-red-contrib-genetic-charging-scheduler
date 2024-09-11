@@ -55,7 +55,7 @@
     "node-red": "4.0.2",
     "node-red-node-test-helper": "0.3.4",
     "prettier": "3.3.3",
-    "semantic-release": "24.1.0"
+    "semantic-release": "24.1.1"
   },
   "packageManager": "yarn@4.4.1",
   "repository": {
