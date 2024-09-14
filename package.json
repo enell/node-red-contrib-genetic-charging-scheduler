@@ -57,7 +57,7 @@
     "prettier": "3.3.3",
     "semantic-release": "24.1.1"
   },
-  "packageManager": "yarn@4.4.1",
+  "packageManager": "yarn@4.5.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler.git"
