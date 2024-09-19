@@ -9,7 +9,7 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - uses: mskelton/setup-yarn@v2
+      - uses: mskelton/setup-yarn@v3
         with:
           node-version: lts/*
           cache: yarn
