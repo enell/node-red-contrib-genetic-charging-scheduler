@@ -40,7 +40,7 @@
     "@jest/globals": "29.7.0",
     "babel-jest": "29.7.0",
     "benchmark": "2.1.4",
-    "eslint": "8.57.1",
+    "eslint": "9.20.1",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-prettier": "10.0.1",
     "eslint-plugin-import": "2.31.0",
