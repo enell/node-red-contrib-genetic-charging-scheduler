@@ -36,7 +36,7 @@
     "node": ">=18.0.0"
   },
   "devDependencies": {
-    "@babel/core": "7.26.10",
+    "@babel/core": "7.27.1",
     "@jest/globals": "29.7.0",
     "babel-jest": "29.7.0",
     "benchmark": "2.1.4",
