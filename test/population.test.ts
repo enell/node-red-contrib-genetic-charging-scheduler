@@ -1,5 +1,5 @@
-const { expect, describe } = require('@jest/globals');
-const { populationFunction } = require('../src/population');
+import { describe, test, expect } from 'vitest';
+import { populationFunction } from '../src/population';
 
 describe('Population', () => {
   test('generate population of 1', () => {
@@ -9,8 +9,6 @@ describe('Population', () => {
       numberOfPricePeriods: 2,
     });
     expect(population[0].periods.head.data.start).toEqual(0);
-    expect(
-      population[0].periods.filter((data) => data.activity != 0).length
-    ).toEqual(2);
+    expect(population[0].periods.filter((data) => data.activity != 0).length).toEqual(2);
   });
 });

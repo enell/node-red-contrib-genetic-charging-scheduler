@@ -1,15 +1,21 @@
-const { generateRandomActivity, random } = require('./utils');
+import type { Node } from './schedule';
+import type { Phenotype, TimePeriod } from './population';
+import { generateRandomActivity, random } from './utils';
 
-const mutationFunction = (props) => (phenotype) => {
+type mutationFunctionProps = {
+  totalDuration: number;
+  mutationRate: number;
+};
+
+export const mutationFunction = (props: mutationFunctionProps) => (phenotype: Phenotype) => {
   const { totalDuration, mutationRate } = props;
 
-  const timeAdjustment = (low, mid, high) => {
+  const timeAdjustment = (low: number, mid: number, high: number) => {
     return random(0.1 * (low - mid), 0.1 * (high - mid));
   };
 
-  for (let i = 0; i < phenotype.periods.length; i += 1) {}
   return {
-    periods: phenotype.periods.map((gene, node) => {
+    periods: phenotype.periods.map((gene: TimePeriod, node: Node<TimePeriod>) => {
       const g = { ...gene };
       if (Math.random() < mutationRate) {
         // Mutate action
@@ -18,7 +24,7 @@ const mutationFunction = (props) => (phenotype) => {
 
       if (gene.start > 0 && Math.random() < mutationRate) {
         g.start += timeAdjustment(
-          node.previous.data.start + 1,
+          node.previous!.data.start + 1,
           gene.start,
           node.next ? node.next.data.start : totalDuration
         );
@@ -27,8 +33,4 @@ const mutationFunction = (props) => (phenotype) => {
     }),
     excessPvEnergyUse: phenotype.excessPvEnergyUse,
   };
-};
-
-module.exports = {
-  mutationFunction,
 };

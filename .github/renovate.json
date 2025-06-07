@@ -1,8 +1,4 @@
 {
-  "extends": [
-    "config:js-app",
-    ":automergeAll",
-    ":automergePr"
-  ],
+  "extends": ["config:js-app", ":automergeAll", ":automergePr"],
   "platformAutomerge": true
 }
