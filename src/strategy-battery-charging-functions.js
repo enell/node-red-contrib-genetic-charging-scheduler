@@ -1,14 +1,14 @@
-const geneticAlgorithmConstructor = require('./geneticalgorithm');
-const {
+import { geneticAlgorithmConstructor } from './geneticalgorithm';
+import {
   fitnessFunction,
   allPeriodsGenerator,
   allPeriods,
   cost,
-} = require('./fitness');
-const { populationFunction } = require('./population');
-const { mutationFunction } = require('./mutation');
-const { crossoverFunction } = require('./crossover');
-const { DoublyLinkedList } = require('./schedule');
+} from './fitness';
+import { populationFunction } from './population';
+import { mutationFunction } from './mutation';
+import { crossoverFunction } from './crossover';
+import { DoublyLinkedList } from './schedule';
 
 const toSchedule = (props, phenotype) => {
   const { input } = props;
@@ -87,7 +87,7 @@ const mergeInput = (config) => {
     });
 };
 
-const calculateBatteryChargingStrategy = (config) => {
+export const calculateBatteryChargingStrategy = (config) => {
   const { generations } = config;
 
   const input = mergeInput(config);
@@ -112,8 +112,6 @@ const calculateBatteryChargingStrategy = (config) => {
     geneticAlgorithm.evolve();
   }
 
-  const p = geneticAlgorithm.population();
-
   const best = geneticAlgorithm.best();
   const noBattery = {
     periods: new DoublyLinkedList().insertBack({ start: 0, activity: 0 }),
@@ -131,9 +129,4 @@ const calculateBatteryChargingStrategy = (config) => {
       cost: cost(allPeriods(props, noBattery)),
     },
   };
-};
-
-module.exports = {
-  fitnessFunction,
-  calculateBatteryChargingStrategy,
 };

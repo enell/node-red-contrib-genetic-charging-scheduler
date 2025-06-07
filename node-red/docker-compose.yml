@@ -1,0 +1,16 @@
+services:
+  nodered:
+    image: nodered/node-red:latest
+    container_name: nodered
+    ports:
+      - '1880:1880'
+    volumes:
+      - ..:/usr/src/node-red/dev-nodes
+      - ./settings.cjs:/data/settings.js
+      - ./nodered_data:/data
+    environment:
+      - NODE_RED_ENABLE_SAFE_MODE=false
+    restart: unless-stopped
+
+volumes:
+  nodered_data:

@@ -1,14 +1,21 @@
-const { mockRandomForEach } = require('jest-mock-random');
-const { mutationFunction } = require('../src/mutation');
-const { DoublyLinkedList } = require('../src/schedule');
+import { expect, test, describe, beforeEach, afterEach, vi } from 'vitest';
+import { mutationFunction } from '../src/mutation';
+import { DoublyLinkedList } from '../src/schedule';
+import { TimePeriod } from '../src/population';
 
 describe('Mutation', () => {
-  mockRandomForEach(0.4);
+  beforeEach(() => {
+    vi.spyOn(Math, 'random').mockReturnValue(0.4);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   test('should mutate', () => {
     const mutate = mutationFunction({ totalDuration: 120, mutationRate: 1 });
 
-    const periods = new DoublyLinkedList()
+    const periods = new DoublyLinkedList<TimePeriod>()
       .insertBack({ start: 0, activity: 1 })
       .insertBack({ start: 90, activity: -1 });
 

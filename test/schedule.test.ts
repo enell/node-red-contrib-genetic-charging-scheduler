@@ -1,16 +1,20 @@
-const { expect, describe } = require('@jest/globals');
-const { DoublyLinkedList } = require('../src/schedule');
+import { expect, test, describe } from 'vitest';
+import { DoublyLinkedList } from '../src/schedule';
+
+type TestData = {
+  start: number;
+};
 
 describe('Schedule', () => {
   describe('insertFront', () => {
     test('insertFront 1 event', () => {
-      const schedule = new DoublyLinkedList();
+      const schedule = new DoublyLinkedList<TestData>();
       schedule.insertFront({ start: 5 });
       expect(schedule.head).toEqual(schedule.tail);
     });
 
     test('insertFront 2 events', () => {
-      const schedule = new DoublyLinkedList();
+      const schedule = new DoublyLinkedList<TestData>();
       schedule.insertFront({ start: 5 });
       schedule.insertFront({ start: 11 });
 
@@ -23,13 +27,13 @@ describe('Schedule', () => {
 
   describe('insertBack', () => {
     test('insertBack 1 event', () => {
-      const schedule = new DoublyLinkedList();
+      const schedule = new DoublyLinkedList<TestData>();
       schedule.insertBack({ start: 5 });
       expect(schedule.head).toEqual(schedule.tail);
     });
 
     test('insertBack 2 events', () => {
-      const schedule = new DoublyLinkedList();
+      const schedule = new DoublyLinkedList<TestData>();
       schedule.insertBack({ start: 5 });
       schedule.insertBack({ start: 11 });
 

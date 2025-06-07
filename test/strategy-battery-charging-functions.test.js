@@ -1,12 +1,9 @@
-const { expect, describe, it, afterEach } = require('@jest/globals');
-const {
-  calculateBatteryChargingStrategy,
-} = require('../src/strategy-battery-charging-functions');
-
-const moment = require('moment');
+import { describe, expect, test, afterEach, vi } from 'vitest';
+import { calculateBatteryChargingStrategy } from '../src/strategy-battery-charging-functions';
+import moment from 'moment';
 
 afterEach(() => {
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
 });
 
 let seed = 1;
@@ -19,7 +16,7 @@ const random = () => {
 
 describe('Calculate', () => {
   test('calculate', () => {
-    jest.spyOn(Math, 'random').mockImplementation(random);
+    vi.spyOn(Math, 'random').mockImplementation(random);
     let now = Date.now();
     now = now - (now % (60 * 60 * 1000));
     const priceData = [
@@ -134,13 +131,15 @@ describe('Calculate', () => {
         }
         return total;
       }, []);
+    expect(values).toBeDefined();
   });
 
-  test('calculate overlapping', () => {
-    const payload = require('./payload.json');
-    jest
-      .spyOn(Date, 'now')
-      .mockReturnValue(new Date(payload.priceData[0].start));
+  test('calculate overlapping', async () => {
+    const { default: payload } = await import('./payload.json', {
+      assert: { type: 'json' },
+    });
+
+    vi.spyOn(Date, 'now').mockReturnValue(new Date(payload.priceData[0].start));
 
     const populationSize = 300;
     const numberOfPricePeriods = 50;

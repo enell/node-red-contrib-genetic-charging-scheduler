@@ -1,9 +1,10 @@
-const { crossoverFunction } = require('../src/crossover');
-const { DoublyLinkedList } = require('../src/schedule');
+import { describe, test, vi, expect } from 'vitest';
+import { crossoverFunction } from '../src/crossover';
+import { DoublyLinkedList } from '../src/schedule';
 
 describe('Crossover', () => {
   test('should perform a crossover', () => {
-    jest.spyOn(Math, 'random').mockReturnValue(0.5);
+    vi.spyOn(Math, 'random').mockReturnValue(0.5);
     const crossover = crossoverFunction({ totalDuration: 120 });
 
     const p = crossover(
@@ -29,7 +30,7 @@ describe('Crossover', () => {
   });
 
   test('should perform a crossover where periods are equal to midpoint', () => {
-    jest.spyOn(Math, 'random').mockReturnValue(0.5);
+    vi.spyOn(Math, 'random').mockReturnValue(0.5);
     const crossover = crossoverFunction({ totalDuration: 120 });
 
     const p = crossover(
