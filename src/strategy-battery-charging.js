@@ -1,66 +1,62 @@
-const {
-  calculateBatteryChargingStrategy,
-} = require('./strategy-battery-charging-functions')
+import { calculateBatteryChargingStrategy } from './strategy-battery-charging-functions';
 
-const node = (RED) => {
-  RED.nodes.registerType(
-    'enell-strategy-genetic-charging',
-    function callback(config) {
-      RED.nodes.createNode(this, config)
+export default (RED) => {
+  function StrategyBatteryChargingConstructor(config) {
+    RED.nodes.createNode(this, config);
 
-      const {
+    const {
+      populationSize,
+      numberOfPricePeriods,
+      generations,
+      mutationRate,
+      batteryMaxEnergy,
+      batteryMaxInputPower,
+      averageConsumption,
+    } = config;
+
+    this.on('input', (msg, send, done) => {
+      const priceData = msg.payload?.priceData ?? [];
+      const consumptionForecast = msg.payload?.consumptionForecast ?? [];
+      const productionForecast = msg.payload?.productionForecast ?? [];
+      const soc = msg.payload?.soc;
+
+      const strategy = calculateBatteryChargingStrategy({
+        priceData,
+        consumptionForecast,
+        productionForecast,
         populationSize,
         numberOfPricePeriods,
         generations,
-        mutationRate,
+        mutationRate: mutationRate / 100,
         batteryMaxEnergy,
+        batteryMaxOutputPower: batteryMaxInputPower,
         batteryMaxInputPower,
         averageConsumption,
-      } = config
+        excessPvEnergyUse: 0, // 0=Fed to grid, 1=Charge
+        soc: soc / 100,
+      });
 
-      this.on('input', async (msg, send, done) => {
-        const priceData = msg.payload?.priceData ?? []
-        const consumptionForecast = msg.payload?.consumptionForecast ?? []
-        const productionForecast = msg.payload?.productionForecast ?? []
-        const soc = msg.payload?.soc
+      const payload = msg.payload ?? {};
 
-        const strategy = calculateBatteryChargingStrategy({
-          priceData,
-          consumptionForecast,
-          productionForecast,
-          populationSize,
-          numberOfPricePeriods,
-          generations,
-          mutationRate: mutationRate / 100,
-          batteryMaxEnergy,
-          batteryMaxOutputPower: batteryMaxInputPower,
-          batteryMaxInputPower,
-          averageConsumption,
-          consumptionForecast,
-          productionForecast,
-          excessPvEnergyUse: 0, // 0=Fed to grid, 1=Charge
-          soc: soc / 100,
-        })
+      if (strategy && Object.keys(strategy).length > 0) {
+        msg.payload.schedule = strategy.best.schedule;
+        msg.payload.excessPvEnergyUse = strategy.best.excessPvEnergyUse;
+        msg.payload.cost = strategy.best.cost;
+        msg.payload.noBattery = {
+          schedule: strategy.noBattery.schedule,
+          excessPvEnergyUse: strategy.noBattery.excessPvEnergyUse,
+          cost: strategy.noBattery.cost,
+        };
+      }
+      msg.payload = payload;
 
-        const payload = msg.payload ?? {}
+      send(msg);
+      done();
+    });
+  }
 
-        if (strategy && Object.keys(strategy).length > 0) {
-          msg.payload.schedule = strategy.best.schedule
-          msg.payload.excessPvEnergyUse = strategy.best.excessPvEnergyUse
-          msg.payload.cost = strategy.best.cost
-          msg.payload.noBattery = {
-            schedule: strategy.noBattery.schedule,
-            excessPvEnergyUse: strategy.noBattery.excessPvEnergyUse,
-            cost: strategy.noBattery.cost,
-          }
-        }
-        msg.payload = payload
-
-        send(msg)
-        done()
-      })
-    }
-  )
-}
-
-module.exports = node
+  RED.nodes.registerType(
+    'enell-strategy-genetic-charging',
+    StrategyBatteryChargingConstructor
+  );
+};
