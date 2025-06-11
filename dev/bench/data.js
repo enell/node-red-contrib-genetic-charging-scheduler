@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1726320691348,
+  "lastUpdate": 1749636375331,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -5766,6 +5766,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.76%",
             "unit": "ops/sec",
             "extra": "92 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "johan.enell@qlik.com",
+            "name": "Johan Enell",
+            "username": "enell"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "89e46de3352991af2014a9e624fc8d54cf20e467",
+          "message": "feat: increase performance\n\nBy converting the algorithm to typescript I've been able to do some optimizations that have increased the performance of the fitness calculations",
+          "timestamp": "2025-06-11T12:05:40+02:00",
+          "tree_id": "a17f553d9bc1e3170f5659a37b7f961cf25dfb5b",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/89e46de3352991af2014a9e624fc8d54cf20e467"
+        },
+        "date": 1749636373357,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1238641,
+            "range": "±0.39%",
+            "unit": "ops/sec",
+            "extra": "94 samples"
           }
         ]
       }
