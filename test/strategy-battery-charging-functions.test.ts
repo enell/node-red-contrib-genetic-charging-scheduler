@@ -1,12 +1,12 @@
-const { expect, describe, it, afterEach } = require('@jest/globals');
-const {
+import { describe, expect, test, afterEach, vi } from 'vitest';
+import {
   calculateBatteryChargingStrategy,
-} = require('../src/strategy-battery-charging-functions');
-
-const moment = require('moment');
+  Config,
+} from '../src/strategy-battery-charging-functions';
+import moment from 'moment';
 
 afterEach(() => {
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
 });
 
 let seed = 1;
@@ -19,20 +19,19 @@ const random = () => {
 
 describe('Calculate', () => {
   test('calculate', () => {
-    jest.spyOn(Math, 'random').mockImplementation(random);
-    let now = Date.now();
-    now = now - (now % (60 * 60 * 1000));
+    vi.spyOn(Math, 'random').mockImplementation(random);
+    const n = moment().add(1, 'h').startOf('hour');
     const priceData = [
-      { importPrice: 1, exportPrice: 0, start: new Date(now).toString() },
+      { importPrice: 1, exportPrice: 0, start: n.toISOString() },
       {
         importPrice: 500,
         exportPrice: 0,
-        start: new Date(now + 60 * 60 * 1000).toString(),
+        start: n.clone().add(1, 'h').toISOString(),
       },
       {
         importPrice: 500,
         exportPrice: 0,
-        start: new Date(now + 60 * 60 * 1000 * 2).toString(),
+        start: n.clone().add(2, 'h').toISOString(),
       },
     ];
     const productionForecast = priceData.map((v) => {
@@ -54,7 +53,7 @@ describe('Calculate', () => {
     const soc = 0;
     const excessPvEnergyUse = 0;
 
-    const config = {
+    const config: Config = {
       priceData,
       populationSize,
       numberOfPricePeriods,
@@ -71,7 +70,7 @@ describe('Calculate', () => {
       excessPvEnergyUse,
     };
     const strategy = calculateBatteryChargingStrategy(config);
-    const bestSchedule = strategy.best.schedule;
+    const bestSchedule = strategy!.best.schedule;
 
     expect(bestSchedule.length).toEqual(2);
     expect(bestSchedule[0]).toMatchObject({
@@ -82,65 +81,59 @@ describe('Calculate', () => {
       name: 'discharging',
     });
 
-    const noBatterySchedule = strategy.noBattery.schedule;
+    const noBatterySchedule = strategy!.noBattery.schedule;
     expect(noBatterySchedule.length).toEqual(1);
 
-    expect(strategy.best.excessPvEnergyUse).toEqual(excessPvEnergyUse);
-    expect(strategy.best.cost).not.toBeNull();
-    expect(strategy.best.cost).not.toBeNaN();
-    expect(strategy.best.noBattery).not.toBeNull();
-    expect(strategy.best.noBattery).not.toBeNaN();
+    expect(strategy!.best.excessPvEnergyUse).toEqual(excessPvEnergyUse);
+    expect(strategy!.best.cost).not.toBeNull();
+    expect(strategy!.best.cost).not.toBeNaN();
+    expect(strategy!.noBattery).not.toBeNull();
+    expect(strategy!.noBattery).not.toBeNaN();
 
-    console.log(`best: ${strategy.best.cost}`);
-    console.log(`no battery: ${strategy.noBattery.cost}`);
+    console.log(`best: ${strategy!.best.cost}`);
+    console.log(`no battery: ${strategy!.noBattery.cost}`);
 
     const values = bestSchedule
       .filter((e) => e.activity != 0)
       .reduce((total, e) => {
-        const toTimeString = (date) => {
-          const HH = date.getHours().toString().padStart(2, '0');
-          const mm = date.getMinutes().toString().padStart(2, '0');
-          return `${HH}:${mm}`;
-        };
-
         const touPattern = (start, end, charge) => {
-          let pattern = toTimeString(start);
+          let pattern = start.format('hh:mm');
           pattern += '-';
-          pattern += toTimeString(end);
+          pattern += end.format('hh:mm');
           pattern += '/';
-          pattern += start.getDay();
+          pattern += start.day();
           pattern += '/';
           pattern += charge;
           return pattern;
         };
 
-        const startDate = new Date(e.start);
-        const endDate = new Date(
-          startDate.getTime() + (e.duration - 1) * 60000
-        );
+        const startDate = moment(e.start);
+        const endDate = startDate.add(e.duration - 1, 'm');
         const charge = e.activity == 1 ? '+' : '-';
-        if (startDate.getDay() == endDate.getDay()) {
+        if (startDate.day() === endDate.day()) {
           total.push(touPattern(startDate, endDate, charge));
         } else {
-          const endDateDay1 = new Date(startDate);
-          endDateDay1.setHours(23);
-          endDateDay1.setMinutes(59);
+          const endDateDay1 = moment(startDate);
+          endDateDay1.hours(23);
+          endDateDay1.minutes(59);
           total.push(touPattern(startDate, endDateDay1, charge));
 
-          const startDateDay2 = new Date(endDate);
-          startDateDay2.setHours(0);
-          startDateDay2.setMinutes(0);
+          const startDateDay2 = moment(endDate);
+          startDateDay2.hours(0);
+          startDateDay2.minutes(0);
           total.push(touPattern(startDateDay2, endDate, charge));
         }
         return total;
-      }, []);
+      }, [] as string[]);
+    expect(values).toBeDefined();
   });
 
-  test('calculate overlapping', () => {
-    const payload = require('./payload.json');
-    jest
-      .spyOn(Date, 'now')
-      .mockReturnValue(new Date(payload.priceData[0].start));
+  test('calculate overlapping', async () => {
+    const { default: payload } = await import('./payload.json', {
+      assert: { type: 'json' },
+    });
+
+    vi.spyOn(Date, 'now').mockReturnValue(new Date(payload.priceData[0].start).getTime());
 
     const populationSize = 300;
     const numberOfPricePeriods = 50;
@@ -150,9 +143,8 @@ describe('Calculate', () => {
     const batteryMaxEnergy = 5; // kWh
     const batteryMaxOutputPower = 2.5; // kW
     const batteryMaxInputPower = 2.5; // kW
-    const excessPvEnergyUse = 0;
 
-    const config = {
+    const config: Config = {
       priceData: payload.priceData,
       populationSize,
       numberOfPricePeriods,
@@ -164,18 +156,13 @@ describe('Calculate', () => {
       productionForecast: payload.productionForecast,
       consumptionForecast: payload.consumptionForecast,
       soc: payload.soc,
-      excessPvEnergyUse,
+      excessPvEnergyUse: 0,
     };
     const strategy = calculateBatteryChargingStrategy(config);
 
-    const startTime = (interval) => moment(interval.start);
-    const endTime = (interval) =>
-      moment(interval.start).add(interval.duration, 's');
-
-    for (let i = 1; i < strategy.best.schedule.length; i++) {
-      expect(endTime(strategy.best.schedule[i] - 1).unix()).toBeLessThan(
-        startTime(strategy.best.schedule[i]).unix()
-      );
+    for (const period of strategy!.best.schedule) {
+      const start = moment(period.start);
+      expect(start.unix()).toBeLessThan(start.add(period.duration, 'm').unix());
     }
   });
 });

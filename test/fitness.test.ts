@@ -1,5 +1,5 @@
-const { expect, describe } = require('@jest/globals');
-const {
+import { describe, expect, test, beforeEach } from 'vitest';
+import {
   fitnessFunction,
   splitIntoHourIntervals,
   allPeriods,
@@ -7,45 +7,47 @@ const {
   calculateDischargeScore,
   calculateChargeScore,
   calculateNormalScore,
-} = require('../src/fitness');
-const { DoublyLinkedList } = require('../src/schedule');
+  type FitnessFunctionProps,
+} from '../src/fitness';
+import { DoublyLinkedList } from '../src/schedule';
+import { TimePeriod } from '../src/population';
+import moment from 'moment';
 
-let props;
+let props: FitnessFunctionProps;
 
 beforeEach(() => {
-  let now = Date.now();
-  now = now - (now % (60 * 60 * 1000));
+  const now = moment().startOf('hour');
   const input = [
     {
-      start: new Date(now).toString(),
+      start: now.clone().add(0, 'hour').unix(),
       importPrice: 1,
       exportPrice: 1,
       consumption: 1,
       production: 0,
     },
     {
-      start: new Date(now + 60 * 60 * 1000).toString(),
+      start: now.clone().add(1, 'hour').unix(),
       importPrice: 1,
       exportPrice: 1,
       consumption: 1,
       production: 0,
     },
     {
-      start: new Date(now + 60 * 60 * 1000 * 2).toString(),
+      start: now.clone().add(2, 'hour').unix(),
       importPrice: 1,
       exportPrice: 1,
       consumption: 1,
       production: 0,
     },
     {
-      start: new Date(now + 60 * 60 * 1000 * 3).toString(),
+      start: now.clone().add(3, 'hour').unix(),
       importPrice: 1,
       exportPrice: 1,
       consumption: 1,
       production: 0,
     },
     {
-      start: new Date(now + 60 * 60 * 1000 * 4).toString(),
+      start: now.clone().add(4, 'hour').unix(),
       importPrice: 1,
       exportPrice: 1,
       consumption: 1,
@@ -64,30 +66,27 @@ beforeEach(() => {
 
 describe('Fitness - splitIntoHourIntervals', () => {
   test('should split into one intervals', () => {
-    expect(
-      splitIntoHourIntervals({ start: 0, activity: 1, duration: 60 })
-    ).toMatchObject([{ start: 0, activity: 1, duration: 60 }]);
+    expect(splitIntoHourIntervals({ start: 0, activity: 1, duration: 60 })).toMatchObject([
+      { start: 0, activity: 1, duration: 60 },
+    ]);
   });
+
   test('should split into two intervals', () => {
-    expect(
-      splitIntoHourIntervals({ start: 0, activity: 1, duration: 90 })
-    ).toMatchObject([
+    expect(splitIntoHourIntervals({ start: 0, activity: 1, duration: 90 })).toMatchObject([
       { start: 0, activity: 1, duration: 60 },
       { start: 60, activity: 1, duration: 30 },
     ]);
   });
+
   test('should split into hour two 30min intervals', () => {
-    expect(
-      splitIntoHourIntervals({ start: 30, activity: 1, duration: 60 })
-    ).toMatchObject([
+    expect(splitIntoHourIntervals({ start: 30, activity: 1, duration: 60 })).toMatchObject([
       { start: 30, activity: 1, duration: 30 },
       { start: 60, activity: 1, duration: 30 },
     ]);
   });
+
   test('should split into 3 intervals', () => {
-    expect(
-      splitIntoHourIntervals({ start: 30, activity: 1, duration: 120 })
-    ).toMatchObject([
+    expect(splitIntoHourIntervals({ start: 30, activity: 1, duration: 120 })).toMatchObject([
       { start: 30, activity: 1, duration: 30 },
       { start: 60, activity: 1, duration: 60 },
       { start: 120, activity: 1, duration: 30 },
@@ -109,7 +108,10 @@ describe('Fitness - allPeriods', () => {
     expect(
       allPeriods(props, {
         excessPvEnergyUse: 0,
-        periods: new DoublyLinkedList().insertBack({ start: 0, activity: 1 }),
+        periods: new DoublyLinkedList<TimePeriod>().insertBack({
+          start: 0,
+          activity: 1,
+        }),
       })
     ).toMatchObject([{ start: 0, duration: 300, activity: 1 }]);
   });
@@ -118,7 +120,7 @@ describe('Fitness - allPeriods', () => {
     expect(
       allPeriods(props, {
         excessPvEnergyUse: 0,
-        periods: new DoublyLinkedList()
+        periods: new DoublyLinkedList<TimePeriod>()
           .insertBack({ start: 0, activity: 0 })
           .insertBack({ start: 70, activity: 1 })
           .insertBack({ start: 150, activity: 0 })
@@ -145,6 +147,7 @@ describe('Fitness - calculateScore', () => {
           consumption: 1,
           production: 0,
           maxDischarge: 1,
+          maxCharge: 1,
         })
       ).toEqual([0, -1]);
     });
@@ -157,6 +160,7 @@ describe('Fitness - calculateScore', () => {
           consumption: 1,
           production: 0,
           maxDischarge: 0,
+          maxCharge: 1,
         })
       ).toEqual([2, 0]);
     });
@@ -169,6 +173,7 @@ describe('Fitness - calculateScore', () => {
           consumption: 1,
           production: 0,
           maxDischarge: 0.5,
+          maxCharge: 1,
         })
       ).toEqual([1, -0.5]);
     });
@@ -181,6 +186,7 @@ describe('Fitness - calculateScore', () => {
           consumption: 1,
           production: 1,
           maxDischarge: 1,
+          maxCharge: 1,
         })
       ).toEqual([0, 0]);
     });
@@ -193,6 +199,7 @@ describe('Fitness - calculateScore', () => {
           consumption: 1,
           production: 2,
           maxDischarge: 1,
+          maxCharge: 1,
         })
       ).toEqual([-2, 0]);
     });
@@ -228,7 +235,6 @@ describe('Fitness - calculateScore', () => {
     test('should charge full hour, empty battery', () => {
       expect(
         calculateChargeScore({
-          duration: 1,
           importPrice: 2,
           exportPrice: 2,
           consumption: 1,
@@ -253,7 +259,6 @@ describe('Fitness - calculateScore', () => {
     test('should charge full hour, empty battery, equal production', () => {
       expect(
         calculateChargeScore({
-          duration: 1,
           importPrice: 2,
           exportPrice: 2,
           consumption: 1,
@@ -266,7 +271,6 @@ describe('Fitness - calculateScore', () => {
     test('should charge full hour, empty battery, double production', () => {
       expect(
         calculateChargeScore({
-          duration: 1,
           importPrice: 2,
           exportPrice: 2,
           consumption: 1,
@@ -279,7 +283,6 @@ describe('Fitness - calculateScore', () => {
     test('should charge full hour, empty battery, triple production, charge preference', () => {
       expect(
         calculateChargeScore({
-          duration: 1,
           importPrice: 2,
           exportPrice: 2,
           consumption: 1,
@@ -345,15 +348,10 @@ describe('Fitness - calculateScore', () => {
 
   describe('Fitness - calculatePeriodScore', () => {
     test('shod not charge faster than max input power', () => {
-      const period = { start: 0, duration: 1, activity: 1 };
+      const period: TimePeriod = { start: 0, duration: 1, activity: 1 };
       const currentCharge = 0;
       const excessPvEnergyUse = 0;
-      const score = calculatePeriodScore(
-        props,
-        period,
-        excessPvEnergyUse,
-        currentCharge
-      );
+      const score = calculatePeriodScore(props, period, excessPvEnergyUse, currentCharge);
       const chargeSpeed = score[1] / (1 / 60);
       expect(chargeSpeed).toBeCloseTo(props.batteryMaxInputPower);
       expect(score[0]).toBeCloseTo(2 / 60);
@@ -361,15 +359,10 @@ describe('Fitness - calculateScore', () => {
     });
 
     test('shod not discharge faster than max output power', () => {
-      const period = { start: 0, duration: 1, activity: -1 };
+      const period: TimePeriod = { start: 0, duration: 1, activity: -1 };
       const currentCharge = 100;
       const excessPvEnergyUse = 0;
-      const score = calculatePeriodScore(
-        props,
-        period,
-        excessPvEnergyUse,
-        currentCharge
-      );
+      const score = calculatePeriodScore(props, period, excessPvEnergyUse, currentCharge);
       const dischargeSpeed = (score[1] / (1 / 60)) * -1;
       expect(dischargeSpeed).toBeCloseTo(props.batteryMaxOutputPower);
       expect(score[0]).toBeCloseTo(0);
@@ -383,7 +376,7 @@ describe('Fitness', () => {
     props.totalDuration = 180;
     props.soc = 0;
     const score = fitnessFunction(props)({
-      periods: new DoublyLinkedList()
+      periods: new DoublyLinkedList<TimePeriod>()
         .insertBack({ start: 0, activity: 0 })
         .insertBack({ start: 30, activity: 1 })
         .insertBack({ start: 90, activity: -1 })
@@ -397,14 +390,20 @@ describe('Fitness', () => {
     props.totalDuration = 180;
     props.soc = 0;
     const score1 = fitnessFunction(props)({
-      periods: new DoublyLinkedList().insertBack({ start: 0, activity: -1 }),
+      periods: new DoublyLinkedList<TimePeriod>().insertBack({
+        start: 0,
+        activity: -1,
+      }),
       excessPvEnergyUse: 0,
     });
     expect(score1).toEqual(-6);
 
     props.soc = 1;
     const score2 = fitnessFunction(props)({
-      periods: new DoublyLinkedList().insertBack({ start: 0, activity: 1 }),
+      periods: new DoublyLinkedList<TimePeriod>().insertBack({
+        start: 0,
+        activity: 1,
+      }),
       excessPvEnergyUse: 0,
     });
     expect(score2).toEqual(-6);
@@ -414,7 +413,7 @@ describe('Fitness', () => {
     props.totalDuration = 120;
     props.soc = 0;
     const score = fitnessFunction(props)({
-      periods: new DoublyLinkedList()
+      periods: new DoublyLinkedList<TimePeriod>()
         .insertBack({ start: 0, activity: 0 })
         .insertBack({ start: 30, activity: 1 })
         .insertBack({ start: 90, activity: -1 }),
@@ -426,33 +425,35 @@ describe('Fitness', () => {
   test('should calculate 180 min charge period with full battery', () => {
     props.totalDuration = 180;
     props.soc = 1;
-    let now = Date.now();
-    now = now - (now % (60 * 60 * 1000));
+    const now = moment().startOf('hour');
     props.input = [
       {
-        start: new Date(now).toString(),
+        start: now.clone().add(0, 'hour').unix(),
         importPrice: 1,
         exportPrice: 1,
         consumption: 1.5,
         production: 0,
       },
       {
-        start: new Date(now + 60 * 60 * 1000).toString(),
+        start: now.clone().add(1, 'hour').unix(),
         importPrice: 500,
         exportPrice: 500,
         consumption: 1.5,
         production: 0,
       },
       {
-        start: new Date(now + 60 * 60 * 1000 * 2).toString(),
+        start: now.clone().add(2, 'hour').unix(),
         importPrice: 500,
         exportPrice: 500,
         consumption: 1.5,
         production: 0,
       },
     ];
-    let score = fitnessFunction(props)({
-      periods: new DoublyLinkedList().insertBack({ start: 0, activity: 1 }),
+    const score = fitnessFunction(props)({
+      periods: new DoublyLinkedList<TimePeriod>().insertBack({
+        start: 0,
+        activity: 1,
+      }),
       excessPvEnergyUse: 0,
     });
     expect(score).toEqual(-2502.5);

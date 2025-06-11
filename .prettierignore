@@ -1,0 +1,7 @@
+.yarn/*
+.vscode/*
+node_modules/*
+dist/*
+coverage/*
+benchmark/output.txt
+node-red/nodered_data/*
