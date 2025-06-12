@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1749716212997,
+  "lastUpdate": 1749725260853,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -6200,6 +6200,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.41%",
             "unit": "ops/sec",
             "extra": "90 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "johan@enell.nu",
+            "name": "Johan Enell",
+            "username": "enell"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8049b4e40a797a664851730630ff7b51c8879ffd",
+          "message": "fix: correct time formatting and improve schedule validation in tests (#348)\n\nSigned-off-by: Johan Enell <johan.enell@qlik.com>",
+          "timestamp": "2025-06-12T10:47:08Z",
+          "tree_id": "6a7370af4924c1fc22b534557ff9d91ae7430577",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/8049b4e40a797a664851730630ff7b51c8879ffd"
+        },
+        "date": 1749725258232,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1193036,
+            "range": "±0.59%",
+            "unit": "ops/sec",
+            "extra": "93 samples"
           }
         ]
       }
