@@ -55,9 +55,30 @@ describe('Battery charging strategy Node', () => {
         const n2 = helper.getNode('n2');
         const n1 = helper.getNode('n1');
         n2.on('input', function inputCallback(msg) {
-          expect(msg).toHaveProperty('payload');
-          expect(msg.payload).toHaveProperty('schedule');
-          resolve();
+          try {
+            expect(msg).toHaveProperty('payload');
+            expect(msg.payload).toHaveProperty('schedule');
+
+            const scheduleDuration = msg.payload.schedule.reduce(
+              (acc, period) => period.duration + acc,
+              0
+            );
+            const priceDataDuration = payload.priceData.length * 60;
+            expect(scheduleDuration).toBe(priceDataDuration);
+
+            expect(moment(msg.payload.schedule[0].start).toISOString()).toEqual(
+              moment(payload.priceData[0].start).toISOString()
+            );
+
+            expect(
+              moment(msg.payload.schedule.at(-1).start)
+                .add(msg.payload.schedule.at(-1).duration, 'minute')
+                .toISOString()
+            ).toEqual(moment(payload.priceData.at(-1).start).add(1, 'h').toISOString());
+            resolve();
+          } catch (error) {
+            reject(error);
+          }
         });
 
         n1.on('call:error', (call) => {
@@ -89,20 +110,6 @@ describe('Battery charging strategy Node', () => {
 
     await new Promise((resolve, reject) => {
       helper.load(node, flow, function callback() {
-        const n2 = helper.getNode('n2');
-        const n1 = helper.getNode('n1');
-        n2.on('input', function inputCallback(msg) {
-          expect(msg).toHaveProperty('payload');
-          expect(msg.payload).toHaveProperty('schedule');
-
-          console.log(JSON.stringify(msg.payload, null, 1));
-          resolve();
-        });
-
-        n1.on('call:error', (call) => {
-          reject(call.args[0]);
-        });
-
         const now = moment().startOf('hour');
         const inputPayload = {
           soc: '75',
@@ -115,6 +122,27 @@ describe('Battery charging strategy Node', () => {
             value: price,
           })),
         };
+
+        const n2 = helper.getNode('n2');
+        const n1 = helper.getNode('n1');
+        n2.on('input', function inputCallback(msg) {
+          expect(msg).toHaveProperty('payload');
+          expect(msg.payload).toHaveProperty('schedule');
+
+          const scheduleDuration = msg.payload.schedule.reduce(
+            (acc, period) => period.duration + acc,
+            0
+          );
+          const priceDataDuration = inputPayload.priceData.length * 60;
+          expect(scheduleDuration).toBe(priceDataDuration);
+
+          console.log(JSON.stringify(msg.payload, null, 1));
+          resolve();
+        });
+
+        n1.on('call:error', (call) => {
+          reject(call.args[0]);
+        });
 
         n1.receive({ payload: inputPayload });
       });
