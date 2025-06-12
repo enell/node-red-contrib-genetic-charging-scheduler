@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1749725260853,
+  "lastUpdate": 1749739072737,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -6231,6 +6231,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.59%",
             "unit": "ops/sec",
             "extra": "93 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "johan@enell.nu",
+            "name": "Johan Enell",
+            "username": "enell"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d5c8e1f1ddb636a3dbedde796a4e9000c6796a8a",
+          "message": "feat: add idle power drop-off feature (#349)\n\nThis commit introduces a new feature that allows the system to drop off power when it is idle. The feature is designed to enhance energy efficiency by reducing power consumption during periods of inactivity.\n\nrefs: #322\nSigned-off-by: Johan Enell <johan.enell@qlik.com>",
+          "timestamp": "2025-06-12T16:37:19+02:00",
+          "tree_id": "5fee9f79323a807b250f536bd6c60e1505df4efb",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/d5c8e1f1ddb636a3dbedde796a4e9000c6796a8a"
+        },
+        "date": 1749739070413,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1209252,
+            "range": "±0.91%",
+            "unit": "ops/sec",
+            "extra": "89 samples"
           }
         ]
       }
