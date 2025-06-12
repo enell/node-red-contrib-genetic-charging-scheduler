@@ -72,7 +72,7 @@ const toSchedule = (
     cost: number;
     charge: number;
   }[] = [];
-  const periodStart = moment(input[0].start);
+  const periodStart = moment.unix(input[0].start);
   for (const period of allPeriodsGenerator(props, phenotype)) {
     if (period.duration != undefined && period.duration <= 0) {
       continue;
