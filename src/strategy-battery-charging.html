@@ -44,6 +44,12 @@
         required: true,
         validate: RED.validators.number(),
       },
+      batteryIdleLoss: {
+        value: 0,
+        required: true,
+        default: 0,
+        validate: RED.validators.number(),
+      },
     },
     inputs: 1,
     outputs: 1,
@@ -77,6 +83,10 @@
       >Average consumption per hour (kW)</label
     >
     <input type="text" id="node-input-averageConsumption" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-batteryIdleLoss" style="width: 240px">Battery idle loss (kWh/h)</label>
+    <input type="text" id="node-input-batteryIdleLoss" />
   </div>
   <h3>Genetic algorithm</h3>
   <div class="form-row">

@@ -38,6 +38,7 @@ export type Config = {
   averageProduction?: number;
   excessPvEnergyUse: 0 | 1;
   soc: number;
+  batteryIdleLoss: number;
 };
 
 const toSchedule = (
@@ -133,6 +134,7 @@ export const calculateBatteryChargingStrategy = (config: Config) => {
     ...config,
     input,
     totalDuration: input.length * 60,
+    batteryIdleLoss: config.batteryIdleLoss ?? 0,
   };
 
   const options: Options<Phenotype> = {

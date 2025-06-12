@@ -100,6 +100,7 @@ export default (RED: NodeAPI) => {
       batteryMaxEnergy: number;
       batteryMaxInputPower: number;
       averageConsumption: number;
+      batteryIdleLoss: number;
     } & NodeDef
   ) {
     RED.nodes.createNode(this, config);
@@ -112,6 +113,7 @@ export default (RED: NodeAPI) => {
       batteryMaxEnergy,
       batteryMaxInputPower,
       averageConsumption,
+      batteryIdleLoss,
     } = config;
 
     this.on('input', (msg, send, done) => {
@@ -144,6 +146,7 @@ export default (RED: NodeAPI) => {
         averageConsumption,
         excessPvEnergyUse: 0, // 0=Fed to grid, 1=Charge
         soc: soc / 100,
+        batteryIdleLoss,
       });
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

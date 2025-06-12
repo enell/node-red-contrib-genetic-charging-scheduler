@@ -16,6 +16,7 @@ export type FitnessFunctionProps = {
   batteryMaxOutputPower: number;
   soc: number;
   totalDuration: number;
+  batteryIdleLoss: number;
 };
 
 export function* splitIntoHourIntervalsGenerator(seed: TimePeriod) {
@@ -98,7 +99,15 @@ export const calculateDischargeScore = (props: Omit<CalculateIntervalScoreProps,
 export const calculateNormalScore = (
   props: Omit<CalculateIntervalScoreProps, 'activity' | 'maxDischarge'>
 ) => {
-  const { exportPrice, importPrice, maxCharge, consumption, production, excessPvEnergyUse } = props;
+  const {
+    exportPrice,
+    importPrice,
+    maxCharge,
+    consumption,
+    production,
+    excessPvEnergyUse,
+    batteryIdleLoss,
+  } = props;
 
   const consumedFromProduction = Math.min(consumption, production);
   const batteryChargeFromProduction =
@@ -107,7 +116,8 @@ export const calculateNormalScore = (
   const consumedFromGrid = consumption - consumedFromProduction;
 
   const cost = importPrice * consumedFromGrid - exportPrice * soldFromProduction;
-  const charge = batteryChargeFromProduction;
+  const charge = batteryChargeFromProduction - batteryIdleLoss;
+
   return [cost, charge];
 };
 
@@ -137,6 +147,7 @@ type CalculateIntervalScoreProps = {
   production: number;
   maxCharge: number;
   maxDischarge: number;
+  batteryIdleLoss: number;
   excessPvEnergyUse?: number | undefined;
 };
 
@@ -146,6 +157,7 @@ export const calculateIntervalScore = (props: CalculateIntervalScoreProps) => {
       return calculateDischargeScore(props);
     case 1:
       return calculateChargeScore(props);
+    case 0:
     default:
       return calculateNormalScore(props);
   }
@@ -157,7 +169,8 @@ export const calculatePeriodScore = (
   excessPvEnergyUse: number | undefined,
   _currentCharge: number
 ) => {
-  const { input, batteryMaxEnergy, batteryMaxInputPower, batteryMaxOutputPower } = props;
+  const { input, batteryMaxEnergy, batteryMaxInputPower, batteryMaxOutputPower, batteryIdleLoss } =
+    props;
   let cost = 0;
   let currentCharge = _currentCharge;
   for (const interval of splitIntoHourIntervals(period)) {
@@ -176,6 +189,7 @@ export const calculatePeriodScore = (
       maxCharge,
       maxDischarge,
       excessPvEnergyUse,
+      batteryIdleLoss: batteryIdleLoss * duration,
     });
     cost += v[0];
     currentCharge += v[1];
