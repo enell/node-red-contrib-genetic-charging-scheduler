@@ -61,6 +61,7 @@ beforeEach(() => {
     batteryMaxInputPower: 1,
     batteryMaxOutputPower: 1,
     soc: 1,
+    batteryIdleLoss: 0,
   };
 });
 
@@ -303,8 +304,22 @@ describe('Fitness - calculateScore', () => {
           consumption: 1,
           production: 0,
           maxCharge: 1,
+          batteryIdleLoss: 0,
         })
       ).toEqual([2, 0]);
+    });
+
+    test('should consume normal full hour no production, battery idle loss', () => {
+      expect(
+        calculateNormalScore({
+          importPrice: 2,
+          exportPrice: 2,
+          consumption: 1,
+          production: 0,
+          maxCharge: 1,
+          batteryIdleLoss: 1,
+        })
+      ).toEqual([2, -1]);
     });
 
     test('should consume normal full hour with equal production', () => {
@@ -315,6 +330,7 @@ describe('Fitness - calculateScore', () => {
           consumption: 1,
           production: 1,
           maxCharge: 1,
+          batteryIdleLoss: 0,
         })
       ).toEqual([0, 0]);
     });
@@ -328,6 +344,7 @@ describe('Fitness - calculateScore', () => {
           production: 2,
           maxCharge: 1,
           excessPvEnergyUse: 1,
+          batteryIdleLoss: 0,
         })
       ).toEqual([0, 1]);
     });
@@ -341,13 +358,14 @@ describe('Fitness - calculateScore', () => {
           production: 2,
           maxCharge: 1,
           excessPvEnergyUse: 0,
+          batteryIdleLoss: 0,
         })
       ).toEqual([-2, 0]);
     });
   });
 
   describe('Fitness - calculatePeriodScore', () => {
-    test('shod not charge faster than max input power', () => {
+    test('should not charge faster than max input power', () => {
       const period: TimePeriod = { start: 0, duration: 1, activity: 1 };
       const currentCharge = 0;
       const excessPvEnergyUse = 0;
@@ -358,7 +376,7 @@ describe('Fitness - calculateScore', () => {
       expect(score[1]).toBeCloseTo(1 / 60);
     });
 
-    test('shod not discharge faster than max output power', () => {
+    test('should not discharge faster than max output power', () => {
       const period: TimePeriod = { start: 0, duration: 1, activity: -1 };
       const currentCharge = 100;
       const excessPvEnergyUse = 0;
@@ -367,6 +385,16 @@ describe('Fitness - calculateScore', () => {
       expect(dischargeSpeed).toBeCloseTo(props.batteryMaxOutputPower);
       expect(score[0]).toBeCloseTo(0);
       expect(score[1]).toBeCloseTo((1 / 60) * -1);
+    });
+
+    test('should drop in charge while idle', () => {
+      props.batteryIdleLoss = 1; // 1 kWh per hour
+      const period: TimePeriod = { start: 0, duration: 60, activity: 0 };
+      const currentCharge = 100;
+      const excessPvEnergyUse = 0;
+      const score = calculatePeriodScore(props, period, excessPvEnergyUse, currentCharge);
+      expect(score[0]).toBeCloseTo(1);
+      expect(score[1]).toBeCloseTo(-1);
     });
   });
 });
