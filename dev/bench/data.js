@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1749715129550,
+  "lastUpdate": 1749716212997,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -6169,6 +6169,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.30%",
             "unit": "ops/sec",
             "extra": "95 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "johan@enell.nu",
+            "name": "Johan Enell",
+            "username": "enell"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "35fcc6173af46aacff278c58d3f8ba6f4d2549ec",
+          "message": "fix: payload passthrough (#347)\n\nSigned-off-by: Johan Enell <johan.enell@qlik.com>",
+          "timestamp": "2025-06-12T10:16:25+02:00",
+          "tree_id": "fb2b4328b22dbc1e42463d3691e383dc818012b4",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/35fcc6173af46aacff278c58d3f8ba6f4d2549ec"
+        },
+        "date": 1749716211125,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1206452,
+            "range": "±0.41%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
           }
         ]
       }
