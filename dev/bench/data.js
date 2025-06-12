@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1749681391139,
+  "lastUpdate": 1749694314525,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -5983,6 +5983,37 @@ window.BENCHMARK_DATA = {
             "range": "±1.40%",
             "unit": "ops/sec",
             "extra": "90 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a7cceab8e3c10c2127ec101b0b15da317d8fe27d",
+          "message": "chore(deps): update actions/setup-node action to v4 (#341)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-06-12T02:11:20Z",
+          "tree_id": "bd254deb4e72487cf46f32738368e3aed9e5d9be",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/a7cceab8e3c10c2127ec101b0b15da317d8fe27d"
+        },
+        "date": 1749694311443,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1217699,
+            "range": "±0.45%",
+            "unit": "ops/sec",
+            "extra": "92 samples"
           }
         ]
       }
