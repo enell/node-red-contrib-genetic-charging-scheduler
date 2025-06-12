@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1749694314525,
+  "lastUpdate": 1749694338006,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -6014,6 +6014,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.45%",
             "unit": "ops/sec",
             "extra": "92 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "22c5bc7a21be2bb22d6fad6d909070d608d98aeb",
+          "message": "chore(deps): update borales/actions-yarn action to v5 (#342)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-06-12T02:11:46Z",
+          "tree_id": "aef67414b744a568205ef87b6f51e8fbd99149f1",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/22c5bc7a21be2bb22d6fad6d909070d608d98aeb"
+        },
+        "date": 1749694335782,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1223650,
+            "range": "±0.35%",
+            "unit": "ops/sec",
+            "extra": "97 samples"
           }
         ]
       }
