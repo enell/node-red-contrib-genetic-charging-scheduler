@@ -51,7 +51,20 @@ const PayloadSchema = z.object({
     )
     .optional()
     .default([]),
-  soc: z.number().min(0).max(100).optional().default(0),
+  soc: z
+    .string()
+    .transform((val, ctx) => {
+      const num = Number(val);
+      if (isNaN(num)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Not a valid number',
+        });
+        return z.NEVER;
+      }
+      return num;
+    })
+    .pipe(z.number().min(1).max(100)),
   schedule: z
     .array(
       z.object({
@@ -105,7 +118,8 @@ export default (RED: NodeAPI) => {
       const result = PayloadSchema.safeParse(msg.payload);
       if (!result.success) {
         msg.error = result.error;
-        this.error('Invalid payload format', msg);
+        this.error(`Invalid payload format\n${result.error.message}`, msg);
+        send(msg);
         done();
         return;
       }

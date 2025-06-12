@@ -22,16 +22,16 @@ describe('Calculate', () => {
     vi.spyOn(Math, 'random').mockImplementation(random);
     const n = moment().add(1, 'h').startOf('hour');
     const priceData = [
-      { importPrice: 1, exportPrice: 0, start: n.toISOString() },
+      { importPrice: 1, exportPrice: 0, start: n.unix() },
       {
         importPrice: 500,
         exportPrice: 0,
-        start: n.clone().add(1, 'h').toISOString(),
+        start: n.clone().add(1, 'h').unix(),
       },
       {
         importPrice: 500,
         exportPrice: 0,
-        start: n.clone().add(2, 'h').toISOString(),
+        start: n.clone().add(2, 'h').unix(),
       },
     ];
     const productionForecast = priceData.map((v) => {
@@ -126,43 +126,5 @@ describe('Calculate', () => {
         return total;
       }, [] as string[]);
     expect(values).toBeDefined();
-  });
-
-  test('calculate overlapping', async () => {
-    const { default: payload } = await import('./payload.json', {
-      assert: { type: 'json' },
-    });
-
-    vi.spyOn(Date, 'now').mockReturnValue(new Date(payload.priceData[0].start).getTime());
-
-    const populationSize = 300;
-    const numberOfPricePeriods = 50;
-    const generations = 600;
-    const mutationRate = 0.03;
-
-    const batteryMaxEnergy = 5; // kWh
-    const batteryMaxOutputPower = 2.5; // kW
-    const batteryMaxInputPower = 2.5; // kW
-
-    const config: Config = {
-      priceData: payload.priceData,
-      populationSize,
-      numberOfPricePeriods,
-      generations,
-      mutationRate,
-      batteryMaxEnergy,
-      batteryMaxOutputPower,
-      batteryMaxInputPower,
-      productionForecast: payload.productionForecast,
-      consumptionForecast: payload.consumptionForecast,
-      soc: payload.soc,
-      excessPvEnergyUse: 0,
-    };
-    const strategy = calculateBatteryChargingStrategy(config);
-
-    for (const period of strategy!.best.schedule) {
-      const start = moment(period.start);
-      expect(start.unix()).toBeLessThan(start.add(period.duration, 'm').unix());
-    }
   });
 });

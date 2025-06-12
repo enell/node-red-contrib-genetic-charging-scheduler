@@ -1,4 +1,4 @@
-import { describe, it, expect, afterEach } from 'vitest';
+import { describe, it, expect, afterEach, vi } from 'vitest';
 import node from '../src/strategy-battery-charging';
 import helper from 'node-red-node-test-helper';
 import moment from 'moment';
@@ -27,6 +27,12 @@ describe('Battery charging strategy Node', () => {
   });
 
   it('should send schedule in payload', async () => {
+    const { default: payload } = await import('./payload.json', {
+      assert: { type: 'json' },
+    });
+
+    vi.spyOn(Date, 'now').mockReturnValue(new Date(payload.priceData[0].start).getTime());
+
     const flow = [
       {
         id: 'n1',
@@ -58,27 +64,7 @@ describe('Battery charging strategy Node', () => {
           reject(call.args[0]);
         });
 
-        const now = moment().startOf('hour');
-        const inputPayload = {
-          payload: {
-            priceData: [
-              {
-                value: 1,
-                start: now.clone().add(0, 'h').toISOString(),
-              },
-              {
-                value: 2,
-                start: now.clone().add(1, 'h').toISOString(),
-              },
-              {
-                value: 5,
-                start: now.clone().add(2, 'h').toISOString(),
-              },
-            ],
-          },
-        };
-
-        n1.receive(inputPayload);
+        n1.receive({ payload });
       });
     });
   });
@@ -119,105 +105,15 @@ describe('Battery charging strategy Node', () => {
 
         const now = moment().startOf('hour');
         const inputPayload = {
-          soc: 75,
+          soc: '75',
           priceData: [
-            {
-              value: 2.1419,
-              start: now.clone().add(0, 'h').toISOString(),
-            },
-            {
-              value: 1.9709,
-              start: now.clone().add(1, 'h').toISOString(),
-            },
-            {
-              value: 1.8481,
-              start: now.clone().add(2, 'h').toISOString(),
-            },
-            {
-              value: 1.7586,
-              start: now.clone().add(3, 'h').toISOString(),
-            },
-            {
-              value: 2.0838,
-              start: now.clone().add(4, 'h').toISOString(),
-            },
-            {
-              value: 2.143,
-              start: now.clone().add(5, 'h').toISOString(),
-            },
-            {
-              value: 2.4856,
-              start: now.clone().add(6, 'h').toISOString(),
-            },
-            {
-              value: 2.8673,
-              start: now.clone().add(7, 'h').toISOString(),
-            },
-            {
-              value: 3.1644,
-              start: now.clone().add(8, 'h').toISOString(),
-            },
-            {
-              value: 2.847,
-              start: now.clone().add(9, 'h').toISOString(),
-            },
-            {
-              value: 2.513,
-              start: now.clone().add(10, 'h').toISOString(),
-            },
-            {
-              value: 2.0868,
-              start: now.clone().add(11, 'h').toISOString(),
-            },
-            {
-              value: 2.066,
-              start: now.clone().add(12, 'h').toISOString(),
-            },
-            {
-              value: 1.9902,
-              start: now.clone().add(13, 'h').toISOString(),
-            },
-            {
-              value: 2.1663,
-              start: now.clone().add(14, 'h').toISOString(),
-            },
-            {
-              value: 2.5038,
-              start: now.clone().add(15, 'h').toISOString(),
-            },
-            {
-              value: 2.7555,
-              start: now.clone().add(16, 'h').toISOString(),
-            },
-            {
-              value: 3.2038,
-              start: now.clone().add(17, 'h').toISOString(),
-            },
-            {
-              value: 3.5277,
-              start: now.clone().add(18, 'h').toISOString(),
-            },
-            {
-              value: 3.2972,
-              start: now.clone().add(19, 'h').toISOString(),
-            },
-            {
-              value: 2.8811,
-              start: now.clone().add(20, 'h').toISOString(),
-            },
-            {
-              value: 2.7304,
-              start: now.clone().add(21, 'h').toISOString(),
-            },
-            {
-              value: 2.357,
-              start: now.clone().add(22, 'h').toISOString(),
-            },
-            {
-              value: 1.7825,
-              start: now.clone().add(23, 'h').toISOString(),
-            },
-          ],
+            2.1419, 1.9709, 1.8481, 1.7586, 2.0838, 2.143, 2.4856, 2.8673, 3.1644, 2.847, 2.513,
+            2.0868, 2.066, 1.9902, 2.1663, 2.5038, 2.7555, 3.2038, 3.5277, 3.2972, 2.8811, 2.7304,
+            2.357, 1.7825,
+          ].map((price, index) => ({
+            start: now.clone().add(index, 'h').toISOString(),
+            value: price,
+          })),
         };
 
         n1.receive({ payload: inputPayload });
