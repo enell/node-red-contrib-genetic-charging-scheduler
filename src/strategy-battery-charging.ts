@@ -146,17 +146,19 @@ export default (RED: NodeAPI) => {
         soc: soc / 100,
       });
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const output: any = msg.payload;
       if (strategy && Object.keys(strategy).length > 0) {
-        payload.schedule = strategy.best.schedule;
-        payload.excessPvEnergyUse = strategy.best.excessPvEnergyUse;
-        payload.cost = strategy.best.cost;
-        payload.noBattery = {
+        output.schedule = strategy.best.schedule;
+        output.excessPvEnergyUse = strategy.best.excessPvEnergyUse;
+        output.cost = strategy.best.cost;
+        output.noBattery = {
           schedule: strategy.noBattery.schedule,
           excessPvEnergyUse: strategy.noBattery.excessPvEnergyUse,
           cost: strategy.noBattery.cost,
         };
       }
-      msg.payload = payload;
+      msg.payload = output;
 
       send(msg);
       done();
