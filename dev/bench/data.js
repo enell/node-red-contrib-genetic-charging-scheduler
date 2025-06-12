@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1749711766371,
+  "lastUpdate": 1749715016269,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -6107,6 +6107,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.36%",
             "unit": "ops/sec",
             "extra": "95 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "johan@enell.nu",
+            "name": "Johan Enell",
+            "username": "enell"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f757b3a541fd91442c03f0de04dc61855c61b141",
+          "message": "fix: correct moment initialization for periodStart in toSchedule function (#345)\n\nSigned-off-by: Johan Enell <johan.enell@qlik.com>",
+          "timestamp": "2025-06-12T09:56:29+02:00",
+          "tree_id": "3cb497100ccba8fb8e8b5838b217dd9ddccb5ae3",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/f757b3a541fd91442c03f0de04dc61855c61b141"
+        },
+        "date": 1749715014339,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1200946,
+            "range": "±0.34%",
+            "unit": "ops/sec",
+            "extra": "93 samples"
           }
         ]
       }
