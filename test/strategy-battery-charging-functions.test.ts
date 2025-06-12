@@ -97,9 +97,9 @@ describe('Calculate', () => {
       .filter((e) => e.activity != 0)
       .reduce((total, e) => {
         const touPattern = (start, end, charge) => {
-          let pattern = start.format('hh:mm');
+          let pattern = start.format('HH:mm');
           pattern += '-';
-          pattern += end.format('hh:mm');
+          pattern += end.format('HH:mm');
           pattern += '/';
           pattern += start.day();
           pattern += '/';
@@ -108,7 +108,7 @@ describe('Calculate', () => {
         };
 
         const startDate = moment(e.start);
-        const endDate = startDate.add(e.duration - 1, 'm');
+        const endDate = startDate.clone().add(e.duration - 1, 'm');
         const charge = e.activity == 1 ? '+' : '-';
         if (startDate.day() === endDate.day()) {
           total.push(touPattern(startDate, endDate, charge));

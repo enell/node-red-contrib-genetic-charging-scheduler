@@ -85,7 +85,7 @@ const toSchedule = (
       lastPeriod.charge += period.charge ?? 0;
     } else {
       schedule.push({
-        start: periodStart.add(period.start, 'm').toISOString(),
+        start: periodStart.clone().add(period.start, 'm').toISOString(),
         activity: period.activity,
         name: activityToName(period.activity),
         duration: period.duration ?? 0,
