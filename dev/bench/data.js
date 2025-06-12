@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1749694338006,
+  "lastUpdate": 1749711657613,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -6045,6 +6045,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.35%",
             "unit": "ops/sec",
             "extra": "97 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "johan@enell.nu",
+            "name": "Johan Enell",
+            "username": "enell"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9102beca000dcbe2bc3b9a9311d78e4aa6b1de51",
+          "message": "fix: SoC format validation and improve error handling (#343)\n\nSigned-off-by: Johan Enell <johan.enell@qlik.com>",
+          "timestamp": "2025-06-12T09:00:28+02:00",
+          "tree_id": "2b7933b3cfcb2d292c5f3dd4c36128fb42b5b1c2",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/9102beca000dcbe2bc3b9a9311d78e4aa6b1de51"
+        },
+        "date": 1749711655621,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1125152,
+            "range": "±1.04%",
+            "unit": "ops/sec",
+            "extra": "94 samples"
           }
         ]
       }
