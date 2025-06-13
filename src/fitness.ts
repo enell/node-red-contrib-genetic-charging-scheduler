@@ -81,27 +81,28 @@ export const calculateDischargeScore = (props: Omit<CalculateIntervalScoreProps,
     maxDischarge,
     maxCharge,
     excessPvEnergyUse,
+    batteryIdleLoss,
   } = props;
 
   const consumedFromProduction = Math.min(consumption, production);
   const batteryChargeFromProduction =
     excessPvEnergyUse == CHARGE ? Math.min(production - consumedFromProduction, maxCharge) : 0;
   const consumedFromBattery = Math.min(consumption - consumedFromProduction, maxDischarge);
+  const lossFromBattery = Math.min(batteryIdleLoss, maxDischarge);
   const soldFromProduction = production - consumedFromProduction - batteryChargeFromProduction;
   const consumedFromGrid = consumption - consumedFromProduction - consumedFromBattery;
 
   const cost = consumedFromGrid * importPrice - soldFromProduction * exportPrice;
-  const charge = batteryChargeFromProduction - consumedFromBattery;
+  const charge = batteryChargeFromProduction - consumedFromBattery - lossFromBattery;
 
   return [cost, charge];
 };
 
-export const calculateNormalScore = (
-  props: Omit<CalculateIntervalScoreProps, 'activity' | 'maxDischarge'>
-) => {
+export const calculateNormalScore = (props: Omit<CalculateIntervalScoreProps, 'activity'>) => {
   const {
     exportPrice,
     importPrice,
+    maxDischarge,
     maxCharge,
     consumption,
     production,
@@ -112,17 +113,18 @@ export const calculateNormalScore = (
   const consumedFromProduction = Math.min(consumption, production);
   const batteryChargeFromProduction =
     excessPvEnergyUse == CHARGE ? Math.min(production - consumedFromProduction, maxCharge) : 0;
+  const lossFromBattery = Math.min(batteryIdleLoss, maxDischarge);
   const soldFromProduction = production - consumedFromProduction - batteryChargeFromProduction;
   const consumedFromGrid = consumption - consumedFromProduction;
 
   const cost = importPrice * consumedFromGrid - exportPrice * soldFromProduction;
-  const charge = batteryChargeFromProduction - batteryIdleLoss;
+  const charge = batteryChargeFromProduction - lossFromBattery;
 
   return [cost, charge];
 };
 
 export const calculateChargeScore = (
-  props: Omit<CalculateIntervalScoreProps, 'activity' | 'maxDischarge'>
+  props: Omit<CalculateIntervalScoreProps, 'activity' | 'maxDischarge' | 'batteryIdleLoss'>
 ) => {
   const { exportPrice, importPrice, consumption, production, maxCharge } = props;
 

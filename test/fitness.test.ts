@@ -136,6 +136,66 @@ describe('Fitness - allPeriods', () => {
       { start: 190, duration: 110, activity: 0 },
     ]);
   });
+
+  test('should not drop charge below 0 when idle', () => {
+    props.soc = 0;
+    props.totalDuration = 60;
+    props.batteryIdleLoss = 1;
+    const periods = new DoublyLinkedList<TimePeriod>().insertBack({
+      start: 0,
+      activity: 0,
+      duration: 60,
+    });
+    const phenotype = {
+      excessPvEnergyUse: 0,
+      periods,
+    };
+    const allPeriodsResult = allPeriods(props, phenotype);
+    expect(allPeriodsResult[0].charge).toEqual(0);
+  });
+
+  test('should not drop charge below 0 when discharging', () => {
+    props.soc = 0;
+    props.totalDuration = 60;
+    props.batteryIdleLoss = 1;
+    const periods = new DoublyLinkedList<TimePeriod>().insertBack({
+      start: 0,
+      activity: -1,
+      duration: 60,
+    });
+    const phenotype = {
+      excessPvEnergyUse: 0,
+      periods,
+    };
+    const allPeriodsResult = allPeriods(props, phenotype);
+    expect(allPeriodsResult[0].charge).toEqual(0);
+  });
+
+  test('should drop charge below when discharging with no consumption', () => {
+    props.soc = 1; // Full battery
+    props.totalDuration = 60;
+    props.batteryIdleLoss = 1;
+    props.input = [
+      {
+        start: 0,
+        importPrice: 1,
+        exportPrice: 1,
+        consumption: 0,
+        production: 0,
+      },
+    ];
+    const periods = new DoublyLinkedList<TimePeriod>().insertBack({
+      start: 0,
+      activity: -1,
+      duration: 60,
+    });
+    const phenotype = {
+      excessPvEnergyUse: 0,
+      periods,
+    };
+    const allPeriodsResult = allPeriods(props, phenotype);
+    expect(allPeriodsResult[0].charge).toEqual(-1);
+  });
 });
 
 describe('Fitness - calculateScore', () => {
@@ -149,6 +209,7 @@ describe('Fitness - calculateScore', () => {
           production: 0,
           maxDischarge: 1,
           maxCharge: 1,
+          batteryIdleLoss: 0,
         })
       ).toEqual([0, -1]);
     });
@@ -162,6 +223,7 @@ describe('Fitness - calculateScore', () => {
           production: 0,
           maxDischarge: 0,
           maxCharge: 1,
+          batteryIdleLoss: 0,
         })
       ).toEqual([2, 0]);
     });
@@ -175,6 +237,7 @@ describe('Fitness - calculateScore', () => {
           production: 0,
           maxDischarge: 0.5,
           maxCharge: 1,
+          batteryIdleLoss: 0,
         })
       ).toEqual([1, -0.5]);
     });
@@ -188,8 +251,23 @@ describe('Fitness - calculateScore', () => {
           production: 1,
           maxDischarge: 1,
           maxCharge: 1,
+          batteryIdleLoss: 0,
         })
       ).toEqual([0, 0]);
+    });
+
+    test('should discharge full hour, full battery, equal production with idle loss', () => {
+      expect(
+        calculateDischargeScore({
+          importPrice: 2,
+          exportPrice: 2,
+          consumption: 1,
+          production: 1,
+          maxDischarge: 1,
+          maxCharge: 1,
+          batteryIdleLoss: 1,
+        })
+      ).toEqual([0, -1]);
     });
 
     test('should discharge full hour, full battery, double production', () => {
@@ -201,6 +279,7 @@ describe('Fitness - calculateScore', () => {
           production: 2,
           maxDischarge: 1,
           maxCharge: 1,
+          batteryIdleLoss: 0,
         })
       ).toEqual([-2, 0]);
     });
@@ -215,6 +294,7 @@ describe('Fitness - calculateScore', () => {
           maxDischarge: 1,
           maxCharge: 1,
           excessPvEnergyUse: 1,
+          batteryIdleLoss: 0,
         })
       ).toEqual([0, 1]);
     });
@@ -304,6 +384,7 @@ describe('Fitness - calculateScore', () => {
           consumption: 1,
           production: 0,
           maxCharge: 1,
+          maxDischarge: 1,
           batteryIdleLoss: 0,
         })
       ).toEqual([2, 0]);
@@ -317,6 +398,7 @@ describe('Fitness - calculateScore', () => {
           consumption: 1,
           production: 0,
           maxCharge: 1,
+          maxDischarge: 1,
           batteryIdleLoss: 1,
         })
       ).toEqual([2, -1]);
@@ -330,6 +412,7 @@ describe('Fitness - calculateScore', () => {
           consumption: 1,
           production: 1,
           maxCharge: 1,
+          maxDischarge: 1,
           batteryIdleLoss: 0,
         })
       ).toEqual([0, 0]);
@@ -343,6 +426,7 @@ describe('Fitness - calculateScore', () => {
           consumption: 1,
           production: 2,
           maxCharge: 1,
+          maxDischarge: 1,
           excessPvEnergyUse: 1,
           batteryIdleLoss: 0,
         })
@@ -357,6 +441,7 @@ describe('Fitness - calculateScore', () => {
           consumption: 1,
           production: 2,
           maxCharge: 1,
+          maxDischarge: 1,
           excessPvEnergyUse: 0,
           batteryIdleLoss: 0,
         })
@@ -395,6 +480,16 @@ describe('Fitness - calculateScore', () => {
       const score = calculatePeriodScore(props, period, excessPvEnergyUse, currentCharge);
       expect(score[0]).toBeCloseTo(1);
       expect(score[1]).toBeCloseTo(-1);
+    });
+
+    test('should drop in charge while discharging', () => {
+      props.batteryIdleLoss = 1; // 1 kWh per hour
+      const period: TimePeriod = { start: 0, duration: 60, activity: -1 };
+      const currentCharge = 100;
+      const excessPvEnergyUse = 0;
+      const score = calculatePeriodScore(props, period, excessPvEnergyUse, currentCharge);
+      expect(score[0]).toBeCloseTo(0);
+      expect(score[1]).toBeCloseTo(-2);
     });
   });
 });
