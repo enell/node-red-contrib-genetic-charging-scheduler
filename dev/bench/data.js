@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1749797705934,
+  "lastUpdate": 1749820264108,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -6293,6 +6293,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.42%",
             "unit": "ops/sec",
             "extra": "92 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "johan@enell.nu",
+            "name": "Johan Enell",
+            "username": "enell"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c350a1d28dc99cda0bfdfe154e6359ff9ae61c8c",
+          "message": "fix: update score calculations to account for battery idle loss (#351)\n\nSigned-off-by: Johan Enell <johan.enell@qlik.com>",
+          "timestamp": "2025-06-13T15:10:31+02:00",
+          "tree_id": "7c9b0b65b223a4b8ee0a4afb7a45686dcd767bbc",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/c350a1d28dc99cda0bfdfe154e6359ff9ae61c8c"
+        },
+        "date": 1749820261577,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1183802,
+            "range": "±1.37%",
+            "unit": "ops/sec",
+            "extra": "96 samples"
           }
         ]
       }
