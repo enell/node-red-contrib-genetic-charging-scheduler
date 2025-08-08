@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1754440366901,
+  "lastUpdate": 1754687557077,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -7750,6 +7750,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.34%",
             "unit": "ops/sec",
             "extra": "97 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "fd047012f963d9b8c5b8330dd47522f46226577a",
+          "message": "chore(deps): update eslint monorepo to v9.33.0 (#398)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-08-08T21:11:56Z",
+          "tree_id": "33d5f32b8fb0c5995c2f790eb66fa5b8539461e4",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/fd047012f963d9b8c5b8330dd47522f46226577a"
+        },
+        "date": 1754687554335,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1233542,
+            "range": "±0.71%",
+            "unit": "ops/sec",
+            "extra": "93 samples"
           }
         ]
       }
