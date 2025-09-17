@@ -59,6 +59,6 @@
     "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler.git"
   },
   "dependencies": {
-    "zod": "4.1.8"
+    "zod": "4.1.9"
   }
 }
