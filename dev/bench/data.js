@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1759527812739,
+  "lastUpdate": 1759769261687,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -8897,6 +8897,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.65%",
             "unit": "ops/sec",
             "extra": "92 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8c228041d70fd776958976d7d36679f0aa99d5b9",
+          "message": "fix(deps): update dependency zod to v4.1.12 (#435)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-10-06T16:47:09Z",
+          "tree_id": "11f3cbc28e3c331615f7b0225a7cf49f208cd1c0",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/8c228041d70fd776958976d7d36679f0aa99d5b9"
+        },
+        "date": 1759769259397,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1198440,
+            "range": "±0.74%",
+            "unit": "ops/sec",
+            "extra": "89 samples"
           }
         ]
       }
