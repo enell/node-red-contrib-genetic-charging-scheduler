@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1759788968776,
+  "lastUpdate": 1760366279124,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -8959,6 +8959,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.69%",
             "unit": "ops/sec",
             "extra": "92 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b47f1486dc3c8a4a4c2640c73378b55d08f8a075",
+          "message": "chore(deps): update dependency node-red to v4.1.1 (#437)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-10-13T14:37:27Z",
+          "tree_id": "36147a5368d522c84ac27785e0928b3090788ef0",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/b47f1486dc3c8a4a4c2640c73378b55d08f8a075"
+        },
+        "date": 1760366276831,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1211053,
+            "range": "±0.85%",
+            "unit": "ops/sec",
+            "extra": "93 samples"
           }
         ]
       }
