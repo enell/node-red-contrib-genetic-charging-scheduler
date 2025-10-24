@@ -1740,12 +1740,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/cpx@npm:1.5.5":
-  version: 1.5.5
-  resolution: "@types/cpx@npm:1.5.5"
+"@types/cpx@npm:1.5.6":
+  version: 1.5.6
+  resolution: "@types/cpx@npm:1.5.6"
   dependencies:
     "@types/node": "npm:*"
-  checksum: 10c0/2f3bdcf54dee30fee06bba45c086f1049dc8656ec786fce51193f8b6064055defd156afe99a821acf3a6fd73846fab6d6c17a6edfcb2e002c6e6c71b4678c5e8
+  checksum: 10c0/74b6871df59a5258ad88d8ec485991c97be2e007bc66d4ad48ce4e035553969e1ce5fb51acb1672b0cb779c13883dcceab110a45ede3f624a1a746a551772c4d
   languageName: node
   linkType: hard
 
@@ -6937,7 +6937,7 @@ __metadata:
   resolution: "node-red-contrib-genetic-charging-strategy@workspace:."
   dependencies:
     "@eslint/js": "npm:9.38.0"
-    "@types/cpx": "npm:1.5.5"
+    "@types/cpx": "npm:1.5.6"
     "@types/node-red": "npm:1.3.5"
     benchmark: "npm:2.1.4"
     cpx2: "npm:8.0.0"
