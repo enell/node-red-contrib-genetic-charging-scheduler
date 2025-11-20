@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1763602388121,
+  "lastUpdate": 1763602435352,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -9517,6 +9517,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.33%",
             "unit": "ops/sec",
             "extra": "92 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "86bd5f33c820046bf99cc1f71b3ce4ca755120ce",
+          "message": "chore(deps): update dependency globals to v16.5.0 (#455)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-11-20T01:33:22Z",
+          "tree_id": "65a4f7f3bda66ba211a8640e403781353c156c1f",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/86bd5f33c820046bf99cc1f71b3ce4ca755120ce"
+        },
+        "date": 1763602433388,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1251004,
+            "range": "±1.21%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
           }
         ]
       }
