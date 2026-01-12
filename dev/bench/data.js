@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1767808159643,
+  "lastUpdate": 1768222018393,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -10664,6 +10664,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.64%",
             "unit": "ops/sec",
             "extra": "93 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5292d3017de08df9d7b6224fd035abdb1ce71933",
+          "message": "chore(deps): update dependency node-red-node-test-helper to v0.3.6 (#492)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-01-12T12:46:26Z",
+          "tree_id": "f7f306bda65824133232d8a57120e16c48f7ac39",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/5292d3017de08df9d7b6224fd035abdb1ce71933"
+        },
+        "date": 1768222016423,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1287338,
+            "range": "±1.32%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
           }
         ]
       }
