@@ -576,12 +576,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@node-red/editor-api@npm:4.1.3":
-  version: 4.1.3
-  resolution: "@node-red/editor-api@npm:4.1.3"
+"@node-red/editor-api@npm:4.1.4":
+  version: 4.1.4
+  resolution: "@node-red/editor-api@npm:4.1.4"
   dependencies:
-    "@node-red/editor-client": "npm:4.1.3"
-    "@node-red/util": "npm:4.1.3"
+    "@node-red/editor-client": "npm:4.1.4"
+    "@node-red/util": "npm:4.1.4"
     "@node-rs/bcrypt": "npm:1.10.7"
     bcryptjs: "npm:3.0.2"
     body-parser: "npm:1.20.4"
@@ -601,20 +601,20 @@ __metadata:
   dependenciesMeta:
     "@node-rs/bcrypt":
       optional: true
-  checksum: 10c0/00c57d7963876e213156104899a5538c6941300360381fc293c5bd62efa0885661d713b402d711ba6d5bbe3e31d4c42ae15b090aac397ccab0f969371e058f95
+  checksum: 10c0/61dee3ee3e67ac1049f33cc007aa95b37c0642ebd05d06122e6aea0c786a1f9daf93838cc19bfe8bee53fc74bd3fe6c57dc5f434914ffd690df4fccee847f22d
   languageName: node
   linkType: hard
 
-"@node-red/editor-client@npm:4.1.3":
-  version: 4.1.3
-  resolution: "@node-red/editor-client@npm:4.1.3"
-  checksum: 10c0/c07eb3ca6e63fc2550468bd8886d248f55b49931c08b3727fcdbbb530aabb15a5fe58e35b7ef696a07c149b685dcc0b839a21b2e6b5a9b7eec9498941b9d60b1
+"@node-red/editor-client@npm:4.1.4":
+  version: 4.1.4
+  resolution: "@node-red/editor-client@npm:4.1.4"
+  checksum: 10c0/50c57422d83f5c1ab75214ad47d43da09e759656d8a7e6011ab6ca44796f2a90b6fd291181b62731bec17a26cb3a35ecd5d4bf0eb5051bbf5dbcee2a4de99095
   languageName: node
   linkType: hard
 
-"@node-red/nodes@npm:4.1.3":
-  version: 4.1.3
-  resolution: "@node-red/nodes@npm:4.1.3"
+"@node-red/nodes@npm:4.1.4":
+  version: 4.1.4
+  resolution: "@node-red/nodes@npm:4.1.4"
   dependencies:
     acorn: "npm:8.15.0"
     acorn-walk: "npm:8.3.4"
@@ -647,30 +647,30 @@ __metadata:
     uuid: "npm:9.0.1"
     ws: "npm:7.5.10"
     xml2js: "npm:0.6.2"
-  checksum: 10c0/c055cbb7b272dafde2883c5c2fb27fb99db82cefe190d847d80cd3231cd2bff5e2b50c9cc1d28833cabbd02122b83f10daf33ae6cf0f91f21009d5831c774c42
+  checksum: 10c0/6e5d4443a82428c8704c9143d33c7754c0fd4c9ffac3cd35239358f9a2df0987619f98854ddae5090e157f7a3f38fb2b7da48dac04aca072bc59b9c6ef4849a7
   languageName: node
   linkType: hard
 
-"@node-red/registry@npm:4.1.3":
-  version: 4.1.3
-  resolution: "@node-red/registry@npm:4.1.3"
+"@node-red/registry@npm:4.1.4":
+  version: 4.1.4
+  resolution: "@node-red/registry@npm:4.1.4"
   dependencies:
-    "@node-red/util": "npm:4.1.3"
+    "@node-red/util": "npm:4.1.4"
     clone: "npm:2.1.2"
     fs-extra: "npm:11.3.0"
     semver: "npm:7.7.1"
-    tar: "npm:7.4.3"
+    tar: "npm:7.5.6"
     uglify-js: "npm:3.19.3"
-  checksum: 10c0/c1a4acc21a87be5b15fd6eaf89b14a7324b40e5f8c055ceddb34807824374fa85e66613a944a50436c7114ff6bbff3d1caadcd9db467f95fa8aed1aeb4adb4a7
+  checksum: 10c0/c480099f268e3e3b5af34dd3c3fd1d58b13ed89c1e794882a6b71a946be7fd2354e72b982e0b2cbceabbe6a30bf796f77c198925d804e794f5029e38e5f0e939
   languageName: node
   linkType: hard
 
-"@node-red/runtime@npm:4.1.3":
-  version: 4.1.3
-  resolution: "@node-red/runtime@npm:4.1.3"
+"@node-red/runtime@npm:4.1.4":
+  version: 4.1.4
+  resolution: "@node-red/runtime@npm:4.1.4"
   dependencies:
-    "@node-red/registry": "npm:4.1.3"
-    "@node-red/util": "npm:4.1.3"
+    "@node-red/registry": "npm:4.1.4"
+    "@node-red/util": "npm:4.1.4"
     async-mutex: "npm:0.5.0"
     clone: "npm:2.1.2"
     cronosjs: "npm:1.7.1"
@@ -680,13 +680,13 @@ __metadata:
     json-stringify-safe: "npm:5.0.1"
     rfdc: "npm:^1.3.1"
     semver: "npm:7.7.1"
-  checksum: 10c0/cc104950148f738c77f0b8f19cb82bac54b3783eed6442e2e9c891ec3c57fe9d30b26bcd3f59c608ed52a789adb6170446945240c6db382bdae0801236a34b58
+  checksum: 10c0/341352b4349b6bfc23b5acf0ba97bcb4f60aa5f8e18621095ba50b7a2184782e21a40ff3ee5830b4d4e2edb63f03d6fcee1840cc8d4558843823da6d1224e2a9
   languageName: node
   linkType: hard
 
-"@node-red/util@npm:4.1.3":
-  version: 4.1.3
-  resolution: "@node-red/util@npm:4.1.3"
+"@node-red/util@npm:4.1.4":
+  version: 4.1.4
+  resolution: "@node-red/util@npm:4.1.4"
   dependencies:
     chalk: "npm:^4.1.2"
     fs-extra: "npm:11.3.0"
@@ -696,7 +696,7 @@ __metadata:
     lodash.clonedeep: "npm:^4.5.0"
     moment: "npm:2.30.1"
     moment-timezone: "npm:0.5.48"
-  checksum: 10c0/41f086b057d7b4ef5891b6e1f8ef8b82df42c9c32674fb637fff76c6db2e62579c94aea2a340be527552aaff1c81a25c75e6e40f8120754cc7e2eddfdbc7c734
+  checksum: 10c0/5624fb3a15f3f62b03d3be23c11caa268fe8951b76cb4646e4fd49ca8064513030d26e2d4f22bb3f855f2b019c23bdd602f35c5b854a48f03ec35a209624b405
   languageName: node
   linkType: hard
 
@@ -6842,7 +6842,7 @@ __metadata:
     eslint: "npm:9.39.2"
     globals: "npm:17.1.0"
     moment: "npm:2.30.1"
-    node-red: "npm:4.1.3"
+    node-red: "npm:4.1.4"
     node-red-node-test-helper: "npm:0.3.6"
     prettier: "npm:3.8.1"
     semantic-release: "npm:25.0.2"
@@ -6869,14 +6869,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-red@npm:4.1.3":
-  version: 4.1.3
-  resolution: "node-red@npm:4.1.3"
+"node-red@npm:4.1.4":
+  version: 4.1.4
+  resolution: "node-red@npm:4.1.4"
   dependencies:
-    "@node-red/editor-api": "npm:4.1.3"
-    "@node-red/nodes": "npm:4.1.3"
-    "@node-red/runtime": "npm:4.1.3"
-    "@node-red/util": "npm:4.1.3"
+    "@node-red/editor-api": "npm:4.1.4"
+    "@node-red/nodes": "npm:4.1.4"
+    "@node-red/runtime": "npm:4.1.4"
+    "@node-red/util": "npm:4.1.4"
     "@node-rs/bcrypt": "npm:1.10.7"
     basic-auth: "npm:2.0.1"
     bcryptjs: "npm:3.0.2"
@@ -6892,7 +6892,7 @@ __metadata:
   bin:
     node-red: red.js
     node-red-pi: bin/node-red-pi
-  checksum: 10c0/4be684120df0d38c7d43f2dc27fdb7cfe141d76fd075388ea2f4e03a1e2345f0c1ccf2e1e0c084d8f542a4a1c1bfb084739d0fe8e43ef30ea3febf3471a82cda
+  checksum: 10c0/51f4e19b8ffe2995665715db74f252829a2b1c80f317d52a8310191844899ae99785d2158ab248f6edf4fb0e014d1a1aaad8ad62fbc8d16dc1584e4d9583d5d2
   languageName: node
   linkType: hard
 
@@ -9127,17 +9127,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tar@npm:7.4.3, tar@npm:^7.4.3":
-  version: 7.4.3
-  resolution: "tar@npm:7.4.3"
+"tar@npm:7.5.6":
+  version: 7.5.6
+  resolution: "tar@npm:7.5.6"
   dependencies:
     "@isaacs/fs-minipass": "npm:^4.0.0"
     chownr: "npm:^3.0.0"
     minipass: "npm:^7.1.2"
-    minizlib: "npm:^3.0.1"
-    mkdirp: "npm:^3.0.1"
+    minizlib: "npm:^3.1.0"
     yallist: "npm:^5.0.0"
-  checksum: 10c0/d4679609bb2a9b48eeaf84632b6d844128d2412b95b6de07d53d8ee8baf4ca0857c9331dfa510390a0727b550fd543d4d1a10995ad86cdf078423fbb8d99831d
+  checksum: 10c0/08af3807035957650ad5f2a300c49ca4fe0566ac0ea5a23741a5b5103c6da42891a9eeaed39bc1fbcf21c5cac4dc846828a004727fb08b9d946322d3144d1fd2
   languageName: node
   linkType: hard
 
@@ -9166,6 +9165,20 @@ __metadata:
     mkdirp: "npm:^1.0.3"
     yallist: "npm:^4.0.0"
   checksum: 10c0/da1c3e70c75620f3e49c2f2a2872901759a12c09787c313039c9a0afc3638ae2b3c47d62921efe593e44d0b56a3cc4228b776c835349f1f56b475befc6e021c3
+  languageName: node
+  linkType: hard
+
+"tar@npm:^7.4.3":
+  version: 7.4.3
+  resolution: "tar@npm:7.4.3"
+  dependencies:
+    "@isaacs/fs-minipass": "npm:^4.0.0"
+    chownr: "npm:^3.0.0"
+    minipass: "npm:^7.1.2"
+    minizlib: "npm:^3.0.1"
+    mkdirp: "npm:^3.0.1"
+    yallist: "npm:^5.0.0"
+  checksum: 10c0/d4679609bb2a9b48eeaf84632b6d844128d2412b95b6de07d53d8ee8baf4ca0857c9331dfa510390a0727b550fd543d4d1a10995ad86cdf078423fbb8d99831d
   languageName: node
   linkType: hard
 
