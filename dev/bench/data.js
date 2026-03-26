@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774415381780,
+  "lastUpdate": 1774546992506,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -11842,6 +11842,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.87%",
             "unit": "ops/sec",
             "extra": "95 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "098545d017b8f98f637a7c408df56235d7dceeed",
+          "message": "chore(deps): update dependency vitest to v4.1.2 (#530)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-26T17:42:34Z",
+          "tree_id": "5761dfdbcb191d0520c20058bfff550e27669cdf",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/098545d017b8f98f637a7c408df56235d7dceeed"
+        },
+        "date": 1774546990364,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1366653,
+            "range": "±0.37%",
+            "unit": "ops/sec",
+            "extra": "92 samples"
           }
         ]
       }
