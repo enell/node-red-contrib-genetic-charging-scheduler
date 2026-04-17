@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776362542515,
+  "lastUpdate": 1776395090381,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -12276,6 +12276,37 @@ window.BENCHMARK_DATA = {
             "range": "±1.34%",
             "unit": "ops/sec",
             "extra": "93 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f6536d27b45ccad77fb0c4ac981627fd8d7bb053",
+          "message": "chore(deps): update dependency typescript to v6.0.3 (#544)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-17T03:04:17Z",
+          "tree_id": "5245176993db1118ed3ce040b7d13ca6187ec634",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/f6536d27b45ccad77fb0c4ac981627fd8d7bb053"
+        },
+        "date": 1776395088518,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1324847,
+            "range": "±0.38%",
+            "unit": "ops/sec",
+            "extra": "95 samples"
           }
         ]
       }
