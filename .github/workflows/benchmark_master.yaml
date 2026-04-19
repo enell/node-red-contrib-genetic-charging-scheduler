@@ -11,13 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+        uses: actions/checkout@v6.0.2
+      - uses: actions/setup-node@v6.3.0
         with:
           node-version-file: '.nvmrc'
           cache: yarn
       - name: Run install
-        uses: borales/actions-yarn@v5
+        uses: borales/actions-yarn@v5.0.0
         with:
           cmd: install --immutable
       - name: Build
@@ -25,13 +25,13 @@ jobs:
       - name: Run benchmark
         run: yarn run benchmark
       - name: Download previous benchmark data
-        uses: actions/cache@v5
+        uses: actions/cache@v5.0.5
         with:
           path: ./cache
           key: ${{ runner.os }}-benchmark
 
       - name: Compare with previous commit
-        uses: benchmark-action/github-action-benchmark@v1
+        uses: benchmark-action/github-action-benchmark@v1.22.0
         with:
           name: 'Calculate'
           tool: 'benchmarkjs'
@@ -43,7 +43,7 @@ jobs:
           auto-push: false
 
       - name: Store benchmark result
-        uses: benchmark-action/github-action-benchmark@v1
+        uses: benchmark-action/github-action-benchmark@v1.22.0
         with:
           name: 'Calculate'
           tool: 'benchmarkjs'
