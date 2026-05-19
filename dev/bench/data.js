@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1779148154249,
+  "lastUpdate": 1779156540468,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -12925,6 +12925,37 @@ window.BENCHMARK_DATA = {
             "name": "calculate schedule",
             "value": 1163378,
             "range": "±0.83%",
+            "unit": "ops/sec",
+            "extra": "92 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0480ab02fde97492459eb26c0eced9d46143f976",
+          "message": "chore(deps): update dependency cpx2 to v9 (#565)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-19T02:08:23Z",
+          "tree_id": "06eda355d4159a4aa4b32727304151d117e617a4",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/0480ab02fde97492459eb26c0eced9d46143f976"
+        },
+        "date": 1779156537468,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1256893,
+            "range": "±1.03%",
             "unit": "ops/sec",
             "extra": "92 samples"
           }
