@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1782104541879,
+  "lastUpdate": 1782104547091,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -13237,6 +13237,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.36%",
             "unit": "ops/sec",
             "extra": "89 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4272fc89d4695b1d02ce0dafcf2885937ca2a143",
+          "message": "chore(deps): update vitest monorepo to v4.1.9 (#575)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-06-22T05:01:56Z",
+          "tree_id": "bf8af1ba7bf6901987fa841a82f74bdbf350b4f1",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/4272fc89d4695b1d02ce0dafcf2885937ca2a143"
+        },
+        "date": 1782104545086,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1364410,
+            "range": "±0.39%",
+            "unit": "ops/sec",
+            "extra": "95 samples"
           }
         ]
       }
