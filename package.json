@@ -42,7 +42,7 @@
     "@types/node-red": "1.3.5",
     "benchmark": "2.1.4",
     "cpx2": "9.0.0",
-    "eslint": "10.6.0",
+    "eslint": "10.7.0",
     "globals": "17.7.0",
     "moment": "2.30.1",
     "node-red": "5.0.1",
