@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1786074222614,
+  "lastUpdate": 1786074243035,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -14260,6 +14260,37 @@ window.BENCHMARK_DATA = {
             "range": "±1.36%",
             "unit": "ops/sec",
             "extra": "87 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b11c0979d535f907a4dda4cb1db5bffa95a920a6",
+          "message": "chore(deps): update dependency typescript-eslint to v8.66.0 (#611)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-07T03:43:23Z",
+          "tree_id": "df235f26c180d74a2e55efcaacfb64d3ef69b764",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/b11c0979d535f907a4dda4cb1db5bffa95a920a6"
+        },
+        "date": 1786074240296,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1438419,
+            "range": "±0.44%",
+            "unit": "ops/sec",
+            "extra": "94 samples"
           }
         ]
       }
