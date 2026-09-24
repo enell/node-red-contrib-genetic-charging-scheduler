@@ -47,7 +47,7 @@
     "moment": "2.31.0",
     "node-red": "5.0.7",
     "node-red-node-test-helper": "0.3.6",
-    "prettier": "3.9.8",
+    "prettier": "3.9.9",
     "semantic-release": "25.0.9",
     "typescript": "6.0.3",
     "typescript-eslint": "8.70.0",
