@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1789879943698,
+  "lastUpdate": 1790292675265,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -15033,6 +15033,37 @@ window.BENCHMARK_DATA = {
             "name": "calculate schedule",
             "value": 1222138,
             "range": "±0.40%",
+            "unit": "ops/sec",
+            "extra": "95 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "41b58faeaa188077537b2a083f2e2094bef962b9",
+          "message": "chore(deps): update dependency prettier to v3.9.9 (#636)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-09-24T23:30:42Z",
+          "tree_id": "3a553d6d73f2a72ab6a958baa3bb35e2bd789daa",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/41b58faeaa188077537b2a083f2e2094bef962b9"
+        },
+        "date": 1790292672406,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1299437,
+            "range": "±0.50%",
             "unit": "ops/sec",
             "extra": "95 samples"
           }
