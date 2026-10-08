@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1791432549602,
+  "lastUpdate": 1791432561327,
   "repoUrl": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler",
   "entries": {
     "Calculate": [
@@ -15252,6 +15252,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.36%",
             "unit": "ops/sec",
             "extra": "95 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5e88add56cf2dbc4b6414e061c2148679e233868",
+          "message": "chore(deps): update dependency eslint to v10.12.0 (#638)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-10-08T04:08:46Z",
+          "tree_id": "3b32729618b6ee4588b33f46411235360db35004",
+          "url": "https://github.com/enell/node-red-contrib-genetic-charging-scheduler/commit/5e88add56cf2dbc4b6414e061c2148679e233868"
+        },
+        "date": 1791432559383,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "calculate schedule",
+            "value": 1214137,
+            "range": "±0.36%",
+            "unit": "ops/sec",
+            "extra": "92 samples"
           }
         ]
       }
