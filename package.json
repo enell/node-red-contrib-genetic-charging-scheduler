@@ -48,7 +48,7 @@
     "node-red": "5.0.9",
     "node-red-node-test-helper": "0.3.6",
     "prettier": "3.10.1",
-    "semantic-release": "25.0.9",
+    "semantic-release": "26.0.1",
     "typescript": "6.0.3",
     "typescript-eslint": "8.72.2",
     "vitest": "4.1.12"
