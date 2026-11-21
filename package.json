@@ -45,7 +45,7 @@
     "eslint": "10.15.0",
     "globals": "17.14.0",
     "moment": "2.31.0",
-    "node-red": "5.0.9",
+    "node-red": "5.0.10",
     "node-red-node-test-helper": "0.3.6",
     "prettier": "3.10.1",
     "semantic-release": "25.0.9",
