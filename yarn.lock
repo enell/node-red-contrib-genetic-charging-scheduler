@@ -2885,13 +2885,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"balanced-match@npm:^3.0.0":
-  version: 3.0.1
-  resolution: "balanced-match@npm:3.0.1"
-  checksum: 10c0/ac8dd63a5b260610c2cbda982f436e964c1b9ae8764d368a523769da40a31710abd6e19f0fdf1773c4ad7b2ea7ba7b285d547375dc723f6e754369835afc8e9f
-  languageName: node
-  linkType: hard
-
 "balanced-match@npm:^4.0.2":
   version: 4.0.3
   resolution: "balanced-match@npm:4.0.3"
@@ -3076,15 +3069,6 @@ __metadata:
   dependencies:
     balanced-match: "npm:^1.0.0"
   checksum: 10c0/b358f2fe060e2d7a87aa015979ecea07f3c37d4018f8d6deb5bd4c229ad3a0384fe6029bb76cd8be63c81e516ee52d1a0673edbe2023d53a5191732ae3c3e49f
-  languageName: node
-  linkType: hard
-
-"brace-expansion@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "brace-expansion@npm:4.0.1"
-  dependencies:
-    balanced-match: "npm:^3.0.0"
-  checksum: 10c0/cbe2d8a1be94aea03c47322bd42003bba8f2194eb76b0d4e38e1aac7ddab785c151330642ce87a22f4052ef847d69d55b63468eecf5411a0db5421e261034993
   languageName: node
   linkType: hard
 
@@ -3816,21 +3800,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cpx2@npm:9.0.3":
-  version: 9.0.3
-  resolution: "cpx2@npm:9.0.3"
+"cpx2@npm:9.1.0":
+  version: 9.1.0
+  resolution: "cpx2@npm:9.1.0"
   dependencies:
-    debounce: "npm:^3.0.0"
-    glob: "npm:^13.0.0"
+    debounce: "npm:^4.0.0"
+    glob: "npm:^14.0.3"
     glob2base: "npm:0.0.12"
     ignore: "npm:^7.0.5"
-    minimatch: "npm:^10.0.1"
+    minimatch: "npm:^11.0.3"
     p-map: "npm:^7.0.0"
     shell-quote: "npm:^1.8.0"
     subarg: "npm:^1.0.0"
   bin:
     cpx: bin/index.js
-  checksum: 10c0/3f0590b4b2d9d2fa49e6c6da7be831d14665b9e87653af42bb2c1181b30a2b1171ca73ee5ca79e2bd890154c8ba3ed3dd7a9d3be78bb0fbde5a9f0367c8ff14f
+  checksum: 10c0/21ec3500efce44a0abe125babf0cd0225205b2364d537491d5c5b77f6d0f334eecb9be45b194ed24828877bc5411368c80b2eda9ccaec7cb6fd2a8190093e035
   languageName: node
   linkType: hard
 
@@ -3901,10 +3885,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debounce@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "debounce@npm:3.0.0"
-  checksum: 10c0/bfae14dbdd98c57f2ed6e3f91f8086fe5a64624ddf54d0a55e038069ae47aa90ba305be98c29199b611955bbf9c3309bf07caf7f1ab55fe90928396fb9318c5a
+"debounce@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "debounce@npm:4.0.0"
+  checksum: 10c0/e0e8608243f0aa6d880073897b7ef5a19a5dad8ff057ee43decc6e3acde24f5352b362a74f2de94d4ca11045831d5e1e0a8a08490a908968d7a41dcd680b6389
   languageName: node
   linkType: hard
 
@@ -7047,15 +7031,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^10.0.1":
-  version: 10.0.2
-  resolution: "minimatch@npm:10.0.2"
-  dependencies:
-    brace-expansion: "npm:^4.0.1"
-  checksum: 10c0/f351a4b95e657b0f9e89d317888a59a74d81565481ba52441cf179ebdd476fed2c7121e882ea6284014524f66233be3a8cb77165874cde626ad87b3aefefbe78
-  languageName: node
-  linkType: hard
-
 "minimatch@npm:^10.0.3":
   version: 10.0.3
   resolution: "minimatch@npm:10.0.3"
@@ -7083,7 +7058,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^11.0.1, minimatch@npm:^11.0.2, minimatch@npm:^11.0.9":
+"minimatch@npm:^11.0.1, minimatch@npm:^11.0.2, minimatch@npm:^11.0.3, minimatch@npm:^11.0.9":
   version: 11.0.9
   resolution: "minimatch@npm:11.0.9"
   dependencies:
@@ -7683,7 +7658,7 @@ __metadata:
     "@types/cpx": "npm:1.5.6"
     "@types/node-red": "npm:1.3.5"
     benchmark: "npm:2.1.4"
-    cpx2: "npm:9.0.3"
+    cpx2: "npm:9.1.0"
     eslint: "npm:10.15.0"
     globals: "npm:17.14.0"
     moment: "npm:2.31.0"
